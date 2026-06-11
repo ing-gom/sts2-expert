@@ -197,6 +197,8 @@ const charKo = c => CHAR_KO[c] || c || '—';
 function gradeOf(cat, id) { return (DATA.grades && DATA.grades[cat] || {})[id]; }
 function gradeBadge(cat, id) { const g = gradeOf(cat, id); const gr = g && g.grade; return `<span class="g g-${gr || 'none'}">${gr || '—'}</span>`; }
 function gradeCls(cat, id) { const g = gradeOf(cat, id); return g && g.grade ? 'gb-' + g.grade : ''; }
+const GRADE_RANK = { S: 0, A: 1, B: 2, C: 3, D: 4 };
+function gradeRank(cat, id) { const g = gradeOf(cat, id); return (g && g.grade in GRADE_RANK) ? GRADE_RANK[g.grade] : 9; }
 function whyBlock(cat, id) {
   const g = gradeOf(cat, id); if (!g) return '';
   const ctx = g.ctx ? ` <span class="id">· ${esc(g.ctx)}</span>` : '';
@@ -262,6 +264,7 @@ function renderCards() {
     (!gr || (gradeOf('cards', c.id) || {}).grade === gr) &&
     (!q || c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) ||
       (c.axes || []).some(a => a.toLowerCase().includes(q) || (labels[a] || '').includes(q))));
+  rows.sort((a, b) => gradeRank('cards', a.id) - gradeRank('cards', b.id) || a.title.localeCompare(b.title, 'ko'));
   $('#card-count').textContent = `${rows.length}장`;
   const html = rows.map((c, i) => {
     const ev = evOf(c);
@@ -302,6 +305,7 @@ function renderRelics() {
   const overrides = (DATA.relic_axis_overrides.explicit) || {};
   const labels = DATA.axis_labels_ko;
   const keys = Object.keys(relics).sort((a, b) =>
+    gradeRank('relics', a) - gradeRank('relics', b) ||
     (relics[a].name.ko || a).localeCompare(relics[b].name.ko || b, 'ko'));
   let n = 0, html = '';
   for (const k of keys) {
@@ -350,7 +354,8 @@ function renderPotions() {
   for (const cat of cats) {
     const arr = byCat[cat];
     if (!arr) continue;
-    arr.sort((a, b) => (a[1].name[LANG] || a[0]).localeCompare(b[1].name[LANG] || b[0], 'ko'));
+    arr.sort((a, b) => gradeRank('potions', a[0]) - gradeRank('potions', b[0]) ||
+      (a[1].name[LANG] || a[0]).localeCompare(b[1].name[LANG] || b[0], 'ko'));
     html += `<div class="cat-head">${esc(cat)} (${arr.length})</div><div class="grid">`;
     for (const [tn, p] of arr) {
       const nm = p.name[LANG] || p.name.ko || tn;
@@ -386,28 +391,7 @@ claude</pre>
 평가 루브릭만으로 S~D 등급을 산정한다. 커뮤니티 티어 리스트류의 외부 평가 데이터는 이 번들에 포함하지 않는다. 파일은 수정하지 않는다.
 번들된 루브릭 스킬: <code>tier-judge</code>(코스트별 효율 테이블), <code>card-expected-value</code>(5턴 EV 기준), <code>card-effect-verify</code>(설명 정독 검증).</p>
 
-<h2>평가 철학 (실측 기반)</h2>
-<table>
-<tr><th>원칙</th><th>근거</th></tr>
-<tr><td><b>단독 평가</b></td><td>외부 티어 리스트를 보면 판단이 앵커링됨 — 등급은 효과 사실 + 루브릭에서만 도출</td></tr>
-<tr><td><b>정적 티어 ≠ 맥락 가치</b></td><td>정적 점수와 실제 승률 기여의 상관은 약함(Spearman −0.26). S티어도 스타터 덱에서는 승률 마이너스인 사례 실측</td></tr>
-<tr><td><b>엔진 집중 &gt; 개별 티어</b></td><td>개별 티어 추종 픽이 아키타입 집중 픽보다 헤드리스 풀런 성과가 나빴음 (A/B)</td></tr>
-<tr><td><b>포션은 막 내 제로섬</b></td><td>same-seed A/B: 중간 전투 지출은 보스전 기아. 보스-집중 규율이 기준선</td></tr>
-<tr><td><b>description이 효과의 근거</b></td><td>이름/축 라벨 추측으로 인한 오판 사례 다수 — 설명 정독 + 디컴파일 검증이 정답</td></tr>
-</table>
-
-<h2>데이터 출처</h2>
-<table>
-<tr><th>파일</th><th>내용</th></tr>
-<tr><td><code>data/cards_catalog.json</code></td><td>카드 마스터 카탈로그 (헤드리스 게임 덤프, 강화판 포함)</td></tr>
-<tr><td><code>data/card_expected_value.json</code></td><td>카드 EV (5턴 baseline 데미지 등가)</td></tr>
-<tr><td><code>data/relics_locale.json</code> + <code>relic_canonical_vars.json</code></td><td>유물 294종 설명 + placeholder 실수치 218종</td></tr>
-<tr><td><code>data/relic_axis_overrides.json</code></td><td>유물 → 카드 축 시너지 매핑 165종</td></tr>
-<tr><td><code>data/grades.json</code></td><td>전 항목 S~D 등급 + 한 줄 근거 — sts2-expert 에이전트가 효과 사실+루브릭만으로 매긴 단독 평가 (멀티 에이전트 일괄 채점)</td></tr>
-<tr><td><code>data/potions.json</code></td><td>포션 64종 — 헤드리스 덤프로 추출한 이름·설명·실수치(ko/en/zh) + 희귀도/사용시점/대상 + 역할 분류 주석</td></tr>
-<tr><td><code>data/relic_canonical_vars.json</code></td><td>유물 placeholder 실수치 + 인챈트 이름 등 StringVar 해석(string_vars)</td></tr>
-</table>
-<p style="color:var(--dim)">비공식 팬 프로젝트. 게임 데이터의 권리는 Mega Crit에 있으며, 얼리액세스 패치에 따라 스냅샷이 실제와 다를 수 있다.</p>`;
+<p style="color:var(--dim); margin-top: 24px">비공식 팬 프로젝트. 게임 데이터의 권리는 Mega Crit에 있으며, 얼리액세스 패치에 따라 스냅샷이 실제와 다를 수 있다.</p>`;
 }
 </script>
 </body>
