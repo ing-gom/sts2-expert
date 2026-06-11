@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STS2 Expert — 카드·유물·포션 카탈로그</title>
+<style>
+:root {
+  --bg: #14161c; --panel: #1d2027; --panel2: #242832; --border: #333845;
+  --fg: #d8dce6; --dim: #8b92a3; --gold: #e8c266; --blue: #6db3f2;
+  --tier-S: #e8c266; --tier-A: #7ecf7e; --tier-B: #6db3f2; --tier-C: #9aa1b1; --tier-D: #e07a7a;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: 'Segoe UI', 'Malgun Gothic', sans-serif; font-size: 14px; }
+header { padding: 18px 24px 12px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+header h1 { margin: 0; font-size: 20px; color: var(--gold); }
+header .ver { color: var(--dim); font-size: 13px; }
+header a { color: var(--blue); text-decoration: none; margin-left: auto; font-size: 13px; }
+nav { display: flex; gap: 4px; padding: 10px 24px 0; border-bottom: 1px solid var(--border); }
+nav button { background: none; border: none; border-bottom: 2px solid transparent; color: var(--dim); padding: 8px 16px; font-size: 15px; cursor: pointer; }
+nav button.active { color: var(--gold); border-bottom-color: var(--gold); }
+main { padding: 16px 24px 60px; max-width: 1280px; margin: 0 auto; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
+.toolbar input[type=text], .toolbar select { background: var(--panel2); color: var(--fg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 14px; }
+.toolbar input[type=text] { width: 260px; }
+.toolbar label.chk { color: var(--dim); display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.count { color: var(--dim); margin-left: auto; font-size: 13px; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; color: var(--dim); font-weight: 600; font-size: 12px; padding: 6px 10px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); }
+td { padding: 7px 10px; border-bottom: 1px solid #232733; vertical-align: top; }
+tr.cardrow { cursor: pointer; }
+tr.cardrow:hover { background: var(--panel); }
+tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; line-height: 1.6; }
+.tier { display: inline-block; min-width: 22px; text-align: center; font-weight: 700; border-radius: 5px; padding: 1px 7px; font-size: 12px; }
+.tier.S { background: #3d3415; color: var(--tier-S); } .tier.A { background: #1d3320; color: var(--tier-A); }
+.tier.B { background: #1a2a3d; color: var(--tier-B); } .tier.C { background: #2a2d36; color: var(--tier-C); }
+.tier.D { background: #3a2020; color: var(--tier-D); } .tier.none { background: #22252e; color: #555c6b; }
+.chip { display: inline-block; background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 1px 8px; margin: 1px 2px 1px 0; font-size: 11px; color: var(--dim); white-space: nowrap; }
+.id { color: #5d6475; font-size: 11px; }
+.gold { color: var(--gold); } .blue { color: var(--blue); font-weight: 600; }
+.red { color: #e07a7a; } .green { color: #7ecf7e; }
+.missing { color: #e07a7a; border-bottom: 1px dotted #e07a7a; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 12px; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.card h3 { margin: 0 0 2px; font-size: 15px; color: var(--gold); }
+.card .en { color: var(--dim); font-size: 12px; margin-bottom: 8px; }
+.card .desc { line-height: 1.55; font-size: 13.5px; }
+.card .axes { margin-top: 8px; }
+.banner { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 6px; padding: 10px 14px; color: var(--dim); margin-bottom: 14px; line-height: 1.55; font-size: 13px; }
+.cat-head { color: var(--gold); font-size: 15px; margin: 22px 0 8px; font-weight: 600; }
+.about { max-width: 860px; line-height: 1.7; }
+.about h2 { color: var(--gold); font-size: 17px; margin-top: 28px; }
+.about code, .about pre { background: var(--panel2); border: 1px solid var(--border); border-radius: 5px; font-family: Consolas, monospace; font-size: 13px; }
+.about code { padding: 1px 6px; }
+.about pre { padding: 12px 14px; overflow-x: auto; line-height: 1.5; }
+.about table { margin: 8px 0; }
+.about td, .about th { padding: 5px 10px; }
+#loading { color: var(--dim); padding: 40px; text-align: center; }
+.hidden { display: none; }
+footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<header>
+  <h1>STS2 Expert</h1>
+  <span class="ver" id="verinfo">로딩 중…</span>
+  <a href="https://github.com/ing-gom/sts2-expert" target="_blank">GitHub ↗</a>
+</header>
+<nav>
+  <button data-tab="cards" class="active">카드</button>
+  <button data-tab="relics">유물</button>
+  <button data-tab="potions">포션</button>
+  <button data-tab="about">에이전트 안내</button>
+</nav>
+<main>
+  <div id="loading">데이터 로딩 중…</div>
+
+  <section id="tab-cards" class="hidden">
+    <div class="toolbar">
+      <input type="text" id="card-q" placeholder="이름 / ID / 축 검색">
+      <select id="card-char"><option value="">캐릭터 전체</option></select>
+      <select id="card-type"><option value="">타입 전체</option></select>
+      <select id="card-rarity"><option value="">희귀도 전체</option></select>
+      <select id="card-tier"><option value="">티어 전체</option>
+        <option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      <label class="chk"><input type="checkbox" id="card-upg"> 강화판 포함</label>
+      <span class="count" id="card-count"></span>
+    </div>
+    <table>
+      <thead><tr><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>티어</th><th>EV</th><th>축</th></tr></thead>
+      <tbody id="card-body"></tbody>
+    </table>
+  </section>
+
+  <section id="tab-relics" class="hidden">
+    <div class="toolbar">
+      <input type="text" id="relic-q" placeholder="유물 이름 / 효과 검색">
+      <span class="count" id="relic-count"></span>
+    </div>
+    <div class="banner">설명의 <span class="blue">파란 수치</span>는 <code>relic_canonical_vars.json</code>에서 채운 실측 상수,
+      <span class="missing">{빨간 placeholder}</span>는 수치 미추출(76종) — 평가 시 "수치 미확인"으로 처리.</div>
+    <div class="grid" id="relic-grid"></div>
+  </section>
+
+  <section id="tab-potions" class="hidden">
+    <div class="banner"><b>⚠ 정적 카탈로그 갭</b> — STS2 포션은 아직 헤드리스 덤프가 없어 이 목록은 효과 <b>분류</b>만 담는다
+      (수치는 게임 런타임/디컴파일로만 확정). 게임 전체 포션 풀과 1:1 완전 커버가 아니다.<br>
+      평가 원칙: 포션은 막(act) 내 <b>제로섬 자원</b> — same-seed A/B 실측 기준, 중간 전투 지출은 보스전 기아로 이어진다. 보스전 가치를 1순위로 평가한다.</div>
+    <div id="potion-list"></div>
+  </section>
+
+  <section id="tab-about" class="hidden">
+    <div class="about" id="about-body"></div>
+  </section>
+</main>
+<footer>STS2 Expert — 비공식 팬 도구. 게임 데이터 © Mega Crit. 데이터 스냅샷 기준이며 실제 게임 밸런스와 다를 수 있음.</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MARKUP_CLASSES = new Set(['gold','blue','red','green']);
+function renderMarkup(text) {
+  let h = esc(text || '');
+  h = h.replace(/\[(\w+)\]([\s\S]*?)\[\/\1\]/g, (m, tag, body) =>
+    MARKUP_CLASSES.has(tag.toLowerCase()) ? `<span class="${tag.toLowerCase()}">${body}</span>` : body);
+  return h.replace(/\n/g, '<br>');
+}
+const CHAR_KO = { IRONCLAD:'아이언클래드', SILENT:'사일런트', DEFECT:'디펙트', REGENT:'리젠트',
+  NECROBINDER:'네크로바인더', WATCHER:'와처', COLORLESS:'무색', CURSE:'저주', STATUS:'상태', NEUTRAL:'공용' };
+const charKo = c => CHAR_KO[c] || c || '—';
+
+let DATA = {};
+async function load() {
+  const files = ['cards_catalog','card_expected_value','relics_locale','relic_canonical_vars',
+                 'relic_axis_overrides','potions','axis_labels_ko'];
+  const res = await Promise.all(files.map(f => fetch(`data/${f}.json`).then(r => {
+    if (!r.ok) throw new Error(`data/${f}.json: HTTP ${r.status}`);
+    return r.json();
+  })));
+  files.forEach((f, i) => DATA[f] = res[i]);
+  $('#loading').classList.add('hidden');
+  $('#verinfo').textContent = `게임 버전 ${DATA.cards_catalog.game_version} · 카드 ${DATA.cards_catalog.card_count}장 · 유물 ${Object.keys(DATA.relics_locale.relics).length}종 · 포션 분류 ${DATA.potions.potions.length}종`;
+  initCards(); initRelics(); initPotions(); initAbout();
+  $('#tab-cards').classList.remove('hidden');
+}
+load().catch(e => { $('#loading').textContent = '데이터 로딩 실패: ' + e.message +
+  ' — 로컬에서 열 때는 file:// 대신 "python -m http.server" 등으로 서빙하세요.'; });
+
+// ---- tabs ----
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+  $('#tab-' + b.dataset.tab).classList.remove('hidden');
+});
+
+// ---- cards ----
+function initCards() {
+  const cards = DATA.cards_catalog.cards;
+  const fill = (sel, vals) => vals.forEach(v => {
+    const o = document.createElement('option'); o.value = v;
+    o.textContent = sel === '#card-char' ? charKo(v) : v; $(sel).appendChild(o);
+  });
+  fill('#card-char', [...new Set(cards.map(c => c.character))].sort());
+  fill('#card-type', [...new Set(cards.map(c => c.type))].sort());
+  fill('#card-rarity', [...new Set(cards.map(c => c.rarity))].sort());
+  ['#card-q','#card-char','#card-type','#card-rarity','#card-tier','#card-upg']
+    .forEach(s => $(s).addEventListener('input', renderCards));
+  renderCards();
+}
+function evOf(card) {
+  const e = (DATA.card_expected_value.cards || {})[card.id.replace(/^CARD\./, '')];
+  return e && e.value != null ? e.value : null;
+}
+function renderCards() {
+  const q = $('#card-q').value.trim().toLowerCase();
+  const [ch, ty, ra, ti] = ['#card-char','#card-type','#card-rarity','#card-tier'].map(s => $(s).value);
+  const upg = $('#card-upg').checked;
+  const labels = DATA.axis_labels_ko;
+  const rows = DATA.cards_catalog.cards.filter(c =>
+    (upg || !c.is_upgraded) &&
+    (!ch || c.character === ch) && (!ty || c.type === ty) &&
+    (!ra || c.rarity === ra) && (!ti || c.tier === ti) &&
+    (!q || c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) ||
+      (c.axes || []).some(a => a.toLowerCase().includes(q) || (labels[a] || '').includes(q))));
+  $('#card-count').textContent = `${rows.length}장`;
+  const html = rows.map((c, i) => {
+    const ev = evOf(c);
+    const cost = c.cost < 0 ? 'X' : c.cost;
+    const star = c.star_cost > 0 ? ` ★${c.star_cost}` : '';
+    const axes = (c.axes || []).slice(0, 5).map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') +
+      ((c.axes || []).length > 5 ? `<span class="chip">+${c.axes.length - 5}</span>` : '');
+    return `<tr class="cardrow" data-i="${i}">
+      <td><b>${esc(c.title)}</b><br><span class="id">${esc(c.id)}</span></td>
+      <td>${esc(charKo(c.character))}</td><td>${cost}${star}</td>
+      <td>${esc(c.type)}</td><td>${esc(c.rarity)}</td>
+      <td><span class="tier ${c.tier || 'none'}">${c.tier || '—'}</span></td>
+      <td>${ev != null ? ev : '<span class="id">—</span>'}</td><td>${axes}</td></tr>`;
+  }).join('');
+  $('#card-body').innerHTML = html;
+  document.querySelectorAll('#card-body tr.cardrow').forEach(tr => tr.onclick = () => {
+    const next = tr.nextElementSibling;
+    if (next && next.classList.contains('descrow')) { next.remove(); return; }
+    document.querySelectorAll('#card-body tr.descrow').forEach(x => x.remove());
+    const c = rows[+tr.dataset.i];
+    const builds = (c.builds || []).map(b => `<span class="chip">${esc(b.tag)} (${esc(b.role)})</span>`).join(' ');
+    const d = document.createElement('tr'); d.className = 'descrow';
+    d.innerHTML = `<td colspan="8">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}</td>`;
+    tr.after(d);
+  });
+}
+
+// ---- relics ----
+function initRelics() {
+  $('#relic-q').addEventListener('input', renderRelics);
+  renderRelics();
+}
+function fillVars(desc, vars) {
+  return (desc || '').replace(/\{(\w+)\}/g, (m, name) =>
+    vars && vars[name] != null ? `${vars[name]}` : `@@MISSING:${name}@@`);
+}
+function renderRelics() {
+  const q = $('#relic-q').value.trim().toLowerCase();
+  const relics = DATA.relics_locale.relics;
+  const cvars = DATA.relic_canonical_vars.relics || {};
+  const overrides = (DATA.relic_axis_overrides.explicit) || {};
+  const labels = DATA.axis_labels_ko;
+  const keys = Object.keys(relics).sort((a, b) =>
+    (relics[a].name.ko || a).localeCompare(relics[b].name.ko || b, 'ko'));
+  let n = 0, html = '';
+  for (const k of keys) {
+    const r = relics[k];
+    const ko = r.name.ko || k, en = r.name.en || '';
+    const descRaw = r.desc.ko || r.desc.en || '';
+    if (q && !(ko.toLowerCase().includes(q) || en.toLowerCase().includes(q) ||
+               k.toLowerCase().includes(q) || descRaw.toLowerCase().includes(q))) continue;
+    n++;
+    let desc = renderMarkup(fillVars(descRaw, cvars[k]));
+    desc = desc.replace(/@@MISSING:(\w+)@@/g, '<span class="missing">{$1}</span>');
+    const ov = overrides[k];
+    const axes = ov ? ov.card_axes.map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') : '';
+    html += `<div class="card"><h3>${esc(ko)}</h3><div class="en">${esc(en)} · <span class="id">${esc(k)}</span></div>
+      <div class="desc">${desc}</div>${axes ? `<div class="axes">카드 시너지 축: ${axes}</div>` : ''}</div>`;
+  }
+  $('#relic-count').textContent = `${n}종`;
+  $('#relic-grid').innerHTML = html || '<div style="color:var(--dim)">검색 결과 없음</div>';
+}
+
+// ---- potions ----
+function initPotions() {
+  const byCat = {};
+  for (const p of DATA.potions.potions) (byCat[p.category] = byCat[p.category] || []).push(p);
+  let html = '';
+  for (const cat of DATA.potions._meta.categories) {
+    if (!byCat[cat]) continue;
+    html += `<div class="cat-head">${esc(cat)} (${byCat[cat].length})</div>
+      <table><thead><tr><th>ID</th><th>Kind</th><th>대상</th><th>노트</th></tr></thead><tbody>` +
+      byCat[cat].map(p => `<tr><td><b>${esc(p.id)}</b></td><td><span class="chip">${esc(p.kind)}</span></td>
+        <td>${esc(p.target)}</td><td>${esc(p.note)}</td></tr>`).join('') + '</tbody></table>';
+  }
+  $('#potion-list').innerHTML = html;
+}
+
+// ---- about ----
+function initAbout() {
+  $('#about-body').innerHTML = `
+<h2>이 레포는 무엇인가</h2>
+<p>슬레이 더 스파이어 2의 <b>카드·유물·포션을 정리·평가하는 Claude Code 전문가 에이전트</b>와,
+그 에이전트가 사용하는 데이터 스냅샷, 그리고 이 HTML 뷰어를 담은 공개 번들이다.</p>
+
+<h2>에이전트 사용법 (Claude Code)</h2>
+<pre>git clone https://github.com/ing-gom/sts2-expert
+cd sts2-expert
+claude</pre>
+<p>레포 안에서 Claude Code를 열면 <code>.claude/agents/sts2-expert.md</code> 에이전트가 자동 등록된다. 예시 요청:</p>
+<pre>"sts2-expert 에이전트로 BLOOD_POTION 평가해줘"
+"사일런트 레어 카드 전체를 정리·평가해줘"
+"Akabeko 유물 어때?"</pre>
+<p>에이전트는 <b>읽기 전용 평가자</b>다 — 데이터에서 정보를 정리하고 S~D 등급과 근거가 담긴 리포트를 반환하며, 파일을 수정하지 않는다.
+번들된 루브릭 스킬: <code>tier-judge</code>(코스트별 효율 테이블), <code>card-expected-value</code>(5턴 EV 기준), <code>card-effect-verify</code>(설명 정독 검증).</p>
+
+<h2>평가 철학 (실측 기반)</h2>
+<table>
+<tr><th>원칙</th><th>근거</th></tr>
+<tr><td><b>정적 티어 ≠ 맥락 가치</b></td><td>정적 점수와 실제 승률 기여의 상관은 약함(Spearman −0.26). S티어도 스타터 덱에서는 승률 마이너스인 사례 실측</td></tr>
+<tr><td><b>엔진 집중 &gt; 개별 티어</b></td><td>개별 티어 추종 픽이 아키타입 집중 픽보다 헤드리스 풀런 성과가 나빴음 (A/B)</td></tr>
+<tr><td><b>포션은 막 내 제로섬</b></td><td>same-seed A/B: 중간 전투 지출은 보스전 기아. 보스-집중 규율이 기준선</td></tr>
+<tr><td><b>description이 효과의 근거</b></td><td>이름/축 라벨 추측으로 인한 오판 사례 다수 — 설명 정독 + 디컴파일 검증이 정답</td></tr>
+</table>
+
+<h2>데이터 출처</h2>
+<table>
+<tr><th>파일</th><th>내용</th></tr>
+<tr><td><code>data/cards_catalog.json</code></td><td>카드 마스터 카탈로그 (헤드리스 게임 덤프, 강화판 포함)</td></tr>
+<tr><td><code>data/card_tier_data.csv</code></td><td>S~D 큐레이션 티어</td></tr>
+<tr><td><code>data/card_expected_value.json</code></td><td>카드 EV (5턴 baseline 데미지 등가)</td></tr>
+<tr><td><code>data/relics_locale.json</code> + <code>relic_canonical_vars.json</code></td><td>유물 294종 설명 + placeholder 실수치 218종</td></tr>
+<tr><td><code>data/relic_axis_overrides.json</code></td><td>유물 → 카드 축 시너지 매핑 165종</td></tr>
+<tr><td><code>data/potions.json</code></td><td>포션 효과 분류 (정적 카탈로그 갭 — 분류만)</td></tr>
+</table>
+<p style="color:var(--dim)">비공식 팬 프로젝트. 게임 데이터의 권리는 Mega Crit에 있으며, 얼리액세스 패치에 따라 스냅샷이 실제와 다를 수 있다.</p>`;
+}
+</script>
+</body>
+</html>

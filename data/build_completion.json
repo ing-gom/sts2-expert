@@ -1,0 +1,3164 @@
+{
+  "_meta": {
+    "schema_version": 7,
+    "comment": "각 archetype 의 ideal composition + finisher 시나리오 + sustain + hybrid plan.\n\n[Finisher 정의 v7 — 엄격]:\n  finisher = 빌드 피크에서 *게임 종결력* 카드. 다음 중 하나:\n    - peak 단발 30+ damage (단일 또는 AOE)\n    - 조건부 scaling 으로 30+ 도달 가능\n    - 무한 사이클 진입 (게임 종결)\n    - 즉사 메커니즘 (HP threshold 처치)\n  17 AOE 같은 일반 데미지 카드는 finisher 가 아님 — keystone 또는 setup 으로 분류.\n\n[Finisher type 4분류]:\n  - burst: 단발 큰 데미지 (KNIFE_TRAP, ALL_FOR_ONE, SQUEEZE, FIEND_FIRE, BODY_SLAM)\n  - scaling: 조건부 X×N 누적 (DEATH_MARCH, MEMENTO_MORI, MURDER, ASHEN_STRIKE, FINISHER, SOUL_STORM, DOMINATE)\n  - infinite: 무한 사이클 (CORRUPTION 활성, BANSHEES_CRY cost 0, VOID_FORM+ALIGNMENT)\n  - sustained: 매 턴 누적 출력 (REAPER_FORM, THUNDER, HAUNT, FERAL, Sovereign Blade Retain)\n\n5 차원 평가:\n  1) slots — axis 채움 (tier-weighted)\n  2) keystones — 빌드 정의 카드 (4단계 weight)\n  3) finishers (array) — 빌드 피크 win path. 각 entry: { name, type, primary, supporting[], scenario }\n  4) sustain — finisher 발동까지 턴 지속 카드 (block/draw/energy)\n  5) hybrid_with — 다중 archetype 연결 (예: 단도+교활, 영혼+골골이, 별+단조)\n\nStarter 카드 (타격/수비/이중 시전/파지직/추앙/호위) 는 keystone 에서 제외.\n\n계산식:\n  axisCompletion     = Σ slot.weight × min(strength[axis], slot.ideal) / Σ slot.weight × slot.ideal\n  keystoneCompletion = Σ keystone.weight (matched) / Σ keystone.weight\n  completion         = axisCompletion × (0.5 + 0.5 × keystoneCompletion)\n\n출처: docs/research/boss_counters.md, character_*.md, keywords_glossary.md."
+  },
+  "archetypes": {
+    "중독": {
+      "_note": "SILENT Poison archetype — long-fight 누적 dmg 빌드. POISON_PRODUCER 매 턴 자동 (NOXIOUS_FUMES) + ACCELERANT (×2 발동) + AOE 페이오프 카드 조합. 가이드 평 A-tier — 보스 long-fight 강력, The Insatiable 류 카운트다운 보스 약함.",
+      "finishers": [
+        {
+          "name": "Long-fight stack + ACCELERANT 가속",
+          "primary": "CARD.NOXIOUS_FUMES",
+          "supporting": [
+            "CARD.ACCELERANT"
+          ],
+          "scenario": "NOXIOUS_FUMES 매 턴 +2 stack 누적 → 턴 종료 시 stack 발동. ACCELERANT (중독이 1번 추가로 발동) = 한 턴에 stack 2회 burn. 예: stack 4 → 4 dmg + 3 dmg = 7 dmg 한 턴 (stack→2 로 감소). stack 누적 가속 + 한 턴 데미지 ~×1.75. boss long-fight 에서 stack 10+ 시 한 턴 18+ 자동.",
+          "type": "sustained"
+        },
+        {
+          "name": "Burst AOE 중독",
+          "primary": "CARD.HAZE",
+          "supporting": [
+            "CARD.CORROSIVE_WAVE",
+            "CARD.BOUNCING_FLASK"
+          ],
+          "scenario": "HAZE (광역 +4) + CORROSIVE_WAVE 1턴에 모든 적 큰 stack 부착 → 다음 턴 자동 처치. mob 클리어용.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.SURVIVOR (starter, block + draw)",
+          "CARD.MIRAGE (중독 = block 변환)"
+        ],
+        "draw": [
+          "CARD.SURVIVOR (starter)",
+          "CARD.CORROSIVE_WAVE (DRAW_CONDITIONAL)"
+        ],
+        "energy": [],
+        "_note": "중독은 finisher 발동 후 turn-extension 보다 buildup 동안 살아남기가 핵심. block + 약화 (NEUTRALIZE) 베이스로 chip 데미지 흡수."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Lagavulin Matriarch (수면 중 누적)",
+          "Doormaker (phase 무관 패시브)",
+          "Kaiser Crab Crusher (블록 무시 — 중독 stack 효과적)"
+        ],
+        "weak": [
+          "The Insatiable (4턴 카운트다운 — 누적 시간 부족)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.NOXIOUS_FUMES",
+          "weight": 1.5,
+          "_note": "S, POISON_PRODUCER 매 턴 자동 (mandatory)"
+        },
+        {
+          "id": "CARD.ACCELERANT",
+          "weight": 1.5,
+          "_note": "B, mandatory — 중독이 1번 추가로 발동 (×2 발동, stack 자체는 1배). POISON_AMPLIFIER (long-fight 누적 ×2 가속)"
+        },
+        {
+          "id": "CARD.HAZE",
+          "weight": 1.2,
+          "_note": "B, AOE 중독 4 + Sly fuel"
+        },
+        {
+          "id": "CARD.CORROSIVE_WAVE",
+          "weight": 1.0,
+          "_note": "C, POISON+AOE+DRAW"
+        },
+        {
+          "id": "CARD.BUBBLE_BUBBLE",
+          "weight": 1.0,
+          "_note": "C, POISON_CONSUMER 페이오프"
+        },
+        {
+          "id": "CARD.ENVENOM",
+          "weight": 1.0,
+          "_note": "C, 강화 시 가치 ↑"
+        },
+        {
+          "id": "CARD.OUTBREAK",
+          "weight": 1.0,
+          "_note": "D, AOE+POISON_CONSUMER"
+        },
+        {
+          "id": "CARD.MIRAGE",
+          "weight": 0.7,
+          "_note": "D, 적 중독 = 자기 block (다적 block 변환) + POISON_PRODUCER + AOE — block 페이오프"
+        },
+        {
+          "id": "CARD.POISONED_STAB",
+          "weight": 1.0,
+          "_note": "Common 1코 — 6 dmg + 중독 3. POISON_PRODUCER + DAMAGE 동체. 중독 빌드 시작점 attack"
+        },
+        {
+          "id": "CARD.DEADLY_POISON",
+          "weight": 1.0,
+          "_note": "Common 1코 — 중독 5 단발. 효율적 POISON_PRODUCER (1코 +5 stack)"
+        },
+        {
+          "id": "CARD.BOUNCING_FLASK",
+          "weight": 1.0,
+          "_note": "Uncommon 2코 — 무작위 적에게 중독 3×3회. 다적 POISON_PRODUCER + AOE 분산"
+        },
+        {
+          "id": "CARD.SNAKEBITE",
+          "weight": 1.0,
+          "_note": "Common 2코 — 보존 + 중독 7. retain POISON_PRODUCER (손에 한 번 들어오면 재사용)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "POISON_PRODUCER",
+          "ideal": 4,
+          "weight": 1.0
+        },
+        {
+          "axis": "POISON_AMPLIFIER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "POISON_CONSUMER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "AOE_POISON",
+          "ideal": 1,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "교활 순환": {
+      "_note": "Discard/Sly 빌드. Sly = 핸드 디스카드 시 무료 발동. PRODUCER (Sly 부착) + DISCARD 엔진 + Sly fuel 카드의 3축 구조. Sly 키워드 보유 카드 (ABRASIVE/SNEAKY/UNTOUCHABLE/TACTICIAN/HAZE) 는 axis CUNNING 카운트로 측정되지 keystone 아님 (자체가 fuel).",
+      "finishers": [
+        {
+          "name": "SPEEDSTER drawn-AOE",
+          "primary": "CARD.SPEEDSTER",
+          "supporting": [
+            "CARD.MASTER_PLANNER",
+            "CARD.TOOLS_OF_THE_TRADE",
+            "CARD.ACROBATICS"
+          ],
+          "scenario": "SPEEDSTER 활성 후 매 드로우 시 모든 적 +2 데미지. 한 턴 5~8 드로우 → 10~16 AOE 자동.",
+          "type": "sustained"
+        },
+        {
+          "name": "Sly fuel discard burst",
+          "primary": "CARD.CALCULATED_GAMBLE",
+          "supporting": [
+            "CARD.MASTER_PLANNER",
+            "CARD.ABRASIVE",
+            "CARD.UNTOUCHABLE",
+            "CARD.TACTICIAN",
+            "CARD.HAZE"
+          ],
+          "scenario": "MASTER_PLANNER 로 손에 모든 Sly 카드 → CALCULATED_GAMBLE (손 전체 discard) → 한 번에 Sly 다수 무료 발동 = +힘+민첩+가시+block 6+에너지+AOE중독 동시 폭발.",
+          "type": "burst"
+        },
+        {
+          "name": "SERPENT_FORM 카드사용 AOE",
+          "primary": "CARD.SERPENT_FORM",
+          "scenario": "카드 사용 시마다 무작위 적 1명에게 4 dmg — discard heavy 빌드면 매 턴 5~10회 발동 = 20~40 자동 데미지 (single random — AOE 아님).",
+          "type": "sustained"
+        },
+        {
+          "name": "MEMENTO_MORI single burst",
+          "primary": "CARD.MEMENTO_MORI",
+          "scenario": "이번 턴 버린 카드 1장당 +4 dmg — CALCULATED_GAMBLE 후 큰 단발 (덱 25장 → 100+ 단발).",
+          "type": "scaling"
+        },
+        {
+          "name": "MURDER drawn-scaling",
+          "primary": "CARD.MURDER",
+          "scenario": "전투 동안 뽑은 카드 1장당 영구 +1 dmg — long-fight 누적 (50장 drawn → +50 dmg single).",
+          "type": "scaling"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.WRAITH_FORM (S, 불가침 2)",
+          "CARD.SURVIVOR (starter)",
+          "CARD.AFTERIMAGE (사용 시 +1 block)",
+          "CARD.UNTOUCHABLE (Sly fuel — block 6)"
+        ],
+        "draw": [
+          "CARD.TOOLS_OF_THE_TRADE (자동 +1)",
+          "CARD.ACROBATICS (1코)",
+          "CARD.PREPARED (0코)",
+          "CARD.ADRENALINE (0코 +2)",
+          "CARD.CALCULATED_GAMBLE (손 전체 → 같은 수)"
+        ],
+        "energy": [
+          "CARD.ADRENALINE (0코 +1 energy)",
+          "CARD.TACTICIAN (Sly fuel — discard 시 +1 energy)"
+        ],
+        "_note": "Discard/Sly 는 sustain 자체가 빌드 엔진 — draw/energy/block 모두 강함. WRAITH_FORM 으로 finisher 발동 턴 보장."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Soul Fysh (빠른 사이클로 Beckon 처리)",
+          "The Insatiable (4턴 카운트다운 — 드로우 가속)",
+          "The Queen (Chains — discard/draw 사이클로 핸드 잠금 우회)"
+        ],
+        "weak": [
+          "Knowledge Demon (Mind Rot 류 디버프 누적 약함)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.SPEEDSTER",
+          "weight": 1.5,
+          "_note": "D(우리)/S(외부) — Discard/Sly 빌드 win condition. 매 드로우 시 AOE 데미지"
+        },
+        {
+          "id": "CARD.MASTER_PLANNER",
+          "weight": 1.5,
+          "_note": "C, 진짜 PRODUCER — 모든 스킬에 Sly 영구 부착"
+        },
+        {
+          "id": "CARD.TOOLS_OF_THE_TRADE",
+          "weight": 1.5,
+          "_note": "S, discard 엔진 — 매 턴 자동 +1 draw +1 discard"
+        },
+        {
+          "id": "CARD.CALCULATED_GAMBLE",
+          "weight": 1.5,
+          "_note": "S, 손 전체 discard + 같은 수 draw — 대량 Sly 발동기"
+        },
+        {
+          "id": "CARD.HAND_TRICK",
+          "weight": 1.0,
+          "_note": "C, 일시 producer + block 7"
+        },
+        {
+          "id": "CARD.ADRENALINE",
+          "weight": 1.0,
+          "_note": "S, 0코 +에너지+2 draw + Exhaust"
+        },
+        {
+          "id": "CARD.PREPARED",
+          "weight": 1.0,
+          "_note": "S, 0코 draw+discard"
+        },
+        {
+          "id": "CARD.ACROBATICS",
+          "weight": 1.0,
+          "_note": "S, 1코 draw 다수 — Speedster 시너지"
+        },
+        {
+          "id": "CARD.WELL_LAID_PLANS",
+          "weight": 1.0,
+          "_note": "S, 턴 종료 retain — Sly 카드 손에 보관"
+        },
+        {
+          "id": "CARD.AFTERIMAGE",
+          "weight": 1.0,
+          "_note": "S, 카드 사용 시 +1 block (모든 빌드 윤활)"
+        },
+        {
+          "id": "CARD.BURST",
+          "weight": 1.0,
+          "_note": "B, 다음 스킬 +1회 — Sly 카드 2회 발동"
+        },
+        {
+          "id": "CARD.WRAITH_FORM",
+          "weight": 1.2,
+          "_note": "S, 불가침 2 — discard 빌드 시간 벌이"
+        },
+        {
+          "id": "CARD.SERPENT_FORM",
+          "weight": 1.2,
+          "_note": "D(우리)/S(외부) — 카드 사용 시 무작위 적 1명 4 dmg (single random, AOE 아님) — discard heavy 시 폭발"
+        },
+        {
+          "id": "CARD.MEMENTO_MORI",
+          "weight": 1.0,
+          "_note": "D, 데미지 9 + 버린 카드 1장당 +4 — Discard finisher"
+        },
+        {
+          "id": "CARD.MURDER",
+          "weight": 0.7,
+          "_note": "D, 데미지 1 + 뽑은 카드 1장당 +1 — drawn scaling finisher"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "CUNNING_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "CUNNING",
+          "ideal": 4,
+          "weight": 0.8
+        },
+        {
+          "axis": "CUNNING_CONSUMER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 3,
+          "weight": 0.4
+        }
+      ]
+    },
+    "단도": {
+      "_note": "Shiv 빌드. STS2 에서 STS1 대비 약화. Inky Enchantment (+2 dmg + Weak) + KNIFE_TRAP 누적 finisher 가 빌드 정체성. base form S 부재 — A-tier 다수 + KNIFE_TRAP 누적 의존.",
+      "finishers": [
+        {
+          "name": "KNIFE_TRAP 누적 폭발",
+          "primary": "CARD.KNIFE_TRAP",
+          "supporting": [
+            "CARD.BLADE_DANCE",
+            "CARD.INFINITE_BLADES",
+            "CARD.HIDDEN_DAGGERS",
+            "CARD.BLADE_OF_INK"
+          ],
+          "scenario": "전투 동안 단도 5+ 장 누적 (소멸 pile) → KNIFE_TRAP 1회 = 모든 단도를 강화한 뒤 대상 적에게 사용 = 한 턴 60+ **단발** 폭딜 (Inky 시 +Weak). 단일 타겟 (AOE 아님).",
+          "type": "burst"
+        },
+        {
+          "name": "FINISHER combo",
+          "primary": "CARD.FINISHER",
+          "scenario": "이번 턴 사용 공격 카드 × 6 — 다수 0코 attack (PRECISE_CUT/BACKSTAB/HIDDEN_DAGGERS) 후 발동 = 단발 30~60 데미지.",
+          "type": "scaling"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.CLOAK_AND_DAGGER (block 6 + 단도 1)",
+          "CARD.SURVIVOR (starter)",
+          "CARD.LEG_SWEEP (block + AOE 약화)"
+        ],
+        "draw": [
+          "CARD.SURVIVOR (starter)",
+          "CARD.PREPARED (단도 빌드 별도 draw 카드 부족 — 외부 sustain)"
+        ],
+        "energy": [],
+        "_note": "단도 빌드는 draw 부족이 약점 — 단도 카드 자체가 손에 쌓이고 사이클링이 부족. CLOAK_AND_DAGGER 같은 block + 단도 동체 카드 우선."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "Vantom (Slippery — 다중 단도 타격으로 정리)",
+          "Kin Shaman (다적 — Fan of Knives AOE)",
+          "act 3 단일 보스 (KNIFE_TRAP 누적 단도 폭딜)"
+        ],
+        "weak": [
+          "The Insatiable (단도 누적 시간 부족)",
+          "Doormaker (Hunger — 사용 카드 자동 exhaust 카운터)",
+          "The Queen (Chains 핸드 잠금 — KNIFE_TRAP 단발 finisher 손에 묶임)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.KNIFE_TRAP",
+          "weight": 1.5,
+          "_note": "B, '소멸된 모든 단도 강화 발동' — 단도 빌드 진짜 finisher ★"
+        },
+        {
+          "id": "CARD.BLADE_OF_INK",
+          "weight": 1.2,
+          "_note": "S, Rare — 잉크투성이 단도 2(3)장 (Inky +2 dmg + Weak)"
+        },
+        {
+          "id": "CARD.BLADE_DANCE",
+          "weight": 1.2,
+          "_note": "A, 단도 3장 손에 추가 — 누적 가속"
+        },
+        {
+          "id": "CARD.HIDDEN_DAGGERS",
+          "weight": 1.2,
+          "_note": "A, 0코 discard 2 + 단도+ 2 (Shiv/Discard hybrid)"
+        },
+        {
+          "id": "CARD.INFINITE_BLADES",
+          "weight": 1.2,
+          "_note": "A, 매 턴 자동 단도 1장 — 누적 가속"
+        },
+        {
+          "id": "CARD.CLOAK_AND_DAGGER",
+          "weight": 1.0,
+          "_note": "A, block 6 + 단도 1"
+        },
+        {
+          "id": "CARD.FAN_OF_KNIVES",
+          "weight": 1.2,
+          "_note": "C, 단도 AOE 변환 + 단도 4장 — AOE Shiv 빌드 unlock"
+        },
+        {
+          "id": "CARD.FINISHER",
+          "weight": 1.0,
+          "_note": "B, combo — 사용한 공격 카드 × 6 (act1~2 단발)"
+        },
+        {
+          "id": "CARD.ACCURACY",
+          "weight": 1.0,
+          "_note": "B, SCALING — 단도 데미지 +N 영구"
+        },
+        {
+          "id": "CARD.PHANTOM_BLADES",
+          "weight": 1.0,
+          "_note": "B, 1코 — 단도 retain (영구 손 보관) + 매 턴 첫 단도 +9 dmg. 영구 stat 증가는 아니지만 turn-recurring buff"
+        },
+        {
+          "id": "CARD.BACKSTAB",
+          "weight": 1.0,
+          "_note": "A, 0코 attack + innate"
+        },
+        {
+          "id": "CARD.DAGGER_SPRAY",
+          "weight": 1.0,
+          "_note": "A, AOE 단도"
+        },
+        {
+          "id": "CARD.PRECISE_CUT",
+          "weight": 0.7,
+          "_note": "A, 0코 attack (보강)"
+        },
+        {
+          "id": "CARD.LEADING_STRIKE",
+          "weight": 1.0,
+          "_note": "Common 1코 — 3 dmg + 단도 2장. SHIV_PRODUCER + DAMAGE 시작점 카드 (act 1 단도 빌드 진입)"
+        },
+        {
+          "id": "CARD.UP_MY_SLEEVE",
+          "weight": 1.0,
+          "_note": "Uncommon 2코 — 단도 3장 + 자체 cost -1. SHIV_PRODUCER scaling (사용할수록 효율↑)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "SHIV_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "SHIV_AMPLIFIER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "SHIV_CONSUMER",
+          "ideal": 1,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "구체": {
+      "_note": "Orb 빌드 — DEFECT 메인 archetype. Focus is king (Defragment 핵심). Glass Orb (STS2 신규) 자기 감쇄 AOE 추가. 가이드 코멘트: 'Focus 또는 Orb slot 증가 카드는 거의 항상 덱 강화'.",
+      "finishers": [
+        {
+          "name": "SHATTER all-evoke burst",
+          "primary": "CARD.SHATTER",
+          "supporting": [
+            "CARD.CAPACITOR",
+            "CARD.QUADCAST"
+          ],
+          "scenario": "orb slot 확장 후 6+ 영창 → SHATTER 한 방으로 모든 구체 evoke + AOE 11 = 한 턴 60~120 누적 데미지.",
+          "type": "burst"
+        },
+        {
+          "name": "BARRAGE orb-count damage",
+          "primary": "CARD.BARRAGE",
+          "scenario": "영창된 orb 수만큼 데미지 — QUADCAST/WHITE_NOISE 후 6+ orb 영창 시 6× 데미지 단발.",
+          "type": "scaling"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.GLACIER (S, block 6 + 냉기)",
+          "CARD.COOLANT (A, block + ORB)",
+          "CARD.LIGHTNING_ROD (A, block + ORB)",
+          "CARD.SHADOW_SHIELD (A, block 11 + 암흑)"
+        ],
+        "draw": [
+          "CARD.SKIM (S, 1코 draw 다수)",
+          "CARD.CHARGE_BATTERY (A, block + energy)",
+          "CARD.MACHINE_LEARNING (A, 매 턴 +1)"
+        ],
+        "energy": [
+          "CARD.CHARGE_BATTERY (A, +1 energy 매 턴)",
+          "CARD.SUPERCRITICAL (S, 0코 +energy)",
+          "CARD.TURBO (S, 0코 energy)"
+        ],
+        "_note": "구체 빌드는 starter (이중 시전, 파지직) 가 ORB_PRODUCER 2 — 자동 시작점. block 자체가 Frost orb 로 자동 누적되어 sustain 견고."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Knowledge Demon (Focus 누적 시 burst 가능)",
+          "long-fight 보스 일반"
+        ],
+        "weak": [
+          "Knowledge Demon Mind Rot 활성 시 (orb 체인 깨짐)",
+          "The Insatiable (Focus 셋업 시간 부족)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.DEFRAGMENT",
+          "weight": 1.5,
+          "_note": "S, Focus scaling — 빌드 unlock 급"
+        },
+        {
+          "id": "CARD.MODDED",
+          "weight": 1.5,
+          "_note": "S, 0코 + Orb slot +1 + draw — 가이드 'pickup priority'"
+        },
+        {
+          "id": "CARD.BIASED_COGNITION",
+          "weight": 1.5,
+          "_note": "A+, 단발 +4 focus"
+        },
+        {
+          "id": "CARD.VOLTAIC",
+          "weight": 1.5,
+          "_note": "S, ORB_PRODUCER 핵심"
+        },
+        {
+          "id": "CARD.GLACIER",
+          "weight": 1.2,
+          "_note": "S, block + ORB"
+        },
+        {
+          "id": "CARD.CHILL",
+          "weight": 1.2,
+          "_note": "S, 0코 ORB_PRODUCER + exhaust"
+        },
+        {
+          "id": "CARD.QUADCAST",
+          "weight": 1.2,
+          "_note": "S, orb 다수 영창"
+        },
+        {
+          "id": "CARD.BARRAGE",
+          "weight": 1.2,
+          "_note": "A, 1코 — 영창된 구체 1개당 5 dmg 단발. ORB_CONSUMER (구체 카운트 페이오프). 다중 영창 후 polish"
+        },
+        {
+          "id": "CARD.COOLANT",
+          "weight": 1.2,
+          "_note": "A, block + ORB"
+        },
+        {
+          "id": "CARD.BALL_LIGHTNING",
+          "weight": 1.0,
+          "_note": "A, ORB_PRODUCER"
+        },
+        {
+          "id": "CARD.COLD_SNAP",
+          "weight": 1.0,
+          "_note": "A, ORB_PRODUCER"
+        },
+        {
+          "id": "CARD.LIGHTNING_ROD",
+          "weight": 1.0,
+          "_note": "A, block + ORB"
+        },
+        {
+          "id": "CARD.FOCUSED_STRIKE",
+          "weight": 1.0,
+          "_note": "A, focus 페이오프"
+        },
+        {
+          "id": "CARD.SHATTER",
+          "weight": 1.0,
+          "_note": "A, ORB AOE"
+        },
+        {
+          "id": "CARD.ICE_LANCE",
+          "weight": 1.0,
+          "_note": "A, ORB_PRODUCER"
+        },
+        {
+          "id": "CARD.DARKNESS",
+          "weight": 1.0,
+          "_note": "A, Dark orb 누적"
+        },
+        {
+          "id": "CARD.IGNITION",
+          "weight": 1.0,
+          "_note": "A, ORB + exhaust"
+        },
+        {
+          "id": "CARD.GLASSWORK",
+          "weight": 1.0,
+          "_note": "A, Glass orb 빌드 (STS2 신규)"
+        },
+        {
+          "id": "CARD.BULK_UP",
+          "weight": 1.0,
+          "_note": "A, Power, 2코 — orb slot **잃음** (페널티) + STR/DEX +2 영구 scaling. axes: ORB_PRODUCER + SCALING. 구체 빌드 후반 보조"
+        },
+        {
+          "id": "CARD.RAINBOW",
+          "weight": 1.0,
+          "_note": "A, 다양성 ORB"
+        },
+        {
+          "id": "CARD.SPINNER",
+          "weight": 1.0,
+          "_note": "A, ORB Power"
+        },
+        {
+          "id": "CARD.SKIM",
+          "weight": 1.0,
+          "_note": "S, 1코 draw — orb 사이클"
+        },
+        {
+          "id": "CARD.WHITE_NOISE",
+          "weight": 1.0,
+          "_note": "S, 1코 — 무작위 파워 카드 1장 fetch + 이번 턴 비용 0 + 자기 소멸. 영창 아님 (Power 튜터)"
+        },
+        {
+          "id": "CARD.CAPACITOR",
+          "weight": 1.0,
+          "_note": "B+, orb slot 확장"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "ORB_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "ORB_AMPLIFIER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "ORB_VARIETY_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.5
+        },
+        {
+          "axis": "DARK_ORB_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "소멸 순환": {
+      "_note": "IRONCLAD/NECROBINDER Exhaust 빌드. CORRUPTION 도착 시 빌드 unlock. OFFERING (가이드 평 'best card') + BURNING_PACT 보조.",
+      "finishers": [
+        {
+          "name": "CORRUPTION 무한 사이클",
+          "primary": "CARD.CORRUPTION",
+          "supporting": [
+            "CARD.OFFERING",
+            "CARD.DARK_EMBRACE",
+            "CARD.FEEL_NO_PAIN"
+          ],
+          "scenario": "CORRUPTION (skill cost 0 + 자동 exhaust) 활성 → 매 턴 손 비우고 OFFERING 으로 +2 energy +2 draw → 손 다시 채움 → 무한 자원 사이클. DARK_EMBRACE 로 매 exhaust +1 draw 가속.",
+          "type": "infinite"
+        },
+        {
+          "name": "ASHEN_STRIKE exhaust pile scaling ★",
+          "primary": "CARD.ASHEN_STRIKE",
+          "scenario": "1코 Attack — '데미지 6 + **소멸 pile 1장당 +3**'. CORRUPTION + 소멸 카드 다수 사용 후 pile 10장 → 6+30 = 36 단발. 소멸 빌드의 진짜 scaling finisher.",
+          "type": "scaling"
+        },
+        {
+          "name": "FIEND_FIRE 손 exhaust 단발",
+          "primary": "CARD.FIEND_FIRE",
+          "scenario": "2코 — '손 전체 소멸 + 소멸시킨 카드 1장당 데미지 7'. 손 5장 exhaust = 35 단발 + 소멸 pile 보강 (ASHEN_STRIKE 시너지).",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.FEEL_NO_PAIN (소멸당 +block)",
+          "CARD.BLOOD_WALL (block 16)",
+          "CARD.SECOND_WIND (비-attack 카드 소멸 → block 5/장)",
+          "CARD.IMPERVIOUS (block 30, 단발)"
+        ],
+        "draw": [
+          "CARD.DARK_EMBRACE (소멸당 +draw)",
+          "CARD.BURNING_PACT (1코 + 2 draw)"
+        ],
+        "energy": [
+          "CARD.OFFERING (0코 +2 energy)"
+        ],
+        "_note": "CORRUPTION 도착 전 buildup 시간 보호. exhaust 누적 + 매 턴 약화 (PIERCING_WAIL) 로 chip damage 흡수. ASHEN_STRIKE/PACTS_END finisher 까지 생존 핵심."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Vantom (다중 0코 attack — Slippery 정리)",
+          "Ceremonial Beast (Phase 2 단일 강 카드 가능)",
+          "Soul Fysh (슬림 사이클)"
+        ],
+        "weak": [
+          "Doormaker (Hunger — Skill/Attack 자동 exhaust 카운터)",
+          "The Insatiable (덱 압축 시간 부족)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.CORRUPTION",
+          "weight": 1.5,
+          "_note": "S, skill cost 0 unlock"
+        },
+        {
+          "id": "CARD.OFFERING",
+          "weight": 1.5,
+          "_note": "S, 0코 +2 energy +2 draw + exhaust — 가이드 'best card'"
+        },
+        {
+          "id": "CARD.BURNING_PACT",
+          "weight": 1.2,
+          "_note": "S, 1코 exhaust+draw"
+        },
+        {
+          "id": "CARD.PACTS_END",
+          "weight": 1.2,
+          "_note": "S, 0코 AOE + EXHAUST_CONSUMER 페이오프"
+        },
+        {
+          "id": "CARD.DARK_EMBRACE",
+          "weight": 1.2,
+          "_note": "A+, 소멸당 +1 draw"
+        },
+        {
+          "id": "CARD.FIEND_FIRE",
+          "weight": 1.0,
+          "_note": "S, 손 전체 exhaust 데미지"
+        },
+        {
+          "id": "CARD.ASHEN_STRIKE",
+          "weight": 1.0,
+          "_note": "A, exhaust+SCALING+CONSUMER"
+        },
+        {
+          "id": "CARD.BRAND",
+          "weight": 1.0,
+          "_note": "A, 0코 exhaust producer"
+        },
+        {
+          "id": "CARD.THRASH",
+          "weight": 1.0,
+          "_note": "A, 1코 exhaust + random"
+        },
+        {
+          "id": "CARD.SECOND_WIND",
+          "weight": 1.0,
+          "_note": "A, exhaust 손 + block"
+        },
+        {
+          "id": "CARD.FEEL_NO_PAIN",
+          "weight": 1.0,
+          "_note": "B+, 소멸당 +block 시작점"
+        },
+        {
+          "id": "CARD.ALCHEMIZE",
+          "weight": 0.5,
+          "_note": "S, 무색 — **자기 소멸만** 하는 카드 (다른 카드 소멸 X, EXHAUST_CONSUMER 페이오프도 X). 소멸 pile 1장 기여 + 포션 생성. 진짜 EXHAUST_PRODUCER/CONSUMER 와 가치 격차 두기 위해 0.5"
+        },
+        {
+          "id": "CARD.MASTER_OF_STRATEGY",
+          "weight": 0.5,
+          "_note": "Rare 무색 — 0코 + 3 draw + **자기 소멸만**. 단순 cleanup-exhaust, 적극적 소멸 producer 아님. CORRUPTION/OFFERING 손에 빠르게 도달이라는 보조 가치"
+        },
+        {
+          "id": "CARD.SECRET_TECHNIQUE",
+          "weight": 0.5,
+          "_note": "Rare 무색 — 0코 + skill fetch + **자기 소멸만**. CORRUPTION 튜터 가치는 있지만 진짜 EXHAUST_PRODUCER 아님"
+        },
+        {
+          "id": "CARD.THINKING_AHEAD",
+          "weight": 0.5,
+          "_note": "Uncommon 무색 — 0코 draw 2 + 손→덱 위 + **자기 소멸만**. 사이클링 보조"
+        },
+        {
+          "id": "CARD.METAMORPHOSIS",
+          "weight": 0.5,
+          "_note": "Event 무색 — 2코, **자기 소멸만**. 카드 빌드 태그 '소멸 빌드' 이나 단순 cleanup. 0코 archetype 의 카드 풀 확장 가치가 진짜 강점 (0코 1.0)"
+        },
+        {
+          "id": "CARD.JACK_OF_ALL_TRADES",
+          "weight": 0.5,
+          "_note": "Uncommon 무색 — 0코 + **자기 소멸만**. 단순 cleanup-exhaust. 0코 archetype 의 무색 fetch 가 진짜 가치 (0코 0.7)"
+        },
+        {
+          "id": "CARD.DARK_SHACKLES",
+          "weight": 0.5,
+          "_note": "Uncommon 무색 — 0코 + **자기 소멸만**. STR -9 1턴 한정 (생존 보조). 진짜 EXHAUST_PRODUCER 아님"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "EXHAUST_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "EXHAUST_CONSUMER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "EXHAUST_SELF",
+          "ideal": 3,
+          "weight": 0.3
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.4
+        },
+        {
+          "axis": "ENERGY",
+          "ideal": 1,
+          "weight": 0.3
+        }
+      ]
+    },
+    "별": {
+      "_note": "REGENT Stars 빌드 — 가이드 평 'S 티어, Stars 빌드가 Forge 빌드보다 우세'. Crown of Stars 시작 유물 (3 Stars 자동) + VOID_FORM/ALIGNMENT 인피니트 콤보 + SEVEN_STARS finisher. Big Bang = 'always pick'.",
+      "finishers": [
+        {
+          "name": "SEVEN_STARS AOE finisher",
+          "primary": "CARD.SEVEN_STARS",
+          "supporting": [
+            "CARD.METEOR_SHOWER"
+          ],
+          "scenario": "2코 — '모든 적에게 7 데미지 ×7회' = 49 AOE 단발. 다적 mob/boss+동반자 정리. (Star 자원 비례 X — description 그대로 49 dmg AOE.)",
+          "type": "burst"
+        },
+        {
+          "name": "VOID_FORM 첫 2장 무료",
+          "primary": "CARD.VOID_FORM",
+          "supporting": [
+            "CARD.METEOR_SHOWER",
+            "CARD.SEVEN_STARS"
+          ],
+          "scenario": "3코 휘발성 Power. **사용 시 즉시 내 턴 종료** + 다음 턴부터 매 턴 처음 사용 카드 2장 무료. 고코 finisher (SEVEN_STARS/METEOR_SHOWER) 다음 턴 무료 발동 → 게임 종결. (휘발성이라 1턴 한정 — 다음 턴 자동 소멸.)",
+          "type": "infinite"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.CHILD_OF_THE_STARS (Star 소모당 +2 block)",
+          "CARD.GATHER_LIGHT (block 8 + Star 1)",
+          "CARD.CLOAK_OF_STARS (0코 block 7)"
+        ],
+        "draw": [
+          "CARD.BIG_BANG (0코 +draw +Star)",
+          "CARD.GLOW (Star + draw)",
+          "CARD.GUIDING_STAR (damage + 2 draw)"
+        ],
+        "energy": [
+          "CARD.CONVERGENCE (energy + Star)",
+          "CARD.ALIGNMENT (+2 energy)"
+        ],
+        "_note": "Star 자원 buildup 보호. SEVEN_STARS/VOID_FORM 도달 전 act 1~2 생존 핵심. CHILD_OF_THE_STARS 가 block payoff — 이 카드는 catalog 의 BLOCK axis 를 직접 갖고 있어 기본 block_axes (BLOCK/WEAK/VULN/STRENGTH_DOWN) 로 자동 카운트됨 (별도 block_axes override 불필요). v1.11.4 에서 STAR_CONSUMER 추가가 STARDUST (damage 카드) 를 잘못 defense 로 매핑한 회귀 제거."
+      },
+      "boss_strength": "S",
+      "boss_matchup": {
+        "strong": [
+          "Waterfall Giant (5턴 안 결산)",
+          "Kin Shaman (Seven Stars AOE)",
+          "Doormaker (인피니트 콤보로 Empower 무력화)",
+          "Test Subject (burst 페이즈 처리)"
+        ],
+        "weak": [
+          "Vantom (Slippery — 큰 한 방 비효율)",
+          "act 1 빠른 보스 (Stars 누적 셋업 부담)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.BIG_BANG",
+          "weight": 1.5,
+          "_note": "S, 0코 Star+draw — 'always pick' (Big Bang+)"
+        },
+        {
+          "id": "CARD.VOID_FORM",
+          "weight": 1.5,
+          "_note": "S, 3코 휘발성 Power — 사용 시 즉시 내 턴 종료 + 다음 턴 첫 카드 2장 무료 (cost 종류 무관, 1턴 한정)"
+        },
+        {
+          "id": "CARD.METEOR_SHOWER",
+          "weight": 1.5,
+          "_note": "S, 0코 AOE + VULN/WEAK 부착 finisher"
+        },
+        {
+          "id": "CARD.THE_SEALED_THRONE",
+          "weight": 1.5,
+          "_note": "S, Star producer + PLAY_TRIGGER 페이오프"
+        },
+        {
+          "id": "CARD.SEVEN_STARS",
+          "weight": 1.5,
+          "_note": "C(우리)/S(가이드) — 7×Stars AOE finisher (인피니트 콤보 핵심)"
+        },
+        {
+          "id": "CARD.COMET",
+          "weight": 1.5,
+          "_note": "S, 0코 VULN/WEAK 부착"
+        },
+        {
+          "id": "CARD.CONVERGENCE",
+          "weight": 1.2,
+          "_note": "S, 에너지 + Star"
+        },
+        {
+          "id": "CARD.CHILD_OF_THE_STARS",
+          "weight": 1.2,
+          "_note": "S, block + Star + EXHAUST_CONSUMER"
+        },
+        {
+          "id": "CARD.ASTRAL_PULSE",
+          "weight": 1.2,
+          "_note": "A, 0코 AOE 14 (Star 자원 비례 X — 단발 고정 AOE). 별 빌드 보편 AOE"
+        },
+        {
+          "id": "CARD.STARDUST",
+          "weight": 1.2,
+          "_note": "A, 0코 Star payoff (random)"
+        },
+        {
+          "id": "CARD.ALIGNMENT",
+          "weight": 1.2,
+          "_note": "B, 0코 — +2 energy. 별 빌드 자원 가속 (Star→energy 변환 메카닉 카드 desc 에 없지만 별 archetype 의 'auto-pick' 평가)"
+        },
+        {
+          "id": "CARD.GLOW",
+          "weight": 1.0,
+          "_note": "A, Star+draw"
+        },
+        {
+          "id": "CARD.GUIDING_STAR",
+          "weight": 1.0,
+          "_note": "A, 1코 — 12 dmg + 2 draw. 카탈로그 axes 에 STAR_PRODUCER 부여됨 (게임 메카닉상 별 빌드 카드)"
+        },
+        {
+          "id": "CARD.FALLING_STAR",
+          "weight": 1.0,
+          "_note": "A, 0코 — 8 dmg + WEAK + VULN + FREE_ATTACK. 카탈로그 axes 에 STAR_PRODUCER (게임 메카닉상 별 카드)"
+        },
+        {
+          "id": "CARD.GENESIS",
+          "weight": 1.0,
+          "_note": "B(우리)/S(가이드) — 매 턴 +2 Star Power (시작점)"
+        },
+        {
+          "id": "CARD.ROYAL_GAMBLE",
+          "weight": 1.0,
+          "_note": "B, 0코 — +9 Star burst + 자기 소멸. 단발 대량 Star producer"
+        },
+        {
+          "id": "CARD.GAMMA_BLAST",
+          "weight": 1.0,
+          "_note": "B, 0코 — 13 dmg + WEAK 2 + VULN 2 + star_cost 3. STAR_CONSUMER 디버프 — 별 archetype 의 가장 보편적인 단일 디버프 (NaveGreed 평가: '강력한 디버프', 수렴/광채로 얻은 별 활용처)"
+        },
+        {
+          "id": "CARD.HIDDEN_CACHE",
+          "weight": 0.7,
+          "_note": "B, 즉발 Star + 다음 턴 +3"
+        },
+        {
+          "id": "CARD.GATHER_LIGHT",
+          "weight": 0.7,
+          "_note": "B, 1코 — block 8 + Star 1 (무조건)"
+        },
+        {
+          "id": "CARD.SHINING_STRIKE",
+          "weight": 0.7,
+          "_note": "C, 데미지+Star+덱 복귀"
+        },
+        {
+          "id": "CARD.BLACK_HOLE",
+          "weight": 1.2,
+          "_note": "Uncommon Power 1코 — Star 소모/획득 시마다 모든 적 3 dmg. STAR_CONSUMER trigger payoff (별 빌드의 sustained AOE engine)"
+        },
+        {
+          "id": "CARD.DYING_STAR",
+          "weight": 1.2,
+          "_note": "Rare 1코 휘발성 — AOE 9 + 1턴 적 STR -9. STAR_PRODUCER (휘발성이라 1턴 한정) + 강력 AOE"
+        },
+        {
+          "id": "CARD.RADIATE",
+          "weight": 1.2,
+          "_note": "Uncommon 0코 — 이번 턴 얻은 Star 수만큼 AOE 3. STAR_PAYOFF AOE — 별 burst 턴 finisher 보조"
+        },
+        {
+          "id": "CARD.SOLAR_STRIKE",
+          "weight": 1.0,
+          "_note": "Common 1코 — 9 dmg + Star 1. STAR_PRODUCER + 효율적 attack (1코 9 dmg + 자원)"
+        },
+        {
+          "id": "CARD.CRESCENT_SPEAR",
+          "weight": 1.0,
+          "_note": "Common 1코 — 6 dmg + 덱 Star-cost 카드 1당 +2. STAR_PAYOFF damage scaler"
+        },
+        {
+          "id": "CARD.KNOCKOUT_BLOW",
+          "weight": 1.0,
+          "_note": "Uncommon 3코 — 30 dmg + 처치 시 Star 3. STAR_PRODUCER (kill trigger) + 단일 폭딜"
+        },
+        {
+          "id": "CARD.CLOAK_OF_STARS",
+          "weight": 0.7,
+          "_note": "Common 0코 — block 7. STAR_PRODUCER 자동 + 0코 block 동체 (별 빌드 생존 보조)"
+        },
+        {
+          "id": "CARD.PATTER",
+          "weight": 0.7,
+          "_note": "Common 1코 — block 9 + 활력 2. STAR_PRODUCER 자동 + VIGOR scaling (다음 공격 강화)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "STAR_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "STAR_PAYOFF",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "STAR_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "STAR_CONSUMER",
+          "ideal": 1,
+          "weight": 0.6
+        }
+      ]
+    },
+    "종말": {
+      "_note": "NECROBINDER Doom archetype — 적 HP ≤ Doom 스택 시 즉사. REAPER_FORM (공격 시 자동 부착) + END_OF_DAYS (AOE 29 부착 + 처형) + TIMES_UP (DOOM_CONSUMER finisher) 의 세 단계 구조. 가이드 평 'NECROBINDER 가장 약한 빌드' — 단독은 약하나 영혼/휘발성 hybrid 시 strong. The Insatiable (자체 4턴 카운트다운) 과 충돌. 단일 빌드 비추, hybrid (영혼+종말 / 휘발성+종말) 권장.",
+      "finishers": [
+        {
+          "name": "REAPER_FORM 공격 시 자동 부착",
+          "primary": "CARD.REAPER_FORM",
+          "supporting": [
+            "CARD.BLIGHT_STRIKE",
+            "CARD.NEUROSURGE"
+          ],
+          "scenario": "3코 Power — '공격 카드로 피해를 줄 때마다 그와 동일한 만큼의 종말 부여'. 1코 attack 5 dmg → 종말 5 부여. 공격 카드 다수 사용 시 turn 당 종말 누적 가속.",
+          "type": "sustained"
+        },
+        {
+          "name": "END_OF_DAYS 단발 처형",
+          "primary": "CARD.END_OF_DAYS",
+          "scenario": "3코 — '모든 적에게 종말 29 부여 + HP ≤ 종말 처치'. 단발로 모든 적에게 29 종말 부착 → HP 29 이하 적 즉시 처치. boss 마지막 phase 결산용.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.DEATHS_DOOR (block + Doom)",
+          "CARD.NEGATIVE_PULSE (block + AOE_DOOM)",
+          "CARD.SHROUD (block + DOOM_CONSUMER)"
+        ],
+        "draw": [
+          "CARD.NEUROSURGE (0코 +energy +draw)",
+          "CARD.SCOURGE (Doom + draw)"
+        ],
+        "energy": [
+          "CARD.NEUROSURGE (0코 +energy)"
+        ],
+        "_note": "가이드 평 'block 카드 동봉 필수' — Doom 누적 시간 보호 핵심. REAPER_FORM 도달 전 단일 빌드 위험. 약화/취약 (DEATHBRINGER) 으로 적 공격 깎기 보조."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Doormaker (phase 무관 — Doom stack 유지)",
+          "Lagavulin Matriarch (수면 중 Doom 누적)",
+          "Test Subject Phase 1~2 (저 HP 페이즈 즉사 가능)"
+        ],
+        "weak": [
+          "The Insatiable (자체 카운트다운 — Doom 셋업 시간 부족)",
+          "act 1 빠른 보스 (셋업 부담)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.REAPER_FORM",
+          "weight": 1.5,
+          "_note": "S, 매 턴 자동 부착 — 빌드 unlock"
+        },
+        {
+          "id": "CARD.END_OF_DAYS",
+          "weight": 1.5,
+          "_note": "S, AOE 종말 finisher"
+        },
+        {
+          "id": "CARD.NEUROSURGE",
+          "weight": 1.2,
+          "_note": "S, 0코 에너지+드로우+종말"
+        },
+        {
+          "id": "CARD.DEATHBRINGER",
+          "weight": 1.2,
+          "_note": "S, AOE 처형 + 약화"
+        },
+        {
+          "id": "CARD.DEFILE",
+          "weight": 1.0,
+          "_note": "B, 가이드 Common 핵심 — 데미지/cost 우수, hybrid"
+        },
+        {
+          "id": "CARD.BLIGHT_STRIKE",
+          "weight": 1.0,
+          "_note": "B, 가이드 Common 핵심 — 1코 16 잠재력"
+        },
+        {
+          "id": "CARD.DEATHS_DOOR",
+          "weight": 1.0,
+          "_note": "A, block + 종말"
+        },
+        {
+          "id": "CARD.NEGATIVE_PULSE",
+          "weight": 1.0,
+          "_note": "A, block + AOE_DOOM"
+        },
+        {
+          "id": "CARD.COUNTDOWN",
+          "weight": 1.0,
+          "_note": "A, 종말 부착"
+        },
+        {
+          "id": "CARD.NO_ESCAPE",
+          "weight": 1.0,
+          "_note": "A, DOOM_PRODUCER"
+        },
+        {
+          "id": "CARD.SHROUD",
+          "weight": 1.0,
+          "_note": "A, block + DOOM_CONSUMER 페이오프"
+        },
+        {
+          "id": "CARD.OBLIVION",
+          "weight": 0.7,
+          "_note": "B, 0코 DOOM 부착 — 사이클 보조"
+        },
+        {
+          "id": "CARD.SCOURGE",
+          "weight": 1.0,
+          "_note": "Common 1코 — 종말 13 + draw 1. 효율적 DOOM_PRODUCER 단발 + 사이클링"
+        },
+        {
+          "id": "CARD.TIMES_UP",
+          "weight": 1.2,
+          "_note": "Rare 2코 휘발성 — 적 보유 종말만큼 dmg + 자기 소멸. DOOM_CONSUMER finisher (REAPER_FORM 누적 후 단일 폭딜)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "DOOM_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "DOOM_AMPLIFIER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "DOOM_CONSUMER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "AOE_DOOM",
+          "ideal": 1,
+          "weight": 0.5
+        }
+      ]
+    },
+    "영혼": {
+      "_note": "Soul 사이클 빌드 — Soul = 0코 토큰 (드로우풀 추가, 플레이 시 +2 draw + Exhaust). 가이드 평 'S+ 가장 안정적'. SOUL_STORM/DEATH_MARCH 가이드 S 평가지만 우리 CSV 는 C/D — tier mismatch 메모.",
+      "finishers": [
+        {
+          "name": "SOUL_STORM AOE finisher",
+          "primary": "CARD.SOUL_STORM",
+          "supporting": [
+            "CARD.GLIMPSE_BEYOND",
+            "CARD.CAPTURE_SPIRIT",
+            "CARD.DIRGE"
+          ],
+          "scenario": "1코 — '데미지 9 + 소멸된 카드 더미 영혼 1장당 +2 dmg'. GLIMPSE_BEYOND 다수 사용 (영혼 사용 = exhaust pile 추가) 으로 exhaust pile 영혼 10+ 누적 → SOUL_STORM = 9 + 20 = 29 단일 데미지.",
+          "type": "scaling"
+        },
+        {
+          "name": "DEATH_MARCH drawn-scaling",
+          "primary": "CARD.DEATH_MARCH",
+          "supporting": [
+            "CARD.GLIMPSE_BEYOND"
+          ],
+          "scenario": "1코 — '데미지 8 + 내 턴 동안 뽑은 카드 1장당 +3 dmg'. Soul 사이클로 매 턴 5~8 draw → DEATH_MARCH = 8 + 15~24 = 23~32 단일.",
+          "type": "scaling"
+        },
+        {
+          "name": "HAUNT trigger 페이오프",
+          "primary": "CARD.HAUNT",
+          "scenario": "Soul 플레이 시 random 적 6 HP — long-fight 자동 데미지 누적.",
+          "type": "sustained"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.GRAVE_WARDEN (block 8 + Soul)",
+          "CARD.SPIRIT_OF_ASH (휘발성 사용 시 block)",
+          "CARD.SEANCE (휘발성, defensive cycle)"
+        ],
+        "draw": [
+          "CARD.GLIMPSE_BEYOND (0코 exhaust + Soul, 사이클)",
+          "CARD.CAPTURE_SPIRIT (Soul 3 + 잠재 draw)"
+        ],
+        "energy": [
+          "CARD.DEMESNE (energy + draw — hybrid)"
+        ],
+        "_note": "Soul 사이클 자체가 turn-extension 메카닉 (Soul 사용 = +2 draw). DEATH_MARCH/SOUL_STORM 셋업 전 buildup. block 부족 시 HAUNT trigger 누적 시간 부족."
+      },
+      "boss_strength": "S",
+      "boss_matchup": {
+        "strong": [
+          "Knowledge Demon (드로우 사이클 burst 로 3rd choice 전 결산)",
+          "Doormaker (Soul 드로우 사이클 + Death March)",
+          "Soul Fysh (빠른 사이클)"
+        ],
+        "strong": [
+          "Knowledge Demon (드로우 사이클 burst 로 3rd choice 전 결산)",
+          "Doormaker (Soul 드로우 사이클 + Death March)",
+          "Soul Fysh (빠른 사이클)",
+          "The Queen (Chains 핸드 잠금 — Soul 드로우 사이클로 우회)"
+        ],
+        "weak": [
+          "Test Subject #C8 (저 HP 페이즈 — Soul Storm 셋업 시간 부족)",
+          "Vantom (Slippery — Soul Storm 큰 한 방 비효율)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.SOUL_STORM",
+          "weight": 1.5,
+          "_note": "C(우리)/S(가이드) — Soul 빌드 win condition. 9 + 2×Soul 페이오프 finisher"
+        },
+        {
+          "id": "CARD.DEATH_MARCH",
+          "weight": 1.5,
+          "_note": "D(우리)/S(가이드) — drawn 카드당 +3 데미지 (Soul 사이클 핵심 페이오프)"
+        },
+        {
+          "id": "CARD.GLIMPSE_BEYOND",
+          "weight": 1.2,
+          "_note": "S, exhaust+SOUL 사이클"
+        },
+        {
+          "id": "CARD.CAPTURE_SPIRIT",
+          "weight": 1.2,
+          "_note": "S, Soul 3장 추가 (대량 producer)"
+        },
+        {
+          "id": "CARD.DIRGE",
+          "weight": 1.2,
+          "_note": "A, Summon X회 + Soul X장 추가 (scaling)"
+        },
+        {
+          "id": "CARD.HAUNT",
+          "weight": 1.2,
+          "_note": "A, Soul 플레이 시 random 적 6 HP — trigger 페이오프"
+        },
+        {
+          "id": "CARD.DEVOUR_LIFE",
+          "weight": 1.2,
+          "_note": "A, Power — 영혼 사용 시마다 소환 1. SOUL_CONSUMER trigger + SKELETON_PRODUCER. 영혼↔골골이 bridge 카드"
+        },
+        {
+          "id": "CARD.GRAVE_WARDEN",
+          "weight": 1.0,
+          "_note": "A, best common — block + Soul"
+        },
+        {
+          "id": "CARD.SEANCE",
+          "weight": 1.0,
+          "_note": "A, 1코 **휘발성** Skill — 뽑을 카드 더미의 카드 1장을 영혼으로 변화 (Soul producer). 휘발성≠ethereal"
+        },
+        {
+          "id": "CARD.SEVERANCE",
+          "weight": 1.0,
+          "_note": "A, 데미지 + Soul"
+        },
+        {
+          "id": "CARD.REAVE",
+          "weight": 0.7,
+          "_note": "C, Soul producer 보강"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "SOUL_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "SOUL_CONSUMER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "골골이": {
+      "_note": "Osty (영구 HP 동반자) 빌드. 가이드 핵심 콤보 'FETCH + FLATTEN + RATTLE = 1코 29 데미지'. Osty 카드들은 raw tier 낮으나 콤보로 성립 — 시너지 빌드의 전형. 가이드 A tier.",
+      "finishers": [
+        {
+          "name": "SQUEEZE 단발 폭딜",
+          "primary": "CARD.SQUEEZE",
+          "supporting": [
+            "CARD.PROTECTOR",
+            "CARD.UNLEASH",
+            "CARD.BONE_SHARDS"
+          ],
+          "scenario": "3코 — '골골이가 25 데미지 + 다른 모든 골골이 공격 카드 1장당 +5'. 덱 SKELETON 공격 카드 5장 시 = 25 + 25 = 50 단발. SKELETON 다수 빌드의 진짜 finisher ★.",
+          "type": "scaling"
+        },
+        {
+          "name": "FETCH+FLATTEN+RATTLE 콤보",
+          "primary": "CARD.RATTLE",
+          "supporting": [
+            "CARD.FETCH",
+            "CARD.FLATTEN"
+          ],
+          "scenario": "FETCH+FLATTEN 으로 Osty 다중 공격 → RATTLE (이번 턴 Osty 공격 횟수 × 추가 타격) 활성 = 1코 29 데미지. 사이클로 반복 가능.",
+          "type": "burst"
+        },
+        {
+          "name": "PROTECTOR scaling",
+          "primary": "CARD.PROTECTOR",
+          "supporting": [
+            "CARD.UNLEASH"
+          ],
+          "scenario": "scaling + SKELETON_CONSUMER — 영구 +N 누적 후 후반 폭딜.",
+          "type": "sustained"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.PULL_AGGRO (Summon 4 + block 7 — BLOCK axis 직접 보유)",
+          "CARD.SACRIFICE (Osty 죽임 → block 2×HP — BLOCK axis 직접 보유)",
+          "CARD.DANSE_MACABRE (고코 카드 시 block 4 — BLOCK_AMPLIFIER override)"
+        ],
+        "draw": [
+          "CARD.FETCH (0코 + draw 1)"
+        ],
+        "energy": [
+          "CARD.FLATTEN (Osty 공격 시 0코)"
+        ],
+        "_note": "v1.11.5 정정: 골골이의 진짜 defense 카드 (PULL_AGGRO/SACRIFICE) 는 catalog 가 이미 BLOCK axis 직접 부여 → DefaultBlockAxes 로 자동 카운트. v1.11.2/v1.11.3 의 SKELETON_HP_AMPLIFIER/SKELETON_PRODUCER block_axes 추가는 잘못된 가정 (catalog 가 PROTECTOR/UNLEASH 를 SKELETON_CONSUMER damage 카드로 분류 — Osty HP 는 damage scaling 인자이지 block 효과 아님). PROTECTOR/UNLEASH 는 키카드 (페이오프) 로 점수 받지 defense 로 받지는 않음."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Knowledge Demon (Osty long-fight 누적)",
+          "Doormaker (영구 HP 동반자로 Empower 흡수)",
+          "Kaiser Crab (다중 공격 — 두 집게 동시)"
+        ],
+        "weak": [
+          "The Insatiable (Osty 셋업 시간 부족)",
+          "Test Subject #C8 (저 HP 페이즈 burst 부재)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.SQUEEZE",
+          "weight": 1.5,
+          "_note": "C, 골골이 25 + 다른 SKELETON 공격 ×5 — SKELETON 빌드 finisher ★"
+        },
+        {
+          "id": "CARD.BONE_SHARDS",
+          "weight": 1.5,
+          "_note": "S, AOE + SKELETON_CONSUMER 페이오프"
+        },
+        {
+          "id": "CARD.PROTECTOR",
+          "weight": 1.2,
+          "_note": "A, scaling + consumer"
+        },
+        {
+          "id": "CARD.FETCH",
+          "weight": 1.2,
+          "_note": "A, 0코 Osty 공격 — combo 핵심"
+        },
+        {
+          "id": "CARD.RATTLE",
+          "weight": 1.2,
+          "_note": "C, Osty 다중 공격 scaling — combo finisher"
+        },
+        {
+          "id": "CARD.PULL_AGGRO",
+          "weight": 1.0,
+          "_note": "C, Summon 4 + 7 block (효율적 11 block)"
+        },
+        {
+          "id": "CARD.SNAP",
+          "weight": 1.0,
+          "_note": "C, 저코 Osty 공격 + retain"
+        },
+        {
+          "id": "CARD.FLATTEN",
+          "weight": 1.0,
+          "_note": "C, energy + combo 핵심"
+        },
+        {
+          "id": "CARD.UNLEASH",
+          "weight": 1.0,
+          "_note": "B, scaling + consumer"
+        },
+        {
+          "id": "CARD.SACRIFICE",
+          "weight": 1.0,
+          "_note": "B, block + retain + consumer"
+        },
+        {
+          "id": "CARD.SPUR",
+          "weight": 0.7,
+          "_note": "C, heal + Osty producer"
+        },
+        {
+          "id": "CARD.SIC_EM",
+          "weight": 0.7,
+          "_note": "D, SKELETON_PRODUCER"
+        },
+        {
+          "id": "CARD.REANIMATE",
+          "weight": 1.0,
+          "_note": "S, exhaust — Osty 부활"
+        },
+        {
+          "id": "CARD.DEVOUR_LIFE",
+          "weight": 1.0,
+          "_note": "Rare Power 1코 — 영혼 사용 시마다 소환 1. 영혼-골골이 bridge (영혼 archetype 에도 1.2 등록). hybrid 빌드 핵심"
+        },
+        {
+          "id": "CARD.DIRGE",
+          "weight": 1.0,
+          "_note": "Uncommon 0코 — X 소환 + X 영혼 추가 + 자기 소멸. X-cost scaling (영혼 archetype 에도 1.2 등록 — 영혼-골골이 bridge)"
+        },
+        {
+          "id": "CARD.CLEANSE",
+          "weight": 0.7,
+          "_note": "Uncommon 1코 — 소환 3 + 덱 카드 1장 소멸. SKELETON_PRODUCER + 압축덱 보조"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "SKELETON_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "SKELETON_HP_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "SKELETON_ATTACK_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "SKELETON_CONSUMER",
+          "ideal": 1,
+          "weight": 0.7
+        }
+      ]
+    },
+    "휘발성": {
+      "_note": "Volatile 빌드 — 휘발성 카드 (턴 종료 시 소멸 + 부정 효과) 를 페이오프 카드로 흡수. PAGESTORM 드로우 엔진 + BANSHEES_CRY 9코 AOE finisher 형태.",
+      "finishers": [
+        {
+          "name": "BANSHEES_CRY AOE 33 + cost 자가감소",
+          "primary": "CARD.BANSHEES_CRY",
+          "supporting": [
+            "CARD.PAGESTORM",
+            "CARD.DEMESNE",
+            "CARD.DEFY"
+          ],
+          "scenario": "9코 AOE 33 데미지. **이번 전투 동안 사용한 휘발성 카드 1장당 cost -2 감소**. 5장 휘발성 사용 시 cost 0 도달 → 매 턴 사용 가능. PAGESTORM 으로 휘발성 사이클 가속. AOE 33 × 매 턴 = 무한 데미지 폭발.",
+          "type": "infinite"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.DEFY (휘발성 + block 6 + WEAK)",
+          "CARD.SPIRIT_OF_ASH (휘발성 사용 시 +block)"
+        ],
+        "draw": [
+          "CARD.PAGESTORM (휘발성 드로우 시 +draw)",
+          "CARD.DEMESNE (휘발성 — 매 턴 +energy +draw)"
+        ],
+        "energy": [
+          "CARD.DEMESNE (휘발성 +energy 매 턴)"
+        ],
+        "_note": "BANSHEES_CRY 9코 도달 부담 — 자원 사이클 (PAGESTORM/DEMESNE) 이 sustain + buildup 동시. block 부족 시 act 1~2 생존 위험."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Knowledge Demon (PAGESTORM 드로우 가속)",
+          "Kaiser Crab (BANSHEES_CRY AOE 두 집게 동시)",
+          "Doormaker (Door + Doormaker AOE)"
+        ],
+        "weak": [
+          "The Insatiable (BANSHEES_CRY 9코 도달 시간 부족)",
+          "Vantom (Slippery — BANSHEES_CRY 큰 한 방 비효율)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.BANSHEES_CRY",
+          "weight": 1.5,
+          "_note": "S, 9코 AOE 페이오프 finisher"
+        },
+        {
+          "id": "CARD.PAGESTORM",
+          "weight": 1.5,
+          "_note": "S, 드로우 엔진 — DRAW_ON_DRAW + VOLATILE_CONSUMER"
+        },
+        {
+          "id": "CARD.DEMESNE",
+          "weight": 1.2,
+          "_note": "S, 에너지+드로우 — 빌드 자원 가속"
+        },
+        {
+          "id": "CARD.DEFY",
+          "weight": 1.2,
+          "_note": "S, 1코 **휘발성** — block 6 + WEAK 1. VOLATILE_PRODUCER (본인이 휘발성 → PAGESTORM 트리거)"
+        },
+        {
+          "id": "CARD.SPIRIT_OF_ASH",
+          "weight": 1.0,
+          "_note": "A, block + VOLATILE_CONSUMER"
+        },
+        {
+          "id": "CARD.VEILPIERCER",
+          "weight": 1.0,
+          "_note": "B, 1코 — 10 dmg + 다음에 사용하는 휘발성 카드 비용 0 (cost reduce). VOLATILE_CONSUMER (BANSHEES_CRY/DEMESNE 직전 사용)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "VOLATILE_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "VOLATILE_CONSUMER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        },
+        {
+          "axis": "ENERGY",
+          "ideal": 1,
+          "weight": 0.3
+        }
+      ]
+    },
+    "타격": {
+      "_note": "Strike 빌드 — STS2 약화 (Hellraiser+Pommel Strike Infinity Deck 너프). 단독 빌드 비추 — 다른 archetype hybrid 권장.",
+      "finishers": [
+        {
+          "name": "PERFECTED_STRIKE strike-count",
+          "primary": "CARD.PERFECTED_STRIKE",
+          "supporting": [
+            "CARD.POMMEL_STRIKE"
+          ],
+          "scenario": "덱 STRIKE 카드 수만큼 +N dmg — 5+ STRIKE 시 단발 30+ 데미지.",
+          "type": "scaling"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.POMMEL_STRIKE (block N/A — single attack)"
+        ],
+        "draw": [
+          "CARD.POMMEL_STRIKE (1코 strike + draw)"
+        ],
+        "energy": [],
+        "_note": "타격 빌드 자체가 약한 archetype — sustain 카드 부족. 대부분 hybrid (소멸/방어도) 로 진입."
+      },
+      "boss_strength": "C",
+      "boss_matchup": {
+        "strong": [
+          "Vantom (다중 타격으로 Slippery 정리)"
+        ],
+        "weak": [
+          "대부분 보스 — 단발 폭딜 부재 + Hellraiser 너프 후 finisher 부재",
+          "The Queen (Chains — 단발 STRIKE 빌드 손 묶임)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.POMMEL_STRIKE",
+          "weight": 1.2,
+          "_note": "S, strike + draw"
+        },
+        {
+          "id": "CARD.PERFECTED_STRIKE",
+          "weight": 1.0,
+          "_note": "C, strike 카운트 페이오프"
+        },
+        {
+          "id": "CARD.HELLRAISER",
+          "weight": 1.0,
+          "_note": "Rare 2코 (강화 1코) — '타격' 카드 뽑을 때마다 무작위 적에게 자동 사용. STRIKE_ON_DRAW + STRIKE_CONSUMER 동체. STS2 의 Infinity Deck 콤보 너프로 약화되어 단독 가치 감소 (1.2 → 1.0)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "STRIKE_TYPE",
+          "ideal": 4,
+          "weight": 1.0
+        },
+        {
+          "axis": "STRIKE_CONSUMER",
+          "ideal": 1,
+          "weight": 1.0
+        },
+        {
+          "axis": "STRIKE_ON_DRAW",
+          "ideal": 1,
+          "weight": 0.5
+        },
+        {
+          "axis": "DAMAGE",
+          "ideal": 3,
+          "weight": 0.3
+        }
+      ]
+    },
+    "방어도": {
+      "_note": "IRONCLAD 방어도/Body Slam 빌드. 두 win condition path. Body Slam 트라이앵글 = UNMOVABLE + BARRICADE + BODY_SLAM (셋 다 1.5 weight).",
+      "finishers": [
+        {
+          "name": "Body Slam 트라이앵글 폭딜",
+          "primary": "CARD.BODY_SLAM",
+          "supporting": [
+            "CARD.UNMOVABLE",
+            "CARD.BARRICADE"
+          ],
+          "scenario": "UNMOVABLE (첫 방어도 2×) + BARRICADE (block 영구) → 매 턴 block 30~50 누적 → BODY_SLAM 발동 = block 수치만큼 데미지 = 한 턴 100+ 단발 폭딜.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.SHRUG_IT_OFF (block 8 + draw)",
+          "CARD.BLOOD_WALL (block 16)",
+          "CARD.CRIMSON_MANTLE (매 턴 block 8 Power)",
+          "CARD.IMPERVIOUS (block 30, 단발)"
+        ],
+        "draw": [
+          "CARD.SHRUG_IT_OFF (block + draw 1)"
+        ],
+        "energy": [],
+        "_note": "방어도 빌드 자체가 block 으로 sustain. Body Slam path (b) 는 UNMOVABLE + BARRICADE 까지 block 누적 시간 보호. NOT_YET (heal) 으로 보조."
+      },
+      "boss_strength": "S",
+      "boss_matchup": {
+        "strong": [
+          "Vantom (다중 타격으로 Slippery 정리)",
+          "Ceremonial Beast Phase 2 (단일 강타 적합)",
+          "Test Subject Phase 2 (block 페널티 카운터 — Body Slam 으로 우회)",
+          "act 3 단일 보스 (BODY_SLAM 트라이앵글 1턴 폭딜)"
+        ],
+        "weak": [
+          "Doormaker (Empower long-fight 처벌 — 생존 path 약)",
+          "Kaiser Crab (Crusher block 사이클 — Body Slam 데미지 흡수)",
+          "The Queen (Chains — Body Slam 단발 finisher 손에 묶임)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.UNMOVABLE",
+          "weight": 1.5,
+          "_note": "S, '카드를 통해 얻는 첫 방어도 2배' — Body Slam 빌드 scaling unlock"
+        },
+        {
+          "id": "CARD.BARRICADE",
+          "weight": 1.5,
+          "_note": "D(우리)/S(가이드) — '방어도가 사라지지 않음' — block 영구 누적, Body Slam 페이오프 가속"
+        },
+        {
+          "id": "CARD.BODY_SLAM",
+          "weight": 1.5,
+          "_note": "D(우리)/S(가이드) — '방어도만큼 데미지' — finisher"
+        },
+        {
+          "id": "CARD.IMPERVIOUS",
+          "weight": 1.2,
+          "_note": "A, 큰 block + exhaust"
+        },
+        {
+          "id": "CARD.NOT_YET",
+          "weight": 1.2,
+          "_note": "S, exhaust + heal — 생존 보강"
+        },
+        {
+          "id": "CARD.BLOOD_WALL",
+          "weight": 1.0,
+          "_note": "A, block 16"
+        },
+        {
+          "id": "CARD.SHRUG_IT_OFF",
+          "weight": 1.0,
+          "_note": "A, block + draw"
+        },
+        {
+          "id": "CARD.CRIMSON_MANTLE",
+          "weight": 1.0,
+          "_note": "A, block Power"
+        },
+        {
+          "id": "CARD.DEMONIC_SHIELD",
+          "weight": 1.0,
+          "_note": "A, 0코 — 자기 HP -1 + **다른 플레이어에게 본인 방어도만큼 block 부여** + 자기 소멸. 멀티플레이어 시너지 카드 — 솔로 빌드는 본인 block 미증가 (낮은 가치)"
+        },
+        {
+          "id": "CARD.RAGE",
+          "weight": 0.7,
+          "_note": "A, 0코 block 트리거"
+        },
+        {
+          "id": "CARD.EQUILIBRIUM",
+          "weight": 0.7,
+          "_note": "Uncommon 무색 — 2코 block 13 + 이번 턴 **손에 있는 카드 보존** (retain — 다음 턴까지 손 유지). block 13 자체는 일반 block (다음 턴 사라짐). 손 retain 으로 finisher 카드 보관 가능"
+        },
+        {
+          "id": "CARD.FISTICUFFS",
+          "weight": 0.7,
+          "_note": "Uncommon 무색 — 1코 7 dmg + 가한 피해량만큼 block. 데미지+block 동체, Body Slam 시너지"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "BLOCK",
+          "ideal": 4,
+          "weight": 1.0
+        },
+        {
+          "axis": "BLOCK_PAYOFF",
+          "ideal": 1,
+          "weight": 1.0
+        },
+        {
+          "axis": "BLOCK_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.8
+        },
+        {
+          "axis": "BLOCK_SCALING",
+          "ideal": 1,
+          "weight": 0.7
+        }
+      ]
+    },
+    "취약": {
+      "_note": "IRONCLAD STS2 신규 강화 archetype — Vulnerable 페이오프 카드 다수 추가 (Molten Fist/Tremble/Uppercut). VICIOUS 의 VULN_APPLY_TRIGGER 같은 신규 trigger 메커니즘.",
+      "finishers": [
+        {
+          "name": "CRUELTY VULN amplifier",
+          "primary": "CARD.CRUELTY",
+          "supporting": [
+            "CARD.DOMINATE"
+          ],
+          "scenario": "1코 Power — '취약 상태 적이 받는 피해 25% 증가'. 적 VULN 보유 시 모든 공격 데미지 ×1.25 (기본 VULN 50% 와 누적 시 ×1.875). 영구 atk 누적은 X.",
+          "type": "sustained"
+        },
+        {
+          "name": "DOMINATE STR + VULN scaling",
+          "primary": "CARD.DOMINATE",
+          "scenario": "1코 — '취약 1 부여 + 적 보유 취약 1당 힘 +1, 소멸'. VULN 5 stack 적에게 사용 시 자기 +5 STR 영구 (누적 가능). 진짜 STR scaling 카드 + VULN 빌드 핵심.",
+          "type": "scaling"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.COLOSSUS (block 5 + VULN_AMPLIFIER 자기방어)",
+          "CARD.TAUNT (block 7 + VULN)"
+        ],
+        "draw": [
+          "CARD.VICIOUS (VULN 부착 시 +draw)"
+        ],
+        "energy": [],
+        "_note": "VULN 부착 빌드 자체가 방어 보조 (적 STR 깎기 = damage 감소). DOMINATE/CRUELTY 누적 시간 보호 위해 COLOSSUS (VULN 적 받는 피해 -50%) 가 sustain + 페이오프 동체."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "Test Subject Phase 1~2 (저 HP 페이즈 + VULN 데미지 +50% 처형)",
+          "Knowledge Demon (long-fight VULN 누적)",
+          "Ceremonial Beast (단일 강타 + VULN)"
+        ],
+        "weak": [
+          "Vantom (Slippery — VULN +50% 도 1 데미지 캡으로 무력화)",
+          "단일 적 무관 보스 (VULN 페이오프 부재 시 약)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.DOMINATE",
+          "weight": 1.5,
+          "_note": "S, VULN 부착 + exhaust"
+        },
+        {
+          "id": "CARD.CRUELTY",
+          "weight": 1.5,
+          "_note": "S, VULN_AMPLIFIER (취약 적 받는 피해 +25%, 강화 시 +50%)"
+        },
+        {
+          "id": "CARD.UPPERCUT",
+          "weight": 1.2,
+          "_note": "S, VULN + WEAK 동시"
+        },
+        {
+          "id": "CARD.COLOSSUS",
+          "weight": 1.2,
+          "_note": "S, 1코 — block 5 + 이번 턴 **VULN 적에게서 받는 피해 50% 감소** (VULN_AMPLIFIER 자기방어). VULN 부착 아님 — VULN 빌드 생존용"
+        },
+        {
+          "id": "CARD.TREMBLE",
+          "weight": 1.0,
+          "_note": "A, exhaust + VULN"
+        },
+        {
+          "id": "CARD.DISMANTLE",
+          "weight": 1.0,
+          "_note": "A, 1코 — 8 dmg + 대상 VULN 시 2번 적중. VULN_AMPLIFIER trigger (VULN 페이오프)"
+        },
+        {
+          "id": "CARD.VICIOUS",
+          "weight": 1.0,
+          "_note": "B, VULN_APPLY_TRIGGER + draw — STS2 신규 페이오프"
+        },
+        {
+          "id": "CARD.MOLTEN_FIST",
+          "weight": 1.0,
+          "_note": "C, VULN_AMPLIFIER (적 보유 취약 ×2) + 소멸 — 가이드 핵심 키카드"
+        },
+        {
+          "id": "CARD.BULLY",
+          "weight": 0.7,
+          "_note": "B, scaling + VULN"
+        },
+        {
+          "id": "CARD.BREAK",
+          "weight": 0.7,
+          "_note": "B, VULN"
+        },
+        {
+          "id": "CARD.TAUNT",
+          "weight": 0.7,
+          "_note": "B, block + VULN"
+        },
+        {
+          "id": "CARD.THUNDERCLAP",
+          "weight": 0.7,
+          "_note": "B, AOE + VULN"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "VULN",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "VULN_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.8
+        },
+        {
+          "axis": "DAMAGE",
+          "ideal": 4,
+          "weight": 0.5
+        }
+      ]
+    },
+    "성장": {
+      "_note": "범용 SCALING archetype. IRONCLAD/NECROBINDER/DEFECT 모두 가능. STS2 에서 LIMIT_BREAK/REAPER/EVOLVE 등 STS1 클래식 부재 — DEMON_FORM 강등으로 IRONCLAD 단독 성장 빌드 약화. CRUELTY/LETHALITY (다른 캐릭터 풀) 등이 진짜 keystone.",
+      "finishers": [
+        {
+          "name": "DOMINATE STR scaling",
+          "primary": "CARD.DOMINATE",
+          "supporting": [
+            "CARD.MOLTEN_FIST",
+            "CARD.CRUELTY"
+          ],
+          "scenario": "1코 — '취약 1 부여 + 적 보유 취약 1당 힘 +1'. 적 VULN 다수 stack 후 DOMINATE 다수 사용 = 영구 STR 누적. 5 VULN 적 × 2회 사용 = 영구 +10 STR. 실질 STS2 STR scaling 의 핵심.",
+          "type": "scaling"
+        },
+        {
+          "name": "LETHALITY 첫 attack +50% (1턴)",
+          "primary": "CARD.LETHALITY",
+          "scenario": "1코 휘발성 Power — '매 턴 처음 사용하는 공격 카드 피해 +50%'. 휘발성 = 1턴 한정. 매 턴 큰 attack 1장씩 +50%. 영구 누적 X.",
+          "type": "sustained"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.ARMAMENTS (block 5 + 손 강화)",
+          "CARD.GENETIC_ALGORITHM (block scaling)"
+        ],
+        "draw": [],
+        "energy": [
+          "CARD.FRIENDSHIP (energy 보강)"
+        ],
+        "_note": "성장 빌드 = STR 누적 시간 보호 핵심. DOMINATE/CRUELTY 셋업 전 chip damage 흡수. block 부족 시 후반 데미지 받기 누적 → 잔HP 위험. 가이드 평 'act 1 빠른 데미지 못 내면 후반 못 봄'."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "Lagavulin Matriarch (수면 12 armor 동안 scaling 셋업)",
+          "Test Subject Phase 1 (Power 카드만 사용 시 +Strength 페이즈 우회)",
+          "Knowledge Demon (long-fight scaling)"
+        ],
+        "weak": [
+          "Doormaker (Empower long-fight 처벌)",
+          "The Insatiable (4턴 카운트다운 — scaling 시간 부족)",
+          "Waterfall Giant (5턴 결산 강제)",
+          "The Queen (Chains 핸드 잠금 — STR 카드 손에 묶임)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.DOMINATE",
+          "weight": 1.5,
+          "_note": "S (IRONCLAD), VULN 1 + 적 VULN 1당 STR +1 — 진짜 영구 STR scaling"
+        },
+        {
+          "id": "CARD.INFLAME",
+          "weight": 1.2,
+          "_note": "B+ (IRONCLAD), 즉발 +2 STR 영구 — base STR 시작점"
+        },
+        {
+          "id": "CARD.LETHALITY",
+          "weight": 1.0,
+          "_note": "S (NECROBINDER 풀), 휘발성, 첫 attack +50% (1턴 한정 — 영구 누적 X)"
+        },
+        {
+          "id": "CARD.CRUELTY",
+          "weight": 1.0,
+          "_note": "S (IRONCLAD), VULN amplifier (+25%) — 취약 빌드 hybrid 시"
+        },
+        {
+          "id": "CARD.MODDED",
+          "weight": 1.0,
+          "_note": "S (DEFECT 풀), orb + scaling + draw — DEFECT scaling"
+        },
+        {
+          "id": "CARD.GENETIC_ALGORITHM",
+          "weight": 1.0,
+          "_note": "A (DEFECT 풀), block+scaling"
+        },
+        {
+          "id": "CARD.APOTHEOSIS",
+          "weight": 1.0,
+          "_note": "A, 모든 카드 강화 단발"
+        },
+        {
+          "id": "CARD.ASHEN_STRIKE",
+          "weight": 1.0,
+          "_note": "A (IRONCLAD), exhaust pile 1장당 +3 dmg — 소멸 빌드 hybrid"
+        },
+        {
+          "id": "CARD.AGGRESSION",
+          "weight": 0.7,
+          "_note": "B (IRONCLAD), scaling + random"
+        },
+        {
+          "id": "CARD.ARMAMENTS",
+          "weight": 0.7,
+          "_note": "B (IRONCLAD), 1코 — block 5 + 손 카드 일괄 강화 (단발 효과, 영구 stat 증가 X). 카탈로그 SCALING axis 는 손 강화 패턴 자동 분류"
+        },
+        {
+          "id": "CARD.BULLY",
+          "weight": 0.7,
+          "_note": "B (IRONCLAD), scaling+VULN"
+        },
+        {
+          "id": "CARD.FASTEN",
+          "weight": 0.7,
+          "_note": "S, 수비 카드 +5 block (수비 카드 사용 시만) — block 빌드 hybrid"
+        },
+        {
+          "id": "CARD.SPLASH",
+          "weight": 0.7,
+          "_note": "A, 무색 — 무작위 scaling"
+        },
+        {
+          "id": "CARD.MIND_BLAST",
+          "weight": 0.7,
+          "_note": "Uncommon 무색 — 1코 선천성, 덱 크기 × 데미지 (덱 두꺼울수록 강). long-fight scaling 변형 — DOMINATE/LETHALITY 보강"
+        },
+        {
+          "id": "CARD.ETERNAL_ARMOR",
+          "weight": 0.7,
+          "_note": "Rare 무색 — 3코 판금 9 (axes: SCALING + PLATING, 카드 빌드 태그 '성장 빌드'). 판금이 영구 block-like 라 매 턴 +9 누적 — long-fight scaling 변형"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "SCALING",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "DAMAGE_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.8
+        },
+        {
+          "axis": "BLOCK_SCALING",
+          "ideal": 1,
+          "weight": 0.6
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "파워": {
+      "_note": "DEFECT Power 빌드 — ECHO_FORM 단일 의존. 사실상 Orb 빌드의 sub-line (Power 카드 다수 + Echo Form 으로 매 턴 재발동). 단독 archetype 으로 보단 hybrid.",
+      "finishers": [
+        {
+          "name": "ECHO_FORM 첫 카드 2× (1턴)",
+          "primary": "CARD.ECHO_FORM",
+          "scenario": "3코 휘발성 Power — 매 턴 처음 사용하는 **카드 1장**만 1번 추가 사용 (= 2× 발동). 휘발성이라 다음 턴 자동 소멸. 가장 강력한 카드 (큰 attack 또는 SHATTER 등) 첫 사용으로 2× 효과.",
+          "type": "infinite"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.BUFFER (다음 hp loss 1회 무효)"
+        ],
+        "draw": [
+          "CARD.MACHINE_LEARNING (매 턴 +1 draw)"
+        ],
+        "energy": [
+          "CARD.SUBROUTINE (Power 사용 시 +energy)"
+        ],
+        "_note": "Power 누적 시간 보호. ECHO_FORM 도달 전 buildup. block 부족 시 BUFFER 단일 의존 위험."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "long-fight 보스 (Echo Form + 1코 attack 다수)",
+          "Knowledge Demon (Power 누적)"
+        ],
+        "weak": [
+          "Doormaker (Hunger — Skill/Attack 자동 exhaust + Echo Form 자체 카운터)",
+          "The Insatiable (Echo Form 도달 시간 부족)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.ECHO_FORM",
+          "weight": 1.5,
+          "_note": "S, 휘발성 Power — 매 턴 처음 사용 카드 1장 1번 추가 사용 (= ×2 발동). 휘발성이라 1턴 효과 후 다음 턴 자동 소멸"
+        },
+        {
+          "id": "CARD.MACHINE_LEARNING",
+          "weight": 1.2,
+          "_note": "A, 매 턴 +1 draw (Power 누적)"
+        },
+        {
+          "id": "CARD.SIGNAL_BOOST",
+          "weight": 1.0,
+          "_note": "B+, power 페이오프 시작점"
+        },
+        {
+          "id": "CARD.BUFFER",
+          "weight": 1.0,
+          "_note": "A, Power — 데미지 1회 무효"
+        },
+        {
+          "id": "CARD.AUTOMATION",
+          "weight": 0.7,
+          "_note": "A, 무색 — energy+draw 누적"
+        },
+        {
+          "id": "CARD.SUBROUTINE",
+          "weight": 1.2,
+          "_note": "Uncommon Power 1코 — 파워 카드 사용 시마다 +1 energy. POWER_AMPLIFIER 핵심 (파워 빌드 자원 가속, ECHO_FORM/SIGNAL_BOOST 와 시너지)"
+        },
+        {
+          "id": "CARD.SYNTHESIS",
+          "weight": 1.0,
+          "_note": "Uncommon 1코 — 12 dmg + 다음 파워 카드 cost 0. POWER_COST_ENABLER (ECHO_FORM 3코 → 0코 enabler)"
+        },
+        {
+          "id": "CARD.DUAL_WIELD",
+          "weight": 0.7,
+          "_note": "Event 1코 — attack/power 카드 복사. 파워 빌드의 ECHO_FORM/SIGNAL_BOOST 복제 가속"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "POWER_AMPLIFIER",
+          "ideal": 2,
+          "weight": 1.0
+        },
+        {
+          "axis": "POWER_CONDITIONAL",
+          "ideal": 2,
+          "weight": 0.8
+        },
+        {
+          "axis": "POWER_COST_ENABLER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.4
+        }
+      ]
+    },
+    "구체-번개": {
+      "_note": "DEFECT Lightning orb 빌드 — VOLTAIC 으로 영창된 전기 수만큼 추가 영창. THUNDER (전기 발동 시 +6 dmg) + TESLA_COIL (모든 전기 발동) 페이오프. 매 턴 랜덤 적 데미지 폭주형.",
+      "finishers": [
+        {
+          "name": "VOLTAIC 폭발",
+          "primary": "CARD.VOLTAIC",
+          "supporting": [
+            "CARD.BALL_LIGHTNING",
+            "CARD.STORM",
+            "CARD.TEMPEST"
+          ],
+          "scenario": "전기 5~10번 영창 → VOLTAIC = 영창된 전기 수만큼 추가 영창 → 한 턴 20+ 전기 영창 → THUNDER 시너지 +6 = 100+ 데미지.",
+          "type": "burst"
+        },
+        {
+          "name": "TESLA_COIL single collapse",
+          "primary": "CARD.TESLA_COIL",
+          "scenario": "영창된 모든 전기를 단일 적에게 발동 — boss 처치용 단발 폭딜.",
+          "type": "burst"
+        },
+        {
+          "name": "THUNDER 자동 페이오프",
+          "primary": "CARD.THUNDER",
+          "supporting": [
+            "CARD.LIGHTNING_ROD",
+            "CARD.STORM"
+          ],
+          "scenario": "전기 발동 시마다 +6 추가 — long-fight 자동 데미지 누적, sustain 부담 적음.",
+          "type": "sustained"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.LIGHTNING_ROD (A, block + 자동 전기)"
+        ],
+        "draw": [
+          "CARD.SKIM (S, 1코 draw)"
+        ],
+        "energy": [
+          "CARD.CHARGE_BATTERY (A, energy)"
+        ],
+        "_note": "Lightning 자체가 random 데미지로 mob clear — sustain 부담 적음."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "Kin Shaman (다적 랜덤 분산 OK)",
+          "Doormaker (Door + Doormaker 동반자)"
+        ],
+        "weak": [
+          "Vantom (Slippery — 작은 데미지 다수 부분 무효화)",
+          "단일 적 보스 (랜덤 분산 손해)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.VOLTAIC",
+          "weight": 1.5,
+          "_note": "S, 영창된 전기 수만큼 추가 영창 — Lightning 빌드 unlock"
+        },
+        {
+          "id": "CARD.BALL_LIGHTNING",
+          "weight": 1.2,
+          "_note": "A, 1코 데미지 + 전기 영창"
+        },
+        {
+          "id": "CARD.LIGHTNING_ROD",
+          "weight": 1.2,
+          "_note": "A, 매 턴 자동 전기 영창"
+        },
+        {
+          "id": "CARD.THUNDER",
+          "weight": 1.2,
+          "_note": "A, 전기 발동 시 +6 데미지 페이오프"
+        },
+        {
+          "id": "CARD.TESLA_COIL",
+          "weight": 1.2,
+          "_note": "A, 0코 모든 전기 발동"
+        },
+        {
+          "id": "CARD.STORM",
+          "weight": 1.0,
+          "_note": "B, Power 사용 시 전기 영창"
+        },
+        {
+          "id": "CARD.TEMPEST",
+          "weight": 1.0,
+          "_note": "B, X+1 전기 영창"
+        },
+        {
+          "id": "CARD.ZAP",
+          "weight": 0.7,
+          "_note": "B, 1코 — 전기 1번 영창 (LIGHTNING_ORB_PRODUCER). DEFECT starter 카드 — 추가 픽으로 영창 카운트 보강"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "ORB_PRODUCER",
+          "ideal": 4,
+          "weight": 1.0
+        },
+        {
+          "axis": "ORB_CONSUMER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "ORB_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "구체-냉기": {
+      "_note": "DEFECT Frost orb 빌드 — 매 턴 자동 +2 block 누적. CHILL (적 수만큼 냉기) + GLACIER (block + 2 냉기) 다수 영창. 자동 block 폭증으로 보스전 안정.",
+      "finishers": [
+        {
+          "name": "ICE_LANCE single burst",
+          "primary": "CARD.ICE_LANCE",
+          "scenario": "3코 19 데미지 + 냉기 3 → 단발 폭딜 + block 가속 hybrid.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.GLACIER (block 6 + 냉기 2)",
+          "CARD.COOLANT (영창된 구체 종류당 block 2)"
+        ],
+        "draw": [
+          "CARD.COOLHEADED (1코 냉기 + draw)"
+        ],
+        "energy": [],
+        "_note": "Frost orb 매 턴 자동 block 2 — sustain 자체가 archetype 메카닉. GLACIER 가 block + frost producer 동체."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "long-fight 보스 (block 누적 안정)",
+          "Lagavulin Matriarch (block 으로 잠 깨우기 안전)",
+          "Test Subject Phase 2 (block 페널티 감수 가능)"
+        ],
+        "weak": [
+          "The Insatiable (4턴 카운트다운)",
+          "Doormaker Empower (느린 빌드 처벌)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.CHILL",
+          "weight": 1.5,
+          "_note": "S, 0코 적 수만큼 냉기 — 다중 적 폭증"
+        },
+        {
+          "id": "CARD.GLACIER",
+          "weight": 1.5,
+          "_note": "S, block 6 + 냉기 2 — 가장 효율적 frost producer"
+        },
+        {
+          "id": "CARD.COLD_SNAP",
+          "weight": 1.2,
+          "_note": "A, 데미지 + 냉기"
+        },
+        {
+          "id": "CARD.ICE_LANCE",
+          "weight": 1.2,
+          "_note": "A, 큰 데미지 + 냉기 3"
+        },
+        {
+          "id": "CARD.COOLHEADED",
+          "weight": 1.0,
+          "_note": "B, 1코 냉기 + draw"
+        },
+        {
+          "id": "CARD.HAILSTORM",
+          "weight": 1.0,
+          "_note": "C, 냉기 보유 시 AOE 페이오프"
+        },
+        {
+          "id": "CARD.COOLANT",
+          "weight": 1.0,
+          "_note": "A, block + ORB (냉기 보강)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "ORB_PRODUCER",
+          "ideal": 4,
+          "weight": 1.0
+        },
+        {
+          "axis": "BLOCK",
+          "ideal": 3,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 2,
+          "weight": 0.3
+        }
+      ]
+    },
+    "구체-어둠": {
+      "_note": "DEFECT Dark orb 빌드 — 매 턴 데미지 +6 누적, evoke 시 최저 HP 적에게 누적 데미지. DARKNESS 의 자동 발동으로 단발 폭딜. act 3 boss 처리에 강함.",
+      "finishers": [
+        {
+          "name": "DARKNESS double-passive",
+          "primary": "CARD.DARKNESS",
+          "scenario": "암흑 영창 + 모든 암흑 구체 지속 능력 2회 추가 발동 → 누적 dark dmg ×2 단발 폭딜 (act 3 boss).",
+          "type": "scaling"
+        },
+        {
+          "name": "Dark + evoke single burst",
+          "primary": "CARD.SHADOW_SHIELD",
+          "supporting": [
+            "CARD.DARKNESS"
+          ],
+          "scenario": "Dark orb 5+ 누적 (매 턴 +6/orb) → evoke 시 최저 HP 적에게 누적 데미지 (40+) → boss 처치.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.SHADOW_SHIELD (block 11 + 암흑)"
+        ],
+        "draw": [
+          "CARD.SKIM (1코 draw 3)"
+        ],
+        "energy": [],
+        "_note": "Dark orb 누적 시간 보호. SHADOW_SHIELD 가 block + dark producer 동체로 sustain. evoke 폭딜까지 buildup."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "act 3 boss 단일 (Test Subject 페이즈 burst)",
+          "Knowledge Demon (누적 후 결산)"
+        ],
+        "weak": [
+          "The Insatiable (Dark 누적 셋업 시간 부족)",
+          "act 1 빠른 보스 (셋업 부담)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.DARKNESS",
+          "weight": 1.5,
+          "_note": "A, 암흑 영창 + 모든 암흑 구체 지속 능력 2회 발동"
+        },
+        {
+          "id": "CARD.NULL",
+          "weight": 1.2,
+          "_note": "A, 데미지 + 약화 + 암흑"
+        },
+        {
+          "id": "CARD.SHADOW_SHIELD",
+          "weight": 1.2,
+          "_note": "A, block 11 + 암흑"
+        },
+        {
+          "id": "CARD.CONSUMING_SHADOW",
+          "weight": 0.7,
+          "_note": "D, 2회 암흑 + 자동 evoke"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "DARK_ORB_AMPLIFIER",
+          "ideal": 1,
+          "weight": 1.0
+        },
+        {
+          "axis": "ORB_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "ORB_CONSUMER",
+          "ideal": 1,
+          "weight": 0.7
+        }
+      ]
+    },
+    "구체-유리": {
+      "_note": "DEFECT Glass orb 빌드 (STS2 신규) — 자기 감쇄형 AOE. 매 턴 모든 적 현재 데미지 + 데미지 -1, evoke 시 ×2 AOE. 다중 적 (hallway) 강력, 단일 보스 약함. 유한 자원이라 빠른 회전 필요.",
+      "finishers": [
+        {
+          "name": "GLASSWORK 자동 AOE 회전",
+          "primary": "CARD.GLASSWORK",
+          "supporting": [
+            "CARD.SPINNER",
+            "CARD.REFRACT"
+          ],
+          "scenario": "유리 다수 영창 → 매 턴 모든 적 자동 AOE (감쇄 전까지) → 다적 hallway 자동 mob clear. evoke ×2 시 큰 단발 AOE.",
+          "type": "sustained"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.GLASSWORK (block 5 + 유리 영창)"
+        ],
+        "draw": [],
+        "energy": [],
+        "_note": "Glass orb 자체가 자기 감쇄 — sustain 부족. 다적 (hallway) 위주, 단일 보스에 약함. GLASSWORK 가 유일한 block+producer 동체."
+      },
+      "boss_strength": "C",
+      "boss_matchup": {
+        "strong": [
+          "Kin Shaman (다적 + 부하 처리)",
+          "Kaiser Crab (두 집게 동시)",
+          "Doormaker (Door + Doormaker)"
+        ],
+        "weak": [
+          "대부분 단일 보스 (자기 감쇄 + AOE 분산 손해)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.GLASSWORK",
+          "weight": 1.5,
+          "_note": "A, block 5 + 유리 영창 (가장 효율)"
+        },
+        {
+          "id": "CARD.REFRACT",
+          "weight": 1.2,
+          "_note": "A, 9 데미지 ×2 + 유리 2 영창"
+        },
+        {
+          "id": "CARD.SPINNER",
+          "weight": 1.2,
+          "_note": "A, 1코 + 매 턴 시작 자동 유리 영창"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "ORB_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "AOE_DAMAGE",
+          "ideal": 2,
+          "weight": 0.7
+        },
+        {
+          "axis": "ORB_CONSUMER",
+          "ideal": 1,
+          "weight": 0.5
+        }
+      ]
+    },
+    "단조": {
+      "_note": "REGENT Forge 빌드 (Sovereign Blade 강화). 가이드 평 'B 티어, Stars 빌드보다 약함'. Sovereign Blade = 자생 무기 (덱 외부, Retain). 셋업 부담 큼 — Stars 빌드와 hybrid 권장. Fencing Manual 유물 핵심 (1턴부터 Sovereign Blade 활성).",
+      "finishers": [
+        {
+          "name": "BULWARK + Sovereign Blade 누적",
+          "primary": "CARD.BULWARK",
+          "supporting": [
+            "CARD.BEAT_INTO_SHAPE",
+            "CARD.FURNACE",
+            "CARD.WROUGHT_IN_WAR",
+            "CARD.SEEKING_EDGE"
+          ],
+          "scenario": "BULWARK (2코, block 13 + **단조 10**) — block + 큰 Forge 동체. 매 사용 시 Sovereign Blade +10 데미지 영구 누적 → 후반 Sovereign Blade 30+ 데미지 매 턴 자동.",
+          "type": "sustained"
+        },
+        {
+          "name": "THE_SMITH + HAMMER_TIME burst",
+          "primary": "CARD.THE_SMITH",
+          "supporting": [
+            "CARD.HAMMER_TIME",
+            "CARD.REFINE_BLADE"
+          ],
+          "scenario": "THE_SMITH (1코, 단조 30 즉발 — Star 비용 X) → HAMMER_TIME (2코 / 강화 1코, FORGE_AMPLIFIER) 로 모든 아군 단조. 1턴 셋업으로 Sovereign Blade 40+ dmg 즉시 도달. THE_SMITH 직후 픽이 보장된 act 3 finisher path.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.BULWARK (block 13 + 단조 10)"
+        ],
+        "draw": [
+          "CARD.BIG_BANG (0코, 카드 1장 + 별/단조/에너지 동시)",
+          "CARD.SPOILS_OF_BATTLE (1코, 단조 5 + 카드 2장)"
+        ],
+        "energy": [
+          "CARD.BIG_BANG (0코, +1 에너지)",
+          "CARD.REFINE_BLADE (1코, 단조 9 + 다음 턴 +1 에너지)"
+        ],
+        "_note": "Sovereign Blade scaling buildup 시간 보호. BULWARK 가 block + Forge 동체. BIG_BANG / SPOILS_OF_BATTLE / REFINE_BLADE 가 draw·energy infrastructure 동봉 (v1.14+ 보강). Fencing Manual 유물로 1턴 활성, Stars hybrid 로 추가 안정화 권장."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "act 3 단일 보스 (Sovereign Blade 25+ scaling)",
+          "Knowledge Demon (Retain 으로 디버프 우회)",
+          "long-fight 보스 일반"
+        ],
+        "weak": [
+          "The Insatiable (Sovereign Blade 셋업 시간 부족)",
+          "act 1 빠른 보스 (Forge 누적 부담)",
+          "Vantom (Slippery — 큰 단일 검 효율 낮음)",
+          "The Queen (Chains — Sovereign Blade retain 도 핸드 슬롯 점유 시 잠금)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.BULWARK",
+          "weight": 1.5,
+          "_note": "S, block + Forge — 'exceptionally good for Forge'. 빌드 unlock — sustain 의 block 자원 동시 공급."
+        },
+        {
+          "id": "CARD.THE_SMITH",
+          "weight": 1.5,
+          "_note": "A, 1코 — 단조 30 (Sovereign Blade +30 dmg) 즉발 (Star 자원 비용 X). 빌드 unlock — finisher 즉시 셋업."
+        },
+        {
+          "id": "CARD.BIG_BANG",
+          "weight": 1.2,
+          "_note": "S, 0코 — 카드 1장 + 1 에너지 + 별 5 + 단조 5 + 자기소멸. 가속 키카드 — Stars/Forge 양쪽 bridge, draw·energy 인프라 동봉. UNLIMITED 다중 카피 가치."
+        },
+        {
+          "id": "CARD.HAMMER_TIME",
+          "weight": 1.2,
+          "_note": "A, 2코 (강화 1코) — 단조 후 모든 아군 단조. FORGE_AMPLIFIER 가속 키카드 — 단발 producer 효율 ×2. 강화 1코는 UNLIMITED 자격 패턴."
+        },
+        {
+          "id": "CARD.BEAT_INTO_SHAPE",
+          "weight": 1.0,
+          "_note": "C, 최고 Forge 효율 중 하나 (가이드). FORGE_PRODUCER + FORGE_AMPLIFIER 양쪽."
+        },
+        {
+          "id": "CARD.FURNACE",
+          "weight": 1.0,
+          "_note": "C, 저비용 패시브 Forge"
+        },
+        {
+          "id": "CARD.SUMMON_FORTH",
+          "weight": 1.0,
+          "_note": "C, 검 재사용"
+        },
+        {
+          "id": "CARD.WROUGHT_IN_WAR",
+          "weight": 1.0,
+          "_note": "C, 초기 데미지 + 기본 Forge"
+        },
+        {
+          "id": "CARD.SEEKING_EDGE",
+          "weight": 1.0,
+          "_note": "C, Forge 스택 추가"
+        },
+        {
+          "id": "CARD.REFINE_BLADE",
+          "weight": 1.0,
+          "_note": "C, 1코 — 단조 9 + 다음 턴 +1 에너지. 단발 가장 큰 forge producer + energy infrastructure."
+        },
+        {
+          "id": "CARD.SPOILS_OF_BATTLE",
+          "weight": 1.0,
+          "_note": "C, 1코 — 단조 5 + 카드 2장. forge + draw infrastructure."
+        },
+        {
+          "id": "CARD.CONQUEROR",
+          "weight": 0.7,
+          "_note": "D, 1코 — 단조 3 + **이번 턴 한정** 대상 적이 Sovereign Blade 로부터 받는 피해 ×2 (LORDS_BLADE_AMPLIFIER turn-burst)"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "FORGE_PRODUCER",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "FORGE_AMPLIFIER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "BLOCK",
+          "ideal": 3,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 1,
+          "weight": 0.3
+        },
+        {
+          "axis": "ENERGY",
+          "ideal": 1,
+          "weight": 0.3
+        }
+      ]
+    },
+    "생성": {
+      "_note": "REGENT Creation 빌드 — 손/덱의 카드를 토큰(하수인 타격/투하/희생, 무색 카드)으로 변환하거나 추가해서 PILLAR_OF_CREATION 의 카드 생성 페이오프를 매 턴 자동 발동시킨다. 별 빌드와 hybrid 매우 자연스러움 (CHILD_OF_THE_STARS, BIG_BANG bridge). NaveGreed 평: 'PILLAR_OF_CREATION = 사기 방어 엔진, 모든 전투 승리 가능'.",
+      "finishers": [
+        {
+          "name": "PILLAR_OF_CREATION 매 턴 자동 방어",
+          "primary": "CARD.PILLAR_OF_CREATION",
+          "supporting": [
+            "CARD.SPECTRUM_SHIFT",
+            "CARD.CHARGE",
+            "CARD.BEGONE",
+            "CARD.GUARDS"
+          ],
+          "scenario": "PILLAR_OF_CREATION (1코 Power) 활성 후 카드 생성마다 방어도 3 (강화 4). SPECTRUM_SHIFT 매 턴 자동 +무색 1, CHARGE/BEGONE 으로 손 카드를 토큰으로 변환 — 각 변환이 CARD_GEN trigger → block stack 자동 누적. 동시 다중 생성기 보유 시 매 턴 block 30+ 자동.",
+          "type": "sustained"
+        },
+        {
+          "name": "GUARDS 1턴 폭발 변환",
+          "primary": "CARD.GUARDS",
+          "supporting": [
+            "CARD.CHARGE",
+            "CARD.PILLAR_OF_CREATION"
+          ],
+          "scenario": "GUARDS (2코) — 손의 카드를 원하는 만큼 하수인 희생+ 으로 변환 + 자기 소멸. PILLAR 활성 상태에서 한 번에 5장 변환 시 +15 block 즉발 + 변환된 토큰 추가 발동. 1턴 finisher.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.PILLAR_OF_CREATION (CARD_GEN 트리거 자동 block)",
+          "CARD.MANIFEST_AUTHORITY (block 7 + 무색 1)",
+          "CARD.PARTICLE_WALL (0코 별 비용 — block 9 + 자기 복귀, 별 hybrid)"
+        ],
+        "draw": [
+          "CARD.BEGONE (손 카드 → 하수인 타격+ 변환, 토큰 자체가 draw 보강 효과)",
+          "CARD.CHARGE (덱 카드 2장 변환, 덱 두께 유지)",
+          "CARD.SPECTRUM_SHIFT (매 턴 자동 +무색 1)"
+        ],
+        "energy": [
+          "CARD.BIG_BANG (0코, +1 에너지 + 별/단조 동시 — Star/Creation bridge)"
+        ],
+        "_note": "PILLAR 가 sustained block engine. 생성 carrier (CHARGE/BEGONE/GUARDS/SPECTRUM_SHIFT) 가 매 턴 trigger 공급. 별 archetype 과 hybrid 시 CHILD_OF_THE_STARS, BIG_BANG, QUASAR 가 bridge 로 합류."
+      },
+      "boss_strength": "A",
+      "boss_matchup": {
+        "strong": [
+          "long-fight 보스 (PILLAR block 누적)",
+          "Knowledge Demon (변환된 토큰으로 손 통제)",
+          "다적 보스 (하수인 토큰 AOE 잠재)"
+        ],
+        "weak": [
+          "act 1 빠른 보스 (PILLAR 활성 전 셋업 시간 부담)",
+          "The Queen (Chains — PILLAR Power 슬롯 점유 시 잠금)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.PILLAR_OF_CREATION",
+          "weight": 1.5,
+          "_note": "broken(NaveGreed) — 1코 Power, 카드 생성마다 block 3 (강화 4). CARD_GEN_PAYOFF + BLOCK_AMPLIFIER. '사기 방어 엔진, 모든 전투 승리 가능' 평."
+        },
+        {
+          "id": "CARD.CHILD_OF_THE_STARS",
+          "weight": 1.5,
+          "_note": "broken(NaveGreed) — Star/Creation bridge. 별 archetype 과 keystone 공유."
+        },
+        {
+          "id": "CARD.CHARGE",
+          "weight": 1.2,
+          "_note": "broken/1막 GOAT(NaveGreed) — 1코, 뽑을 더미 2장 → 하수인 투하+ 변환. CARD_GEN burst (2 trigger) + 변환된 토큰 자체가 1코 13뎀 ×2. 후반에도 시너지 유지."
+        },
+        {
+          "id": "CARD.GUARDS",
+          "weight": 1.2,
+          "_note": "broken(NaveGreed) — 2코, 손 전체 → 하수인 희생+ 변환 + 자기 소멸. 1턴 대량 CARD_GEN trigger. 본문 '쓰레기 카드를 방어도로 바꿔 덱 정제'."
+        },
+        {
+          "id": "CARD.BEGONE",
+          "weight": 1.0,
+          "_note": "very strong(NaveGreed) — 1코, 손 1장 → 하수인 타격+ 변환. PILLAR trigger + 데미지 hybrid. 생성/별 모두 시너지."
+        },
+        {
+          "id": "CARD.SPECTRUM_SHIFT",
+          "weight": 1.0,
+          "_note": "very strong(NaveGreed, 강화 필수 2→1코) — 매 턴 시작 자동 무색 1. CARD_GEN 매 턴 자동 = PILLAR 영구 trigger. '몇 턴만 써도 전투 흐름 바꿈'."
+        },
+        {
+          "id": "CARD.MANIFEST_AUTHORITY",
+          "weight": 1.0,
+          "_note": "often useful(NaveGreed, 1막 가치) — 1코, block 7 + 무색 강화 1. CARD_GEN + block hybrid. 생성덱 1막 시작점."
+        },
+        {
+          "id": "CARD.QUASAR",
+          "weight": 1.0,
+          "_note": "very strong(NaveGreed, 강화 최우선) — 0코 별 2 비용, 강화 무색 3중 1 선택. STAR_CONSUMER + CARD_GEN bridge — 별/생성 양쪽 archetype 합류 카드."
+        },
+        {
+          "id": "CARD.BUNDLE_OF_JOY",
+          "weight": 0.7,
+          "_note": "often useful(NaveGreed) — 1코, 무작위 무색 3장 + 자기 소멸. burst CARD_GEN, 별 archetype 과 충돌 (덱 압축 안 됨)."
+        },
+        {
+          "id": "CARD.PARTICLE_WALL",
+          "weight": 0.7,
+          "_note": "very strong(특정 콤보 한정, NaveGreed) — 0코 별 2 비용, block 9 + 자기 복귀. 별 archetype 의 sustain bridge, 왕실 도장 relic 시 보존 콤보."
+        }
+      ],
+      "slots": [
+        {
+          "axis": "CARD_GEN",
+          "ideal": 5,
+          "weight": 1.0
+        },
+        {
+          "axis": "CARD_GEN_PAYOFF",
+          "ideal": 1,
+          "weight": 1.5
+        },
+        {
+          "axis": "BLOCK",
+          "ideal": 3,
+          "weight": 0.5
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 1,
+          "weight": 0.3
+        }
+      ]
+    },
+    "압축덱": {
+      "_note": "Compressed-deck archetype — STS2 신규 메카닉. Finisher 가 따로 없는 'build accelerator': 덱을 적극적으로 줄여서 single-draw 효율 ↑ + deck-top 자동 사용 카드의 적중률 ↑. 모든 archetype 의 보조 (특히 소멸/0코/별과 시너지). MAYHEM/CATASTROPHE/DRUM_OF_BATTLE 같은 deck-top 자동 사용 카드 + 적극 소멸 producer 의 조합.",
+      "finishers": [
+        {
+          "name": "MAYHEM 매 턴 자동 카드 사용",
+          "primary": "CARD.MAYHEM",
+          "supporting": [
+            "CARD.CATASTROPHE",
+            "CARD.DRUM_OF_BATTLE"
+          ],
+          "scenario": "MAYHEM 활성 후 매 턴 시작 시 덱 맨 위 카드 자동 사용. 덱을 ~10장 수준으로 줄이면 매 턴 핵심 카드 자동 발동 확률 ↑. CATASTROPHE 추가 시 매 턴 2장 자동 사용. 본질적으로 다른 archetype 의 finisher 를 자동 발동시키는 catalyst.",
+          "type": "sustained"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.HOLOGRAM (block 3 + 회수)"
+        ],
+        "draw": [
+          "CARD.DRUM_OF_BATTLE (0코 draw 2)",
+          "CARD.OVERCLOCK (0코 draw 2)"
+        ],
+        "energy": [
+          "CARD.SUPERCRITICAL (0코 +4 energy)"
+        ],
+        "_note": "압축덱 catalyst — 다른 archetype 의 finisher 발동 가속. 단독 sustain 약함 (hybrid 권장). HOLOGRAM 0코 block 보조."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "long-fight 보스 (덱 압축 셋업 시간 확보)",
+          "Knowledge Demon (압축 후 빠른 cycling 으로 Mind Rot 대처)",
+          "The Queen (Chains — 압축 + auto-play 로 핸드 잠금 우회)"
+        ],
+        "weak": [
+          "The Insatiable (4턴 카운트다운 — 압축 셋업 부족)",
+          "act 1 빠른 보스 (덱 압축 전)"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.MAYHEM",
+          "weight": 1.5,
+          "_note": "Rare 무색 — 2코 Power, 매 턴 시작 시 덱 맨 위 카드 사용. 압축덱의 핵심 finisher catalyst"
+        },
+        {
+          "id": "CARD.CATASTROPHE",
+          "weight": 1.5,
+          "_note": "Uncommon 무색 — 2코, 뽑을 카드 더미에서 무작위 카드 2장 즉시 사용. 압축덱 단발 폭발"
+        },
+        {
+          "id": "CARD.DRUM_OF_BATTLE",
+          "weight": 1.2,
+          "_note": "Uncommon (IRONCLAD) — 0코 draw 2 + 매 턴 시작 시 덱 맨 위 카드 소멸. 적극 덱 압축 + draw 동체"
+        },
+        {
+          "id": "CARD.JUGGLING",
+          "weight": 1.2,
+          "_note": "Uncommon (IRONCLAD) — 1코 Power, 매 턴 세 번째 공격 카드 복사. 압축덱에서 좋은 공격 카드 반복 사용"
+        },
+        {
+          "id": "CARD.HAVOC",
+          "weight": 1.0,
+          "_note": "Common (IRONCLAD) — 1코, 덱 맨 위 카드 즉시 사용 + 소멸. 압축덱과 시너지 (좋은 카드 적중률 ↑)"
+        },
+        {
+          "id": "CARD.CINDER",
+          "weight": 1.0,
+          "_note": "Common (IRONCLAD) — 2코 18 dmg + 무작위 카드 1장 소멸. 데미지 + 압축 동체"
+        },
+        {
+          "id": "CARD.REBOOT",
+          "weight": 1.0,
+          "_note": "Rare (DEFECT) — 0코, 모든 카드 덱에 섞기 + 4 draw + 자기 소멸. 압축덱 재구성"
+        },
+        {
+          "id": "CARD.NIGHTMARE",
+          "weight": 1.0,
+          "_note": "Rare (SILENT) — 3코, 카드 1장 다음 턴 3장 복사 + 자기 소멸. 압축덱에서 핵심 카드 반복"
+        },
+        {
+          "id": "CARD.STOKE",
+          "weight": 1.0,
+          "_note": "Rare (IRONCLAD) — 1코, 손 전체 소멸 + 소멸당 무작위 강화 카드 fetch. 덱 압축 + 카드 갱신"
+        },
+        {
+          "id": "CARD.MURDER",
+          "weight": 0.7,
+          "_note": "Rare (SILENT) — drawn-scaling. 압축덱은 빠른 cycling 으로 drawn count ↑"
+        },
+        {
+          "id": "CARD.WELL_LAID_PLANS",
+          "weight": 0.7,
+          "_note": "Uncommon (SILENT) — turn-end retain. 압축덱에서 핵심 카드 보존"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "EXHAUST_PRODUCER",
+          "ideal": 4,
+          "weight": 1.0
+        },
+        {
+          "axis": "EXHAUST_BURST",
+          "ideal": 1,
+          "weight": 1.0
+        },
+        {
+          "axis": "REPLAY",
+          "ideal": 1,
+          "weight": 0.8
+        },
+        {
+          "axis": "DRAW",
+          "ideal": 3,
+          "weight": 0.5
+        }
+      ]
+    },
+    "0코": {
+      "_note": "DEFECT 0코 회수 빌드. **FERAL (매 턴 첫 0코 attack 자동 회수)** + **ALL_FOR_ONE (버린 카드 더미 모든 0코 회수)** 가 빌드의 진짜 핵심. HOLOGRAM 은 일반 사이클링 보강 (1코 + 버린 카드 1장 회수 + 소멸). STS1 BULLET_TIME 강등으로 의존 카드 변경됨.",
+      "finishers": [
+        {
+          "name": "FERAL 매 턴 자동 회수",
+          "primary": "CARD.FERAL",
+          "supporting": [
+            "CARD.FTL",
+            "CARD.BOOT_SEQUENCE"
+          ],
+          "scenario": "FERAL 활성 후 매 턴 첫 0코 attack 자동 회수 (반복 사용). FTL/BOOT_SEQUENCE 등 0코 attack 매 턴 ×2 사용 → 자동 데미지 누적. 빌드의 sustained engine.",
+          "type": "sustained"
+        },
+        {
+          "name": "ALL_FOR_ONE 1턴 폭발",
+          "primary": "CARD.ALL_FOR_ONE",
+          "supporting": [
+            "CARD.HOLOGRAM",
+            "CARD.OVERCLOCK"
+          ],
+          "scenario": "0코 카드 다수 사용 → discard pile 누적 → ALL_FOR_ONE (S, 2코) 발동 = 데미지 10 + **버린 더미 모든 0코 회수**. 한 턴에 10+ 카드 무료 사용 가능 = 단발 폭발 60+ 데미지.",
+          "type": "burst"
+        }
+      ],
+      "sustain": {
+        "block": [
+          "CARD.HOLOGRAM (block 3 + 회수)",
+          "CARD.BOOT_SEQUENCE (선천성 block 10)"
+        ],
+        "draw": [
+          "CARD.OVERCLOCK (0코 draw 2)",
+          "CARD.SKIM (1코 draw 3)"
+        ],
+        "energy": [
+          "CARD.SUPERCRITICAL (0코 +4 energy)",
+          "CARD.TURBO (0코 +energy)"
+        ],
+        "_note": "0코 사이클이 자체 sustain — 매 턴 다수 카드 사용으로 draw/energy 풍부. block 은 HOLOGRAM (회수) / BOOT_SEQUENCE (선천성) 위주. ALL_FOR_ONE 도달 전 buildup."
+      },
+      "boss_strength": "B",
+      "boss_matchup": {
+        "strong": [
+          "Knowledge Demon (드로우 가속)",
+          "Soul Fysh (사이클 빠름)",
+          "The Queen (Chains — 사이클로 핸드 잠금 우회)"
+        ],
+        "weak": [
+          "The Insatiable (HOLOGRAM 도달 시간 부족)",
+          "Doormaker (Hunger + Grasp 카운터)",
+          "단일 폭딜 부재"
+        ]
+      },
+      "keystones": [
+        {
+          "id": "CARD.FERAL",
+          "weight": 1.5,
+          "_note": "B, '매 턴 첫 0코 공격 카드 자동 회수' — 0코 빌드 sustained engine ★"
+        },
+        {
+          "id": "CARD.ALL_FOR_ONE",
+          "weight": 1.5,
+          "_note": "S, 2코 — 데미지 10 + 버린 더미 모든 0코 회수 — 1턴 폭발 finisher ★"
+        },
+        {
+          "id": "CARD.HOLOGRAM",
+          "weight": 1.2,
+          "_note": "S, 1코 block + 버린 카드 1장 회수 + 소멸"
+        },
+        {
+          "id": "CARD.SUPERCRITICAL",
+          "weight": 1.2,
+          "_note": "S, 0코 energy + exhaust"
+        },
+        {
+          "id": "CARD.OVERCLOCK",
+          "weight": 1.2,
+          "_note": "S, 0코 draw"
+        },
+        {
+          "id": "CARD.TURBO",
+          "weight": 1.2,
+          "_note": "S, 0코 energy + status"
+        },
+        {
+          "id": "CARD.SKIM",
+          "weight": 1.0,
+          "_note": "S, 1코 draw 사이클"
+        },
+        {
+          "id": "CARD.SCRAPE",
+          "weight": 1.0,
+          "_note": "B, 1코 energy+draw — 0코 사이클 보강"
+        },
+        {
+          "id": "CARD.BOOT_SEQUENCE",
+          "weight": 1.0,
+          "_note": "A, 0코 block + innate"
+        },
+        {
+          "id": "CARD.FTL",
+          "weight": 1.0,
+          "_note": "A, 0코 attack + draw_conditional"
+        },
+        {
+          "id": "CARD.CHILL",
+          "weight": 1.0,
+          "_note": "S, 0코 ORB (구체 hybrid)"
+        },
+        {
+          "id": "CARD.BELIEVE_IN_YOU",
+          "weight": 0.7,
+          "_note": "A, 무색 — 0코 에너지"
+        },
+        {
+          "id": "CARD.JACKPOT",
+          "weight": 1.0,
+          "_note": "Rare 무색 — 3코 25 dmg + **0코 강화 카드 3장 fetch**. 한 번에 0코 카드 3장 손에 → 한 턴 폭증 + 단발 폭딜 동시. 0코 빌드 가속의 핵심"
+        },
+        {
+          "id": "CARD.METAMORPHOSIS",
+          "weight": 1.0,
+          "_note": "Event 무색 — 2코, 무작위 공격 카드 3장 덱 추가 + **이번 전투 동안** 비용 0. 0코 attack 풀 영구 증가 (단 드로우 풀에 추가되므로 손에 오려면 draw 필요)"
+        },
+        {
+          "id": "CARD.JACK_OF_ALL_TRADES",
+          "weight": 0.7,
+          "_note": "Uncommon 무색 — 0코, **무작위 무색** 카드 1장 fetch + 소멸. 0코 사이클에 무색 보조 카드 (ALCHEMIZE/BELIEVE_IN_YOU 등) 즉시 도입"
+        }
+      ],
+      "slots": [
+        {
+          "axis": "FREE_ATTACK",
+          "ideal": 3,
+          "weight": 1.0
+        },
+        {
+          "axis": "FREE_ATTACK_RECLAIMER",
+          "ideal": 1,
+          "weight": 1.0
+        },
+        {
+          "axis": "FREE_ATTACK_RETURNER",
+          "ideal": 1,
+          "weight": 0.7
+        },
+        {
+          "axis": "FREE_ATTACK_FILTER",
+          "ideal": 1,
+          "weight": 0.5
+        }
+      ]
+    }
+  },
+  "hybrids": {
+    "_note": "다중 archetype hybrid 빌드 — bridge 카드를 통해 두 archetype 의 finisher 를 동시 활용. 빌드 완성도 측정 시 두 archetype completion 모두 평가, 더 강한 쪽으로 분류 + hybrid 보너스.",
+    "영혼+골골이": {
+      "characters": [
+        "NECROBINDER"
+      ],
+      "bridge_cards": [
+        "CARD.DEVOUR_LIFE"
+      ],
+      "scenario": "DEVOUR_LIFE (영혼 사용 시 소환 1) 로 영혼 사이클이 자동으로 골골이 누적. SOUL_STORM/DEATH_MARCH (영혼 finisher) + SQUEEZE/RATTLE (골골이 finisher) 동시 활성. 두 빌드의 win path 모두 보유."
+    },
+    "단도+교활": {
+      "characters": [
+        "SILENT"
+      ],
+      "bridge_cards": [
+        "CARD.HIDDEN_DAGGERS",
+        "CARD.MEMENTO_MORI"
+      ],
+      "scenario": "HIDDEN_DAGGERS (0코 discard 2 + 단도+ 2) 가 두 archetype 동시 활성: discard 로 Sly fuel 발동 + 단도 누적 → KNIFE_TRAP (단도 finisher) + MEMENTO_MORI (discard scaling finisher) 동시 보유. SILENT 의 가장 강력한 hybrid."
+    },
+    "중독+교활": {
+      "characters": [
+        "SILENT"
+      ],
+      "bridge_cards": [
+        "CARD.HAZE"
+      ],
+      "scenario": "HAZE (Sly + 광역 중독 4) 가 bridge — Sly 키워드로 discard 시 무료 발동, 동시에 AOE 중독 4 부착. discard 빌드의 자원 가속 + 중독 누적 동시. NOXIOUS_FUMES + ACCELERANT 와 시너지."
+    },
+    "별+단조": {
+      "characters": [
+        "REGENT"
+      ],
+      "bridge_cards": [
+        "CARD.BIG_BANG",
+        "CARD.THE_SMITH"
+      ],
+      "scenario": "BIG_BANG (Star + 단조 5) 와 THE_SMITH (단조 30) 가 두 archetype bridge. Stars 빌드 자원 활용 + Sovereign Blade scaling 동시. SEVEN_STARS (별 finisher) + Sovereign Blade Retain (단조 finisher) 양쪽 win path."
+    },
+    "소멸+성장": {
+      "characters": [
+        "IRONCLAD"
+      ],
+      "bridge_cards": [
+        "CARD.ASHEN_STRIKE"
+      ],
+      "scenario": "ASHEN_STRIKE (exhaust pile 1장당 +3 dmg) 가 두 archetype 핵심 finisher 동시. CORRUPTION (소멸 infinite) + 누적 exhaust pile + DOMINATE (성장 STR scaling) hybrid 시 ASHEN_STRIKE 50+ 단발 가능."
+    },
+    "취약+성장": {
+      "characters": [
+        "IRONCLAD"
+      ],
+      "bridge_cards": [
+        "CARD.DOMINATE",
+        "CARD.CRUELTY"
+      ],
+      "scenario": "DOMINATE (VULN + 적 VULN 1당 STR +1) 가 두 archetype bridge — VULN 부착 = STR scaling. CRUELTY (VULN amplifier +25%) 와 결합 시 영구 STR + VULN 데미지 ×1.875 = 후반 100+ 단발. IRONCLAD 의 핵심 hybrid."
+    },
+    "파워+구체": {
+      "characters": [
+        "DEFECT"
+      ],
+      "bridge_cards": [
+        "CARD.ECHO_FORM",
+        "CARD.SIGNAL_BOOST"
+      ],
+      "scenario": "ECHO_FORM (첫 카드 2×) + SIGNAL_BOOST (Power 페이오프) hybrid. SHATTER 같은 큰 attack + power 다수 = 한 턴 매우 큰 폭딜. Orb + Power 빌드 동시."
+    },
+    "휘발성+영혼": {
+      "characters": [
+        "NECROBINDER"
+      ],
+      "bridge_cards": [
+        "CARD.PAGESTORM"
+      ],
+      "scenario": "NECROBINDER 풀 공유. PAGESTORM (휘발성 사용 시 +1 draw) + GLIMPSE_BEYOND (영혼 producer + 본인 exhaust). Soul 사이클 + 휘발성 사이클 동시 → DEATH_MARCH (drawn scaling) + BANSHEES_CRY (휘발성 finisher) 양쪽 활성."
+    },
+    "방어도+성장": {
+      "characters": [
+        "IRONCLAD"
+      ],
+      "bridge_cards": [
+        "CARD.FASTEN",
+        "CARD.GENETIC_ALGORITHM"
+      ],
+      "scenario": "FASTEN (수비 카드 +5 block) + GENETIC_ALGORITHM (block + scaling). Body Slam 트라이앵글 + STR 누적 동시. BARRICADE 영구 block + DOMINATE STR scaling 으로 BODY_SLAM 200+ 단발 가능."
+    },
+    "구체-번개+파워": {
+      "characters": [
+        "DEFECT"
+      ],
+      "bridge_cards": [
+        "CARD.STORM"
+      ],
+      "scenario": "STORM (Power 사용 시 전기 영창) 가 bridge. Power 빌드의 매 power 사용 = 전기 누적 → VOLTAIC 활성 가속. Power finisher + Lightning finisher 양쪽."
+    }
+  }
+}

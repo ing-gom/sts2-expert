@@ -1,0 +1,1035 @@
+{
+  "$comment": "유물 ID → 시너지 카드 축 매핑. 텍스트 매칭 없이 이 파일에 등록된 유물만 카드 추천 가중치/상점 배지에 영향.",
+  "$rules": {
+    "format": "{ \"RELIC.ID\": { \"card_axes\": [\"AXIS1\", \"AXIS2\"], \"reason\": \"...\" } }",
+    "scope": "유물 효과가 특정 카드 축의 가치를 직접 올리는 경우만 등록. '전투 시작 회복', '골드 +' 등 카드 무관 유물은 등록하지 않는다.",
+    "scope_exclusions": "(a) '덱에 추가할 때마다 강화' (MoltenEgg/ToxicEgg/FrozenEgg) — 현재 덱 카드를 강화하지 않고 미래 픽에만 1회성 강화. 현재 덱 매칭 misleading 이라 미등록. cf. GnarledHammer/Whetstone/PunchDagger 류 '획득 시 1회' 는 보유 시점에 현재 덱을 enchant 하므로 유효. (b) '내 턴 동안 공격 미사용 시 방어도' (RippleBasin) 처럼 *플레이어 행동* 이 트리거인 유물 — 카드 속성과 무관해 카드 단위 시너지로 표현 불가.",
+    "axis_count": "축은 1~3개로 좁게. 너무 많이 나열하면 +0.3 boost 가 분산되어 신호가 약해진다."
+  },
+  "explicit": {
+    "BeatingRemnant": {
+      "card_axes": [
+        "HEAL",
+        "BLOCK"
+      ],
+      "reason": "한 턴 피해 20 캡 — block/heal 카드 가치 보강 (생존)"
+    },
+    "Bellows": {
+      "card_axes": [
+        "SCALING",
+        "BLOCK_SCALING"
+      ],
+      "reason": "전투 시작 손 카드 일괄 강화 — 강화 효과 큰 카드 (ARMAMENTS/APOTHEOSIS 류) 가치 ↑"
+    },
+    "CaptainsWheel": {
+      "card_axes": [
+        "BLOCK",
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "3턴째 +18 block — block 빌드 (Body Slam) 가치 ↑"
+    },
+    "IntimidatingHelmet": {
+      "card_axes": [
+        "BLOCK",
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "고코 카드 사용 시 block 보강 — 고코 finisher (CORRUPTION/ECHO_FORM/BANSHEES_CRY) 와 시너지"
+    },
+    "IvoryTile": {
+      "card_axes": [
+        "ENERGY",
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "고코 카드 사용 시 에너지 환원 — 고코 keystone (BANSHEES_CRY 9코, REAPER_FORM 3코) 가치 ↑"
+    },
+    "Anchor": {
+      "card_axes": ["BLOCK"],
+      "reason": "매 전투 시작 시 방어도 — block 카드 가치 ↑ (Body Slam 빌드 셋업 가속)"
+    },
+    "BagOfPreparation": {
+      "card_axes": ["DRAW"],
+      "reason": "매 전투 시작 시 카드 +N draw — draw 카드 / 사이클 빌드 가치 ↑"
+    },
+    "CentennialPuzzle": {
+      "card_axes": ["DRAW"],
+      "reason": "처음 체력 잃을 시 카드 N 뽑음 — draw 가속 (모든 빌드 적용)"
+    },
+    "Pendulum": {
+      "card_axes": ["DRAW"],
+      "reason": "매 턴 카드 +1 draw — 강력한 sustained draw (모든 사이클 빌드)"
+    },
+    "FestivePopper": {
+      "card_axes": ["AOE_DAMAGE"],
+      "reason": "매 전투 시작 시 모든 적 피해 — minor AOE 보조 (다적 hallway)"
+    },
+    "HornCleat": {
+      "card_axes": ["BLOCK"],
+      "reason": "2턴째 방어도 N — block 셋업 가속 (Body Slam triangle)"
+    },
+    "MercuryHourglass": {
+      "card_axes": ["AOE_DAMAGE"],
+      "reason": "내 턴 시작 자동 모든 적 피해 — sustained AOE (long-fight 가치)"
+    },
+    "Orichalcum": {
+      "card_axes": ["BLOCK"],
+      "reason": "방어도 없을 시 자동 block 부여 — block 빌드 안전망 (Body Slam path-a)"
+    },
+    "ParryingShield": {
+      "card_axes": ["BLOCK_AMPLIFIER", "BLOCK"],
+      "reason": "방어도 N 이상이면 매 턴 적 피해 — BLOCK 누적 페이오프 (BARRICADE/UNMOVABLE 빌드)"
+    },
+    "SelfFormingClay": {
+      "card_axes": ["BLOCK"],
+      "reason": "체력 잃을 때마다 다음 턴 block — 생존 보조 + IRONCLAD HP-loss 빌드 (OFFERING/BLOODLETTING)"
+    },
+    "StoneCracker": {
+      "card_axes": ["SCALING"],
+      "reason": "매 전투 시작 무작위 카드 강화 — SCALING 보조 (강화 페이오프 ARMAMENTS/APOTHEOSIS)"
+    },
+    "ReptileTrinket": {
+      "card_axes": ["STRENGTH_PRODUCER"],
+      "reason": "포션 사용 시 STR +N — 성장 빌드 보조 (포션 활용 빈도 따라)"
+    },
+    "GhostSeed": {
+      "card_axes": ["VOLATILE_PRODUCER"],
+      "reason": "STRIKE/DEFEND 카드 휘발성 부여 — VOLATILE_CONSUMER 페이오프 (PAGESTORM 등) 시너지"
+    },
+    "ScreamingFlagon": {
+      "card_axes": ["AOE_DAMAGE"],
+      "reason": "내 턴 종료 손 비어있으면 모든 적 피해 — 0코/사이클 빌드 페이오프 (덱 비움 trigger)"
+    },
+    "Toolbox": {
+      "card_axes": ["CARD_GEN"],
+      "reason": "매 전투 시작 무색 카드 선택 fetch — 무색 archetype 페이오프 (0코/소멸 빌드 무색 keystone 들)"
+    },
+    "OrangeDough": {
+      "card_axes": ["CARD_GEN"],
+      "reason": "매 전투 시작 무작위 무색 카드 fetch — Toolbox 와 유사, 무색 archetype 보조"
+    },
+    "StoneCalendar": {
+      "card_axes": ["AOE_DAMAGE"],
+      "reason": "턴 종료 시 모든 적 피해 N (long-fight scaling) — sustained AOE (Knowledge Demon long-fight)"
+    },
+    "UnceasingTop": {
+      "card_axes": ["DRAW"],
+      "reason": "손에 카드 없을 시 +1 draw — 0코 빌드 / 카드 cycling 가속"
+    },
+    "VexingPuzzlebox": {
+      "card_axes": ["CARD_GEN"],
+      "reason": "매 전투 시작 무작위 카드 fetch + 1턴 무료 — 유연성 보조 (단 무작위)"
+    },
+    "BagOfMarbles": {
+      "card_axes": [
+        "VULN_AMPLIFIER",
+        "VULN_APPLY_TRIGGER"
+      ],
+      "reason": "전투 시작 광역 취약 → 취약 페이오프/증폭 카드 가치 ↑"
+    },
+    "BoneFlute": {
+      "card_axes": [
+        "OSTY"
+      ],
+      "reason": "골골이 공격할 때마다 방어도 — 트리거는 *공격 횟수*. 골골이 생산(호위/부름/장송가)은 기본 1회/턴 발동을 unlock 할 뿐 marginal 가치는 OSTY 축(풀어놓기/시켐/뼛조각/하이파이브 등 골골이 공격을 *명령*하는 카드)에서 나옴. SKELETON_PRODUCER/MINION 은 베이스라인 점유라 boost 분산 방지 위해 제외."
+    },
+    "DataDisk": {
+      "card_axes": [
+        "FOCUS",
+        "ORB_AMPLIFIER"
+      ],
+      "reason": "전투 시작 집중 → 구체 영창/증폭 카드 가치 ↑"
+    },
+    "FencingManual": {
+      "card_axes": [
+        "FORGE_AMPLIFIER",
+        "FORGE"
+      ],
+      "reason": "전투 시작 단조 → 단조 증폭 카드 가치 ↑"
+    },
+    "Gorget": {
+      "card_axes": [
+        "PLATING"
+      ],
+      "reason": "전투 시작 판금 → 판금 시너지 카드 가치 ↑"
+    },
+    "HappyFlower": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "주기적 +1 에너지 → 잉여 에너지 활용(X 코스트) 가치 ↑"
+    },
+    "Lantern": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "전투 시작 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "OddlySmoothStone": {
+      "card_axes": [
+        "DEXTERITY",
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "전투 시작 민첩 → 방어도 카드/증폭 가치 ↑"
+    },
+    "RedMask": {
+      "card_axes": [
+        "WEAK_AMPLIFIER"
+      ],
+      "reason": "전투 시작 광역 약화 → 약화 페이오프/증폭 카드 가치 ↑"
+    },
+    "RedSkull": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "SCALING"
+      ],
+      "reason": "저체력 시 추가 힘 → 힘 스케일링 카드 가치 ↑"
+    },
+    "SneckoSkull": {
+      "card_axes": [
+        "POISON_PRODUCER",
+        "POISON_AMPLIFIER"
+      ],
+      "reason": "중독 부여 시 추가 중독 → 독 공급/증폭 카드 가치 ↑"
+    },
+    "StrikeDummy": {
+      "card_axes": [
+        "STRIKE_TYPE"
+      ],
+      "reason": "타격 카드 추가 피해 → 타격 키워드 카드 가치 ↑"
+    },
+    "Vajra": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "전투 시작 힘 → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "VenerableTeaSet": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "휴식 후 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "BloodVial": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "전투 시작 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "BookOfFiveRings": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "덱 추가 시 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "MealTicket": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "상점 진입 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "RegalPillow": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "휴식 시 추가 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "BeltBuckle": {
+      "card_axes": [
+        "DEXTERITY",
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "포션 없을 때 민첩 → 방어도 카드/증폭 가치 ↑"
+    },
+    "Bread": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "다른 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "Brimstone": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "매 턴 힘 + → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "BurningSticks": {
+      "card_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "reason": "스킬 소멸 시 복사본 → 소멸 공급 카드 가치 ↑"
+    },
+    "ChemicalX": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "X 비용 카드 효과 + → X 코스트 카드 직접 가치 ↑"
+    },
+    "NinjaScroll": {
+      "card_axes": [
+        "SHIV_CONSUMER",
+        "SHIV_AMPLIFIER",
+        "SHIV"
+      ],
+      "reason": "전투 시작 단도 → 단도 페이오프/증폭 가치 ↑"
+    },
+    "RingingTriangle": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "첫 턴 손패 보존 → 보존 시너지 카드 가치 ↑"
+    },
+    "RunicCapacitor": {
+      "card_axes": [
+        "SLOT_EXPAND",
+        "ORB_AMPLIFIER"
+      ],
+      "reason": "구체 슬롯 + → 구체/슬롯 확장 시너지 가치 ↑"
+    },
+    "SlingOfCourage": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "엘리트 시작 힘 → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "UndyingSigil": {
+      "card_axes": [
+        "DOOM_PRODUCER",
+        "DOOM_AMPLIFIER"
+      ],
+      "reason": "체력 이상 종말 적 피해 - → 종말 부여/증폭 카드 가치 ↑"
+    },
+    "VitruvianMinion": {
+      "card_axes": [
+        "MINION"
+      ],
+      "reason": "이름에 '하수인' 포함 카드만 효과 2배 (예: 리젠트의 하수인 투하). 골골이 카드는 무관."
+    },
+    "BoundPhylactery": {
+      "card_axes": [
+        "MINION",
+        "SKELETON_CONSUMER"
+      ],
+      "reason": "내 턴 시작 소환 → 골골이 활용 카드 가치 ↑"
+    },
+    "CrackedCore": {
+      "card_axes": [
+        "LIGHTNING_ORB",
+        "FOCUS"
+      ],
+      "reason": "전투 시작 전기 영창 → 번개 구체/집중 가치 ↑"
+    },
+    "DivineDestiny": {
+      "card_axes": [
+        "STAR_CONSUMER",
+        "STAR_PAYOFF"
+      ],
+      "reason": "전투 시작 별 + → 별 소모/페이오프 카드 가치 ↑"
+    },
+    "DivineRight": {
+      "card_axes": [
+        "STAR_CONSUMER",
+        "STAR_PAYOFF"
+      ],
+      "reason": "전투 시작 별 + → 별 소모/페이오프 카드 가치 ↑"
+    },
+    "InfusedCore": {
+      "card_axes": [
+        "LIGHTNING_ORB",
+        "FOCUS"
+      ],
+      "reason": "전투 시작 전기 영창 → 번개 구체/집중 가치 ↑"
+    },
+    "PhylacteryUnbound": {
+      "card_axes": [
+        "MINION",
+        "SKELETON_CONSUMER"
+      ],
+      "reason": "전투/턴 시작 소환 → 골골이 활용 카드 가치 ↑"
+    },
+    "BookRepairKnife": {
+      "card_axes": [
+        "DOOM_PRODUCER",
+        "DOOM_AMPLIFIER"
+      ],
+      "reason": "종말 처치 시 회복 → 종말 빌드 가치 ↑"
+    },
+    "Candelabra": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "2턴째 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "FuneraryMask": {
+      "card_axes": [
+        "SOUL_CONSUMER"
+      ],
+      "reason": "전투 시작 영혼 추가 → 영혼 페이오프 카드 가치 ↑"
+    },
+    "GalacticDust": {
+      "card_axes": [
+        "STAR_CONSUMER"
+      ],
+      "reason": "별 소모 시 방어도 → 별 소모 카드 가치 ↑"
+    },
+    "GoldPlatedCables": {
+      "card_axes": [
+        "ORB_AMPLIFIER",
+        "ORB_PRODUCER"
+      ],
+      "reason": "오른쪽 구체 효과 추가 → 구체 공급/증폭 카드 가치 ↑"
+    },
+    "GremlinHorn": {
+      "card_axes": [
+        "AOE_DAMAGE",
+        "AOE"
+      ],
+      "reason": "적 처치 시 +1에너지/카드 → 광역 처치 가치 ↑"
+    },
+    "JossPaper": {
+      "card_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "reason": "N장 소멸 시 카드 + → 소멸 공급 카드 가치 ↑"
+    },
+    "Kusarigama": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "공격 N장 시 광역 피해 → 모든 공격 카드가 트리거"
+    },
+    "LetterOpener": {
+      "card_axes": [
+        "SKILL_TYPE"
+      ],
+      "reason": "스킬 N장 시 광역 피해 → 모든 스킬 카드가 트리거"
+    },
+    "Nunchaku": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "공격 N장 시 +1 에너지 → 모든 공격 카드가 트리거"
+    },
+    "OrnamentalFan": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "공격 N장 시 방어도 → 모든 공격 카드가 트리거"
+    },
+    "PaperPhrog": {
+      "card_axes": [
+        "VULN_AMPLIFIER",
+        "VULN_APPLY_TRIGGER"
+      ],
+      "reason": "취약 피해 50→75% → 취약 부여/증폭 카드 가치 ↑↑"
+    },
+    "PenNib": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "10번째 공격 2배 → 모든 공격 카드가 트리거"
+    },
+    "Regalite": {
+      "card_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "카드 생성 시 방어도 → 카드 생성 카드 가치 ↑"
+    },
+    "SparklingRouge": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "3턴째 힘+민첩 → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "SymbioticVirus": {
+      "card_axes": [
+        "DARK_ORB",
+        "DARK_ORB_AMPLIFIER"
+      ],
+      "reason": "전투 시작 암흑 영창 → 암흑 구체/증폭 가치 ↑"
+    },
+    "Tingsha": {
+      "card_axes": [
+        "CUNNING_CONSUMER",
+        "DISCARD_TURN_PAYOFF"
+      ],
+      "reason": "버릴 때 광역 피해 → 버리기 페이오프 카드 가치 ↑"
+    },
+    "TuningFork": {
+      "card_axes": [
+        "SKILL_TYPE"
+      ],
+      "reason": "스킬 N장 시 방어도 → 모든 스킬 카드가 트리거"
+    },
+    "TwistedFunnel": {
+      "card_axes": [
+        "POISON_AMPLIFIER",
+        "POISON_CONSUMER"
+      ],
+      "reason": "전투 시작 광역 중독 → 독 페이오프/증폭 카드 가치 ↑"
+    },
+    "ArtOfWar": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "공격 미사용 시 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "Bookmark": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "보존 카드 비용 -1 → 보존 카드 가치 ↑"
+    },
+    "Chandelier": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "3턴째 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "CharonsAshes": {
+      "card_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "reason": "소멸 시 광역 피해 → 소멸 공급 카드 가치 ↑"
+    },
+    "CloakClasp": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "턴 종료 손패당 방어도 → 손패 유지 카드 가치 ↑"
+    },
+    "EmotionChip": {
+      "card_axes": [
+        "ORB_EVOKE",
+        "ORB_PRODUCER",
+        "FOCUS"
+      ],
+      "reason": "체력 잃은 후 모든 구체 발현 → 구체 공급/집중 가치 ↑"
+    },
+    "GamblingChip": {
+      "card_axes": [
+        "CUNNING_CONSUMER",
+        "DISCARD_PAYOFF"
+      ],
+      "reason": "버리고 뽑기 → 버리기 페이오프 카드 가치 ↑"
+    },
+    "GamePiece": {
+      "card_axes": [
+        "POWER_TYPE"
+      ],
+      "reason": "파워 사용 시 카드 + → 파워 카드 가치 ↑"
+    },
+    "Girya": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "휴식 시 힘 획득 → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "HelicalDart": {
+      "card_axes": [
+        "SHIV",
+        "SHIV_CONSUMER"
+      ],
+      "reason": "단도 사용 시 민첩 → 단도 카드 가치 ↑"
+    },
+    "IceCream": {
+      "card_axes": [
+        "ENERGY_PRODUCER",
+        "X_COST"
+      ],
+      "reason": "남은 에너지가 휘발되지 않고 누적됨 → 에너지 생산 카드(ENERGY_PRODUCER)로 풀을 쌓고 X 비용 카드로 한 번에 소비하는 루프. 에너지 휘발이 없어 ENERGY_PRODUCER 가치가 일반적인 +1 에너지 유물보다 훨씬 큼 (낭비 0%)."
+    },
+    "Kunai": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "공격 N장 시 민첩 → 모든 공격 카드가 트리거"
+    },
+    "LunarPastry": {
+      "card_axes": [
+        "STAR_CONSUMER",
+        "STAR_PAYOFF"
+      ],
+      "reason": "턴 종료 시 별 + → 별 소모/페이오프 카드 가치 ↑"
+    },
+    "Metronome": {
+      "card_axes": [
+        "ORB_PRODUCER",
+        "ORB_AMPLIFIER"
+      ],
+      "reason": "구체 N번 영창 시 피해 → 구체 공급/증폭 가치 ↑"
+    },
+    "MiniatureCannon": {
+      "card_axes": [
+        [
+          "ATTACK_TYPE",
+          "UPGRADED"
+        ]
+      ],
+      "reason": "강화된 공격 카드 +3 피해 → 강화된 공격 카드만 가치 ↑ (AND)"
+    },
+    "MiniRegent": {
+      "card_axes": [
+        "STAR_CONSUMER"
+      ],
+      "reason": "별 소모 시 힘 → 별 페이오프 카드 가치 ↑"
+    },
+    "MummifiedHand": {
+      "card_axes": [
+        "POWER_TYPE"
+      ],
+      "reason": "파워 사용 시 무료 카드 → 파워 카드 가치 ↑"
+    },
+    "PaperKrane": {
+      "card_axes": [
+        "WEAK_AMPLIFIER",
+        "WEAK"
+      ],
+      "reason": "약화 피해 25→40% → 약화 부여/증폭 카드 가치 ↑↑"
+    },
+    "Pocketwatch": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "적은 카드 사용 시 다음 턴 +카드 → 손패 유지 빌드 가치 ↑"
+    },
+    "PowerCell": {
+      "card_axes": [
+        "FREE_ATTACK",
+        "FREE_ATTACK_RETURNER",
+        "FREE_ATTACK_RECLAIMER"
+      ],
+      "reason": "전투 시작 0코 카드 → 0코 공격 시너지 가치 ↑"
+    },
+    "RuinedHelmet": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "SCALING"
+      ],
+      "reason": "첫 힘 획득 2배 → 힘 스케일링 카드 가치 ↑"
+    },
+    "Shuriken": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "공격 N장 시 힘 → 모든 공격 카드가 트리거 + 힘 스케일 페이오프"
+    },
+    "SturdyClamp": {
+      "card_axes": [
+        "BLOCK_PAYOFF"
+      ],
+      "reason": "방어도 유지 → 방어도 페이오프 카드 가치 ↑"
+    },
+    "ToughBandages": {
+      "card_axes": [
+        "CUNNING_CONSUMER",
+        "DISCARD_TURN_PAYOFF"
+      ],
+      "reason": "버릴 때 방어도 → 버리기 페이오프 카드 가치 ↑"
+    },
+    "UnsettlingLamp": {
+      "card_axes": [
+        "VULN_AMPLIFIER",
+        "WEAK_AMPLIFIER"
+      ],
+      "reason": "첫 디버프 효과 2배 → 취약/약화 부여 카드 가치 ↑"
+    },
+    "Vambrace": {
+      "card_axes": [
+        "BLOCK"
+      ],
+      "reason": "전투마다 첫 방어도 카드 2배 → 방어도 카드 가치 ↑"
+    },
+    "EmberTea": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "다음 N전투 시작 힘 → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "FakeHappyFlower": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "주기적 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "FakeStrikeDummy": {
+      "card_axes": [
+        "STRIKE_TYPE"
+      ],
+      "reason": "타격 카드 추가 피해 → 타격 키워드 카드 가치 ↑"
+    },
+    "FakeVenerableTeaSet": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "휴식 후 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "ForgottenSoul": {
+      "card_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "reason": "소멸 시 광역 피해 → 소멸 공급 카드 가치 ↑"
+    },
+    "HandDrill": {
+      "card_axes": [
+        "VULN_AMPLIFIER",
+        "VULN_APPLY_TRIGGER"
+      ],
+      "reason": "방어도 파괴 시 취약 → 취약 페이오프/증폭 카드 가치 ↑"
+    },
+    "HistoryCourse": {
+      "card_axes": [
+        "ATTACK_REPLAY",
+        "SKILL_REPLAY"
+      ],
+      "reason": "최근 공격/스킬 복사 → 재발동 가치 ↑"
+    },
+    "LostWisp": {
+      "card_axes": [
+        "POWER_TYPE"
+      ],
+      "reason": "파워 사용 시 광역 피해 → 파워 카드 가치 ↑"
+    },
+    "SwordOfJade": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "전투 시작 힘 → 힘 스케일/다타 카드 가치 ↑"
+    },
+    "BlessedAntler": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "BloodSoakedRose": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "ChoicesParadox": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "전투 시작 카드 + 보존 → 보존 카드 가치 ↑"
+    },
+    "Ectoplasm": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "Fiddle": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "턴 시작만 드로우 → 손패 유지 카드 가치 ↑"
+    },
+    "JeweledMask": {
+      "card_axes": [
+        "POWER_TYPE"
+      ],
+      "reason": "전투 시작 파워 무료 사용 → 파워 카드 가치 ↑"
+    },
+    "MusicBox": {
+      "card_axes": [
+        "ATTACK_REPLAY",
+        "REPLAY"
+      ],
+      "reason": "첫 공격 휘발성 복사본 → 공격 재발동 가치 ↑"
+    },
+    "NutritiousSoup": {
+      "card_axes": [
+        "STRIKE_TYPE"
+      ],
+      "reason": "모든 타격에 잉걸불 인챈트 → 타격 카드 가치 ↑↑"
+    },
+    "PaelsEye": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "카드 미사용 종료 시 추가 턴 → 손패 유지 빌드 가치 ↑"
+    },
+    "PaelsFlesh": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "3턴+ 매 턴 추가 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "PaelsLegion": {
+      "card_axes": [
+        "BLOCK"
+      ],
+      "reason": "카드 방어도 효과 2배 → 방어도 카드 가치 ↑↑"
+    },
+    "PaelsTears": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "남은 에너지 다음 턴 → 잉여 에너지 활용 가치 ↑. (IceCream 과 달리 *누적* 효과 아님 — 단발성 다음 턴 한정. carryover STACKABLE/보너스 linkage 미포함)"
+    },
+    "PhilosophersStone": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "PrismaticGem": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "PumpkinCandle": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "RunicPyramid": {
+      "card_axes": [
+        "RETAIN",
+        "RETAIN_SELF"
+      ],
+      "reason": "손패 안 버림 → 손패 유지 빌드 가치 ↑↑"
+    },
+    "Sozu": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "SpikedGauntlets": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "ThrowingAxe": {
+      "card_axes": [
+        "ATTACK_REPLAY",
+        "SKILL_REPLAY"
+      ],
+      "reason": "첫 카드 1번 추가 사용 → 재발동 가치 ↑"
+    },
+    "ToastyMittens": {
+      "card_axes": [
+        "STRENGTH_CONSUMER",
+        "SCALING"
+      ],
+      "reason": "매 턴 카드 소멸 + 힘 누적 → 힘 스케일링 카드 가치 ↑"
+    },
+    "VelvetChoker": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "VeryHotCocoa": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "전투 시작 +N 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "WhisperingEarring": {
+      "card_axes": [
+        "X_COST"
+      ],
+      "reason": "매 턴 +1 에너지 → 잉여 에너지 활용 가치 ↑"
+    },
+    "BlackBlood": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "전투 종료 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "BurningBlood": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "전투 종료 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "LeesWaffle": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "최대 체력 + 전체 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "EternalFeather": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "휴식 시 카드당 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "Pantograph": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "보스 시작 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "Planisphere": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "? 방 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "DemonTongue": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "체력 잃을 시 동량 회복 → 체력 비용 무효화 → HP 비용 카드 가치 ↑↑"
+    },
+    "LizardTail": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "체력 0 시 부활 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "MeatOnTheBone": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "저체력 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "TungstenRod": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "체력 손실 - → 체력 비용 카드 비용 절감 가치 ↑"
+    },
+    "FakeBloodVial": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "전투 시작 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "FakeLeesWaffle": {
+      "card_axes": [
+        "HP_LOSS"
+      ],
+      "reason": "획득 시 체력 회복 → 체력 비용 카드 활용 가치 ↑"
+    },
+    "Crossbow": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "내 턴 시작 시 무작위 공격 카드 손으로 + 무료 사용 → 공격 빌드 시너지"
+    },
+    "DaughterOfTheWind": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "공격 카드 사용 시 방어도 → 공격 빈도 의존"
+    },
+    "MysticLighter": {
+      "card_axes": [
+        [
+          "ATTACK_TYPE",
+          "ENCHANTED"
+        ]
+      ],
+      "reason": "인챈트된 공격 카드 피해 +N → 인챈트 *되어있는* 공격 카드만 가치 ↑ (AND). 일반 공격은 매칭 X — DeckCounterBuilder 가 인챈트 보유 카드에 ENCHANTED 자동 inject."
+    },
+    "GnarledHammer": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "획득 시 공격 카드 N장 예리 인챈트 → 공격 빌드 시너지"
+    },
+    "PunchDagger": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "획득 시 공격 카드 1장 기세 인챈트 → 공격 빌드 시너지"
+    },
+    "TriBoomerang": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "덱의 공격 카드 N장 본능 인챈트 → 공격 빌드 시너지"
+    },
+    "Whetstone": {
+      "card_axes": [
+        "ATTACK_TYPE"
+      ],
+      "reason": "획득 시 무작위 공격 카드 N장 강화 → 공격 빌드 시너지"
+    },
+    "ElectricShrymp": {
+      "card_axes": [
+        "SKILL_TYPE"
+      ],
+      "reason": "획득 시 스킬 카드 1장 주입 인챈트 → 스킬 빌드 시너지"
+    },
+    "WarPaint": {
+      "card_axes": [
+        "SKILL_TYPE"
+      ],
+      "reason": "획득 시 무작위 스킬 카드 N장 강화 → 스킬 빌드 시너지"
+    },
+    "RazorTooth": {
+      "card_axes": [
+        "ATTACK_TYPE",
+        "SKILL_TYPE"
+      ],
+      "reason": "공격/스킬 사용 시 그 카드 영구 강화 → 두 빌드 모두 시너지"
+    },
+    "RoyalStamp": {
+      "card_axes": [
+        "ATTACK_TYPE",
+        "SKILL_TYPE"
+      ],
+      "reason": "획득 시 덱의 공격/스킬 카드 1장 인챈트 → 두 빌드 모두 시너지"
+    },
+    "LastingCandy": {
+      "card_axes": [
+        "POWER_TYPE"
+      ],
+      "reason": "두 전투마다 카드 보상에 파워 카드 추가 → 파워 빌드 시너지"
+    },
+    "Permafrost": {
+      "card_axes": [
+        "POWER_TYPE"
+      ],
+      "reason": "매 전투 첫 파워 사용 시 방어도 → 파워 빌드 시너지"
+    },
+    "RainbowRing": {
+      "card_axes": [
+        "ATTACK_TYPE",
+        "SKILL_TYPE",
+        "POWER_TYPE"
+      ],
+      "reason": "공격/스킬/파워 모두 사용 시 힘+민첩 → 세 카드 타입 모두 시너지"
+    },
+    "Akabeko": {
+      "card_axes": [
+        "VIGOR"
+      ],
+      "reason": "전투 시작 활력 → 활력 카드 가치 ↑ (매 턴 첫 공격 +N)"
+    },
+    "BronzeScales": {
+      "card_axes": [
+        "THORNS"
+      ],
+      "reason": "전투 시작 가시 → 가시 시너지 카드 가치 ↑ (피해 반사 누적)"
+    },
+    "BigHat": {
+      "card_axes": [
+        "ETHEREAL_SELF"
+      ],
+      "reason": "전투 시작 무작위 휘발성 카드 손으로 → 휘발성 카드 가치 ↑ (사용 보장)"
+    }
+  }
+}

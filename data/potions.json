@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "schema": "sts2-expert/potions/v1",
+    "game_version_era": "v0.103.2",
+    "source": "Sts2CombatAI SimPotion.cs PotionKind 분류 (헤드리스 정적 카탈로그 덤프 부재 — 알려진 갭)",
+    "note": "이 파일은 효과 '분류'만 담는다. 수치(Amount)는 런타임 스냅샷/디컴파일로만 확정 가능하며, 게임 전체 포션 풀과 1:1 완전 커버가 아니다.",
+    "categories": ["즉발 전투력", "버프(자신)", "디버프(적)", "방어·생존", "드로우·카드", "자원·캐릭터", "유틸"]
+  },
+  "potions": [
+    { "id": "FIRE_POTION", "kind": "Damage", "category": "즉발 전투력", "target": "AnyEnemy", "note": "단일 대상 직접 피해. 보스전 피니셔 1순위 후보" },
+    { "id": "GIGANTIFICATION_POTION", "kind": "AttackTriple", "category": "즉발 전투력", "target": "Self", "note": "다음 공격 카드 피해 ×3 — 고데미지 단일타와 결합 시 폭발적" },
+    { "id": "DUPLICATOR", "kind": "NextCardDouble", "category": "즉발 전투력", "target": "Self", "note": "다음 카드를 2회 발동 (피해·블록 ×2)" },
+
+    { "id": "STRENGTH_POTION", "kind": "Strength", "category": "버프(자신)", "target": "Self", "note": "힘 +N — 다단히트 덱에서 가치 상승" },
+    { "id": "DEXTERITY_POTION", "kind": "Dexterity", "category": "버프(자신)", "target": "Self", "note": "민첩 +N — 블록 카드 수에 비례" },
+    { "id": "FOCUS_POTION", "kind": "Focus", "category": "버프(자신)", "target": "Self", "note": "집중 +N (Defect 오브 스케일)" },
+    { "id": "ENERGY_POTION", "kind": "Energy", "category": "버프(자신)", "target": "Self", "note": "이번 턴 에너지 +N — 셋업/피니시 턴 가속" },
+
+    { "id": "VULNERABLE_POTION", "kind": "EnemyVuln", "category": "디버프(적)", "target": "AnyEnemy", "note": "취약 부여 (받는 피해 +50%) — 후속 공격과 결합" },
+    { "id": "WEAK_POTION", "kind": "EnemyWeak", "category": "디버프(적)", "target": "AnyEnemy", "note": "약화 부여 (적 공격 −25%) — 방어적 가치" },
+    { "id": "POTION_OF_BINDING", "kind": "EnemyWeak", "category": "디버프(적)", "target": "AnyEnemy", "note": "약화 계열" },
+    { "id": "POISON_POTION", "kind": "EnemyPoison", "category": "디버프(적)", "target": "AnyEnemy", "note": "중독 부여 (턴 기반 DoT)" },
+    { "id": "POTION_OF_DOOM", "kind": "EnemyDoom", "category": "디버프(적)", "target": "AnyEnemy", "note": "파멸 부여 (턴 종료 DoT)" },
+    { "id": "SHACKLING_POTION", "kind": "EnemyStrengthDown", "category": "디버프(적)", "target": "AnyEnemy", "note": "적 힘 −N (받는 공격 약화)" },
+    { "id": "BEETLE_JUICE", "kind": "EnemyStrengthDown", "category": "디버프(적)", "target": "AnyEnemy", "note": "적 힘 −N 계열" },
+
+    { "id": "BLOCK_POTION", "kind": "Block", "category": "방어·생존", "target": "Self", "note": "즉시 블록 +N" },
+    { "id": "FORTIFIER", "kind": "BlockMult", "category": "방어·생존", "target": "Self", "note": "현재 블록 × N 추가 획득 — 블록을 쌓은 뒤 사용할수록 가치 상승" },
+    { "id": "BLOOD_POTION", "kind": "HealPercent", "category": "방어·생존", "target": "Self", "note": "최대 HP의 N% 회복" },
+    { "id": "GHOST_IN_A_JAR", "kind": "SelfIntangible", "category": "방어·생존", "target": "Self", "note": "무형 N턴 — 모든 피격을 1로 캡. 보스 빅히트 턴 카운터" },
+    { "id": "LUCKY_TONIC", "kind": "SelfBuffer", "category": "방어·생존", "target": "Self", "note": "버퍼 N회 — 피격 전체 무효" },
+    { "id": "HEART_OF_IRON", "kind": "SelfPlating", "category": "방어·생존", "target": "Self", "note": "금속화 — 매 턴 종료 블록 +N" },
+    { "id": "LIQUID_BRONZE", "kind": "SelfThorns", "category": "방어·생존", "target": "Self", "note": "가시 — 피격당 N 반사" },
+    { "id": "REGEN_POTION", "kind": "SelfRegen", "category": "방어·생존", "target": "Self", "note": "재생 — 턴당 회복(감쇠)" },
+    { "id": "FRUIT_JUICE", "kind": "MaxHpGain", "category": "방어·생존", "target": "Self", "note": "최대 HP +N (영구) — 언제 마셔도 손해 없는 유일 부류" },
+
+    { "id": "SWIFT_POTION", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "카드 N장 드로우" },
+    { "id": "BOTTLED_POTENTIAL", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "드로우 계열" },
+    { "id": "SNECKO_OIL", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "대량 드로우 + 코스트 무작위화" },
+    { "id": "CLARITY", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "드로우 계열" },
+    { "id": "LIQUID_MEMORIES", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "버린 카드 회수 계열" },
+    { "id": "DROPLET", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "드로우 계열" },
+    { "id": "GLOWWATER_POTION", "kind": "DrawExhaustHand", "category": "드로우·카드", "target": "Self", "note": "현재 손패 소멸 후 N장 드로우 — 순 카드 스윙으로 평가" },
+    { "id": "ATTACK_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "공격 카드 1장 선택 생성" },
+    { "id": "SKILL_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "스킬 카드 1장 선택 생성" },
+    { "id": "POWER_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "파워 카드 1장 선택 생성" },
+    { "id": "COLORLESS_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "무색 카드 1장 선택 생성" },
+    { "id": "COSMIC_CONCOCTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "카드 3장 생성" },
+    { "id": "CUNNING_POTION", "kind": "GenerateShivs", "category": "드로우·카드", "target": "Self", "note": "표창 생성 (Silent)" },
+    { "id": "POT_OF_GHOULS", "kind": "GenerateShivs", "category": "드로우·카드", "target": "Self", "note": "영혼 생성 (0코 소형 공격 근사)" },
+
+    { "id": "STAR_POTION", "kind": "GainStars", "category": "자원·캐릭터", "target": "Self", "note": "별 +N (Regent) — 별 비용 카드 해금" },
+    { "id": "POTION_OF_CAPACITY", "kind": "OrbCapacity", "category": "자원·캐릭터", "target": "Self", "note": "오브 슬롯 +N (Defect)" },
+    { "id": "ESSENCE_OF_DARKNESS", "kind": "ChannelDark", "category": "자원·캐릭터", "target": "Self", "note": "빈 슬롯 전부 어둠 오브 충전 (Defect)" },
+
+    { "id": "BLESSING_OF_THE_FORGE", "kind": "UpgradeHand", "category": "유틸", "target": "Self", "note": "손패 전체 이번 전투 강화" },
+    { "id": "SOLDIERS_STEW", "kind": "UpgradeHand", "category": "유틸", "target": "Self", "note": "타격(Strike) 강화 계열" }
+  ]
+}

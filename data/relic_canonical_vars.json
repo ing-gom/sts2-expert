@@ -1,0 +1,718 @@
+{
+  "_meta": {
+    "no_canonical_count": 76,
+    "no_literal_count": 1,
+    "relic_count_extracted": 218,
+    "relic_count_total": 295,
+    "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Slay the Spire 2\\data_sts2_windows_x86_64\\sts2.dll"
+  },
+  "relics": {
+    "Akabeko": {
+      "VigorPower": 8
+    },
+    "AlchemicalCoffer": {
+      "PotionSlots": 4
+    },
+    "AmethystAubergine": {
+      "Gold": 15
+    },
+    "Anchor": {
+      "Block": 10
+    },
+    "ArcaneScroll": {
+      "Cards": 1
+    },
+    "ArchaicTooth": {
+      "AncientCard": 0,
+      "StarterCard": 0
+    },
+    "ArtOfWar": {
+      "Energy": 1
+    },
+    "Astrolabe": {
+      "Cards": 3
+    },
+    "BagOfMarbles": {
+      "VulnerablePower": 1
+    },
+    "BagOfPreparation": {
+      "Cards": 2
+    },
+    "BeatingRemnant": {
+      "MaxHpLoss": 20
+    },
+    "BeautifulBracelet": {
+      "Cards": 3,
+      "Swift": 3
+    },
+    "BeltBuckle": {
+      "DexterityPower": 2
+    },
+    "BigHat": {
+      "Cards": 2
+    },
+    "BigMushroom": {
+      "Cards": 2,
+      "MaxHp": 20
+    },
+    "BiiigHug": {
+      "Cards": 4
+    },
+    "BlackBlood": {
+      "Heal": 12
+    },
+    "BlessedAntler": {
+      "Cards": 3,
+      "Energy": 1
+    },
+    "BloodSoakedRose": {
+      "Energy": 1
+    },
+    "BloodVial": {
+      "Heal": 2
+    },
+    "BoneFlute": {
+      "Block": 2
+    },
+    "BoneTea": {
+      "Combats": 1
+    },
+    "BookOfFiveRings": {
+      "Cards": 5,
+      "Heal": 20
+    },
+    "BookRepairKnife": {
+      "Heal": 3
+    },
+    "BoomingConch": {
+      "Cards": 2
+    },
+    "BoundPhylactery": {
+      "Summon": 1
+    },
+    "BowlerHat": {
+      "GoldIncrease": 1.25
+    },
+    "Bread": {
+      "GainEnergy": 1,
+      "LoseEnergy": 2
+    },
+    "BrilliantScarf": {
+      "Cards": 5
+    },
+    "Brimstone": {
+      "EnemyStrength": 1,
+      "SelfStrength": 2
+    },
+    "BronzeScales": {
+      "ThornsPower": 3
+    },
+    "BurningBlood": {
+      "Heal": 6
+    },
+    "CallingBell": {
+      "Relics": 3
+    },
+    "Candelabra": {
+      "Energy": 2
+    },
+    "CaptainsWheel": {
+      "Block": 18
+    },
+    "Cauldron": {
+      "Potions": 5
+    },
+    "CentennialPuzzle": {
+      "Cards": 3
+    },
+    "Chandelier": {
+      "Energy": 3
+    },
+    "CharonsAshes": {
+      "Damage": 3
+    },
+    "ChemicalX": {
+      "Increase": 2
+    },
+    "ChoicesParadox": {
+      "Cards": 5
+    },
+    "ChosenCheese": {
+      "MaxHp": 1
+    },
+    "Claws": {
+      "Cards": 6
+    },
+    "CloakClasp": {
+      "Block": 1
+    },
+    "CrackedCore": {
+      "Lightning": 1
+    },
+    "CursedPearl": {
+      "Gold": 333
+    },
+    "DarkstonePeriapt": {
+      "MaxHp": 6
+    },
+    "DataDisk": {
+      "FocusPower": 1
+    },
+    "DaughterOfTheWind": {
+      "Block": 1
+    },
+    "DiamondDiadem": {
+      "CardThreshold": 2
+    },
+    "DistinguishedCape": {
+      "Cards": 3,
+      "HpLoss": 9
+    },
+    "DivineDestiny": {
+      "Stars": 6
+    },
+    "DivineRight": {
+      "Stars": 3
+    },
+    "DragonFruit": {
+      "MaxHp": 1
+    },
+    "DustyTome": {
+      "AncientCard": 0
+    },
+    "Ectoplasm": {
+      "Energy": 1
+    },
+    "EmberTea": {
+      "Combats": 5,
+      "StrengthPower": 2
+    },
+    "EmptyCage": {
+      "Cards": 2
+    },
+    "EternalFeather": {
+      "Cards": 5,
+      "Heal": 3
+    },
+    "FakeAnchor": {
+      "Block": 4
+    },
+    "FakeBloodVial": {
+      "Heal": 1
+    },
+    "FakeHappyFlower": {
+      "Energy": 1,
+      "Turns": 5
+    },
+    "FakeLeesWaffle": {
+      "Heal": 10
+    },
+    "FakeMango": {
+      "MaxHp": 3
+    },
+    "FakeOrichalcum": {
+      "Block": 3
+    },
+    "FakeStrikeDummy": {
+      "ExtraDamage": 1
+    },
+    "FakeVenerableTeaSet": {
+      "Energy": 1
+    },
+    "FencingManual": {
+      "Forge": 10
+    },
+    "FestivePopper": {
+      "Damage": 9
+    },
+    "Fiddle": {
+      "Cards": 2
+    },
+    "ForgottenSoul": {
+      "Damage": 1
+    },
+    "FragrantMushroom": {
+      "Cards": 2,
+      "HpLoss": 15
+    },
+    "FresnelLens": {
+      "NimbleAmount": 2
+    },
+    "FuneraryMask": {
+      "Cards": 3
+    },
+    "FurCoat": {
+      "Combats": 7
+    },
+    "GalacticDust": {
+      "Block": 10,
+      "Stars": 10
+    },
+    "GamePiece": {
+      "Cards": 1
+    },
+    "GnarledHammer": {
+      "Cards": 3,
+      "SharpAmount": 3
+    },
+    "GoldenPearl": {
+      "Gold": 150
+    },
+    "Gorget": {
+      "PlatingPower": 4
+    },
+    "GremlinHorn": {
+      "Cards": 1,
+      "Energy": 1
+    },
+    "HandDrill": {
+      "VulnerablePower": 2
+    },
+    "HappyFlower": {
+      "Energy": 1,
+      "Turns": 3
+    },
+    "HeftyTablet": {
+      "Cards": 3
+    },
+    "HelicalDart": {
+      "DexterityPower": 1
+    },
+    "HornCleat": {
+      "Block": 14
+    },
+    "InfusedCore": {
+      "Lightning": 3
+    },
+    "IntimidatingHelmet": {
+      "Block": 4,
+      "Energy": 2
+    },
+    "IronClub": {
+      "Cards": 4
+    },
+    "IvoryTile": {
+      "Energy": 1,
+      "EnergyThreshold": 3
+    },
+    "JossPaper": {
+      "Cards": 1,
+      "ExhaustAmount": 5
+    },
+    "Kifuda": {
+      "Cards": 3
+    },
+    "Kunai": {
+      "Cards": 3,
+      "DexterityPower": 1
+    },
+    "Kusarigama": {
+      "Cards": 3,
+      "Damage": 6
+    },
+    "Lantern": {
+      "Energy": 1
+    },
+    "LargeCapsule": {
+      "Relics": 2
+    },
+    "LavaRock": {
+      "Relics": 2
+    },
+    "LeafyPoultice": {
+      "MaxHp": 12
+    },
+    "LeesWaffle": {
+      "MaxHp": 7
+    },
+    "LetterOpener": {
+      "Cards": 3,
+      "Damage": 5
+    },
+    "LizardTail": {
+      "Heal": 50
+    },
+    "LoomingFruit": {
+      "MaxHp": 31
+    },
+    "LostWisp": {
+      "Damage": 8
+    },
+    "LuckyFysh": {
+      "Gold": 15
+    },
+    "LunarPastry": {
+      "Stars": 1
+    },
+    "Mango": {
+      "MaxHp": 14
+    },
+    "MawBank": {
+      "Gold": 12
+    },
+    "MealTicket": {
+      "Heal": 15
+    },
+    "MeatOnTheBone": {
+      "Heal": 12,
+      "HpThreshold": 50
+    },
+    "MembershipCard": {
+      "Discount": 50
+    },
+    "MercuryHourglass": {
+      "Damage": 3
+    },
+    "Metronome": {
+      "Damage": 30,
+      "OrbCount": 7
+    },
+    "MiniRegent": {
+      "StrengthPower": 1
+    },
+    "MiniatureCannon": {
+      "ExtraDamage": 3
+    },
+    "MysticLighter": {
+      "Damage": 9
+    },
+    "NeowsBones": {
+      "Curses": 1,
+      "Relics": 2
+    },
+    "NewLeaf": {
+      "Cards": 1
+    },
+    "NinjaScroll": {
+      "Shivs": 3
+    },
+    "Nunchaku": {
+      "Cards": 10,
+      "Energy": 1
+    },
+    "NutritiousOyster": {
+      "MaxHp": 11
+    },
+    "OddlySmoothStone": {
+      "DexterityPower": 1
+    },
+    "OldCoin": {
+      "Gold": 300
+    },
+    "OrangeDough": {
+      "Cards": 2
+    },
+    "Orichalcum": {
+      "Block": 6
+    },
+    "OrnamentalFan": {
+      "Block": 4,
+      "Cards": 3
+    },
+    "Orrery": {
+      "Cards": 5
+    },
+    "PaelsBlood": {
+      "Cards": 1
+    },
+    "PaelsClaw": {
+      "Cards": 3
+    },
+    "PaelsFlesh": {
+      "Energy": 1
+    },
+    "PaelsLegion": {
+      "Turns": 2
+    },
+    "PaelsTears": {
+      "Energy": 2
+    },
+    "PaelsTooth": {
+      "CardTitles": 0,
+      "Cards": 5
+    },
+    "PaelsWing": {
+      "Sacrifices": 2
+    },
+    "Pantograph": {
+      "Heal": 25
+    },
+    "ParryingShield": {
+      "Block": 10,
+      "Damage": 6
+    },
+    "Pear": {
+      "MaxHp": 10
+    },
+    "Pendulum": {
+      "Cards": 1,
+      "Turns": 3
+    },
+    "Permafrost": {
+      "Block": 7
+    },
+    "PhialHolster": {
+      "PotionSlots": 1,
+      "Potions": 2
+    },
+    "PhilosophersStone": {
+      "Energy": 1,
+      "StrengthPower": 1
+    },
+    "PhylacteryUnbound": {
+      "StartOfCombat": 5,
+      "StartOfTurn": 2
+    },
+    "Planisphere": {
+      "Heal": 5
+    },
+    "Pocketwatch": {
+      "CardThreshold": 3,
+      "Cards": 3
+    },
+    "PollinousCore": {
+      "Cards": 2,
+      "Turns": 4
+    },
+    "Pomander": {
+      "Cards": 1
+    },
+    "PotionBelt": {
+      "PotionSlots": 2
+    },
+    "PowerCell": {
+      "Cards": 2
+    },
+    "PrecariousShears": {
+      "Cards": 2,
+      "Damage": 16
+    },
+    "PreciseScissors": {
+      "Cards": 1
+    },
+    "PreservedFog": {
+      "Cards": 3
+    },
+    "PrismaticGem": {
+      "Energy": 1
+    },
+    "PumpkinCandle": {
+      "Energy": 1
+    },
+    "PunchDagger": {
+      "Momentum": 5
+    },
+    "RadiantPearl": {
+      "Cards": 1
+    },
+    "RainbowRing": {
+      "DexterityPower": 1,
+      "StrengthPower": 1
+    },
+    "RedMask": {
+      "WeakPower": 1
+    },
+    "RedSkull": {
+      "HpThreshold": 50,
+      "StrengthPower": 3
+    },
+    "RegalPillow": {
+      "Heal": 15
+    },
+    "Regalite": {
+      "Block": 2
+    },
+    "ReptileTrinket": {
+      "StrengthPower": 3
+    },
+    "RingOfTheDrake": {
+      "Cards": 2,
+      "Turns": 3
+    },
+    "RingOfTheSnake": {
+      "Cards": 2
+    },
+    "RippleBasin": {
+      "Block": 4
+    },
+    "RoyalPoison": {
+      "Damage": 4
+    },
+    "RoyalStamp": {
+      "Cards": 1
+    },
+    "RunicCapacitor": {
+      "Repeat": 3
+    },
+    "Sai": {
+      "Block": 7
+    },
+    "SandCastle": {
+      "Cards": 6
+    },
+    "ScreamingFlagon": {
+      "Damage": 20
+    },
+    "SeaGlass": {
+      "Cards": 15,
+      "Character": 0
+    },
+    "SealOfGold": {
+      "Energy": 1,
+      "Gold": 5
+    },
+    "SelfFormingClay": {
+      "BlockNextTurn": 3
+    },
+    "SereTalon": {
+      "Curses": 2,
+      "Wishes": 3
+    },
+    "Shuriken": {
+      "Cards": 3,
+      "StrengthPower": 1
+    },
+    "SignetRing": {
+      "Gold": 999
+    },
+    "SilverCrucible": {
+      "Cards": 3
+    },
+    "SlingOfCourage": {
+      "StrengthPower": 2
+    },
+    "SneckoEye": {
+      "Cards": 2
+    },
+    "SneckoSkull": {
+      "PoisonPower": 1
+    },
+    "Sozu": {
+      "Energy": 1
+    },
+    "SparklingRouge": {
+      "DexterityPower": 1,
+      "StrengthPower": 1
+    },
+    "SpikedGauntlets": {
+      "Energy": 1
+    },
+    "StoneCalendar": {
+      "Damage": 52,
+      "DamageTurn": 7
+    },
+    "StoneCracker": {
+      "Cards": 2
+    },
+    "StoneHumidifier": {
+      "MaxHp": 5
+    },
+    "Strawberry": {
+      "MaxHp": 7
+    },
+    "StrikeDummy": {
+      "ExtraDamage": 3
+    },
+    "SturdyClamp": {
+      "Block": 10
+    },
+    "SwordOfJade": {
+      "StrengthPower": 3
+    },
+    "SwordOfStone": {
+      "Elites": 5
+    },
+    "SymbioticVirus": {
+      "Dark": 1
+    },
+    "TeaOfDiscourtesy": {
+      "Combats": 1,
+      "DazedCount": 2,
+      "Heal": 1
+    },
+    "TheAbacus": {
+      "Block": 6
+    },
+    "TheBoot": {
+      "DamageMinimum": 5,
+      "DamageThreshold": 4
+    },
+    "TheCourier": {
+      "Discount": 20
+    },
+    "Tingsha": {
+      "Damage": 3
+    },
+    "ToastyMittens": {
+      "StrengthPower": 1
+    },
+    "Toolbox": {
+      "Cards": 3
+    },
+    "TouchOfOrobas": {
+      "StarterRelic": 0,
+      "UpgradedRelic": 0
+    },
+    "ToughBandages": {
+      "Block": 3
+    },
+    "ToyBox": {
+      "Combats": 3,
+      "Relics": 4
+    },
+    "TriBoomerang": {
+      "Cards": 3
+    },
+    "TungstenRod": {
+      "HpLossReduction": 1
+    },
+    "TuningFork": {
+      "Block": 7,
+      "Cards": 10
+    },
+    "TwistedFunnel": {
+      "PoisonPower": 4
+    },
+    "UndyingSigil": {
+      "DamageDecrease": 0.5
+    },
+    "Vajra": {
+      "StrengthPower": 1
+    },
+    "VelvetChoker": {
+      "Cards": 6,
+      "Energy": 1
+    },
+    "VenerableTeaSet": {
+      "Energy": 2
+    },
+    "VeryHotCocoa": {
+      "Energy": 4
+    },
+    "WarHammer": {
+      "Cards": 4
+    },
+    "WarPaint": {
+      "Cards": 2
+    },
+    "Whetstone": {
+      "Cards": 2
+    },
+    "WhisperingEarring": {
+      "Energy": 1
+    },
+    "WingCharm": {
+      "SwiftAmount": 1
+    },
+    "WingedBoots": {
+      "Rooms": 3
+    },
+    "WongosMysteryTicket": {
+      "RemainingCombats": 5,
+      "Repeat": 3
+    },
+    "YummyCookie": {
+      "Cards": 4
+    }
+  }
+}

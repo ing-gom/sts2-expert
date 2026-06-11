@@ -1,0 +1,3577 @@
+{
+  "$comment": "카드 축 수동 오버라이드 — 게임 런타임(CardAxisMap)이 Keyword/Var 로 추출하지 못하는 의미적 축을 보강.",
+  "$rules": {
+    "explicit": "카드 Id → 강제 부여할 축 목록. base/upgraded 양쪽 공통 적용. 로케일 완전 독립.",
+    "exclude_axes": "CardAxisMap 자동 감지 결과에서 제거할 축 목록. 음수 효과가 잘못 분류된 경우에 사용.",
+    "text_rules": "(로케일 확장용 훅) Description 에 contains 포함 시 add_axes union. 기본은 비워둠 — 새 카드 추가 시 scripts/gen_axis_overrides.py 로 explicit 재생성 권장."
+  },
+  "explicit": {
+    "CARD.VICIOUS": {
+      "exclude_axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "VICIOUS는 '취약을 부여할 때마다 카드 1장 드로우'하는 트리거/페이오프(VULN_APPLY_TRIGGER+DRAW) — 취약을 직접 부여하지 않음. CardAxisMap이 VULN_PRODUCER로 오분류 → 취약덱에서 producer 시너지를 허위로 누적해 과대평가(win-rate 그라운드트루스로 반증, 2026-06-02 B-option divergence). VULN_APPLY_TRIGGER로 페이오프 역할만 유지."
+    },
+    "CARD.PREP_TIME": {
+      "axes": [
+        "SCALING"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "PrepTimePower는 활력(Vigor) 부여 파워 — CardAxisMap이 DRAW로 잘못 감지하므로 DRAW 제거 후 SCALING으로 교정."
+    },
+    "CARD.MAD_SCIENCE": {
+      "axes": [
+        "RANDOM",
+        "WEAK",
+        "VULN_PRODUCER",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "완전 랜덤 효과 카드 — ViolenceHits/WisdomCards/ExpertiseStrength 등 다수 랜덤 var 보유. MAP이 DAMAGE/BLOCK/DEBUFF를 감지하나 랜덤성 신호가 없어 주의 태그가 표시되지 않음. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "CARD.BEGONE": {
+      "axes": [
+        "CARD_GEN",
+        "DAMAGE",
+        "DRAW",
+        "STRIKE_TYPE"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "손의 카드를 하수인 타격(MINION_STRIKE)으로 변환 — DAMAGE/DRAW/STRIKE_TYPE은 생성된 토큰이 덱에 기여하는 기능. EXHAUST_SELF/EXHAUST_TAG는 토큰 플레이 시 간접 소멸이므로 제외. [audit-applied]"
+    },
+    "CARD.ACROBATICS": {
+      "axes": [
+        "CUNNING_CONSUMER"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거"
+    },
+    "CARD.DAGGER_THROW": {
+      "axes": [
+        "CUNNING_CONSUMER"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거"
+    },
+    "CARD.HIDDEN_DAGGERS": {
+      "axes": [
+        "CUNNING_CONSUMER",
+        "SHIV_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "SHIV_PRODUCER"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거 [audit-applied]"
+    },
+    "CARD.PREPARED": {
+      "axes": [
+        "CUNNING_CONSUMER",
+        "UNLIMITED"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거. 0코스트 드로우 — 다중 카피 가치 보존."
+    },
+    "CARD.SCRAPE": {
+      "axes": [
+        "CUNNING_CONSUMER",
+        "FREE_ATTACK_FILTER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거; 0코스트 아닌 카드 전부 버림 → 0코스트 카드 비율 높을수록 강함"
+    },
+    "CARD.SHADOW_STEP": {
+      "axes": [
+        "CUNNING_CONSUMER",
+        "DAMAGE_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "교활 발동 트리거(CUNNING_CONSUMER) + 공격 카드 데미지 증가(DAMAGE_AMPLIFIER). Cards var이 DRAW로 오감지되나 실제 드로우 효과 없음."
+    },
+    "CARD.STORM_OF_STEEL": {
+      "axes": [
+        "CUNNING_CONSUMER",
+        "SHIV_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "SHIV_PRODUCER"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거 [audit-applied]"
+    },
+    "CARD.SURVIVOR": {
+      "axes": [
+        "CUNNING_CONSUMER"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거"
+    },
+    "CARD.TOOLS_OF_THE_TRADE": {
+      "axes": [
+        "CUNNING_CONSUMER"
+      ],
+      "reason": "버립니다 → 교활 카드 손 복귀 트리거"
+    },
+    "CARD.CALCULATED_GAMBLE": {
+      "axes": [
+        "CUNNING_CONSUMER",
+        "UNLIMITED"
+      ],
+      "upgraded_axes": [
+        "RETAIN_SELF"
+      ],
+      "reason": "손 전체 버리기 → 교활 카드 손 복귀 트리거; 강화 시 Retain 획득 → 보존 빌드 시너지. 0코스트 드로우 — 다중 카피 가치 보존."
+    },
+    "CARD.ACCELERANT": {
+      "axes": [
+        "POISON_AMPLIFIER"
+      ],
+      "reason": "중독이 추가로 발동 → 기존 중독 효과 배수 증폭"
+    },
+    "CARD.CALCIFY": {
+      "axes": [
+        "SKELETON_AMPLIFIER",
+        "SKELETON_ATTACK_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "SKELETON_AMPLIFIER",
+        "SKELETON_ATTACK_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 골골이 공격 피해 +4. DURATION 자동 감지 오류 제거. + SKELETON_AMPLIFIER: mod BuildSynergy.cs `_AMPLIFIER` 접미사 stem 매칭으로 SKELETON_PRODUCER pair 연결 (SKELETON_ATTACK 은 sub-axis 로 유지). [audit-applied]"
+    },
+    "CARD.AFTERLIFE": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가 (MINION 중 SKELETON_PRODUCER 미감지)"
+    },
+    "CARD.BODYGUARD": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가"
+    },
+    "CARD.CLEANSE": {
+      "axes": [
+        "SKELETON_PRODUCER",
+        "EXHAUST_TARGET_FORCED"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가. 뽑을 카드 더미 맨 위 카드 1장 강제 소멸 — TARGET_FORCED."
+    },
+    "CARD.DANSE_MACABRE": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "ENERGY",
+        "EXHAUST_CONSUMER",
+        "SKELETON_PRODUCER",
+        "MINION"
+      ],
+      "reason": "비용 ⚡⚡ 이상 카드 사용 시마다 방어도 +4. 진짜 효과는 HIGH_COST trigger → block payoff 라 BLOCK_AMPLIFIER. 이전 SKELETON_PRODUCER override 는 DEVOUR_LIFE 와 reason copy-paste 오류 (DANSE_MACABRE 는 소환 효과 없음). MINION/SKELETON_PRODUCER axis 도 자동검출 noise — exclude. ENERGY/EXHAUST_CONSUMER 도 CSV 자동 분류 오류로 exclude. (v1.10.0 audit 발견)"
+    },
+    "CARD.DEVOUR_LIFE": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "exclude_axes": [
+        "SOUL_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가 [audit-applied]"
+    },
+    "CARD.DIRGE": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가"
+    },
+    "CARD.INVOKE": {
+      "axes": [
+        "SKELETON_PRODUCER",
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "다음 턴 소환 2 + ⚡⚡ 획득 → 골골이(SKELETON_PRODUCER) 와 에너지(ENERGY_PRODUCER) 양쪽 파트너. 코스트사기 빌드의 핵심 enabler — X_COST 카드(척결·장송가) 와 시너지."
+    },
+    "CARD.LEGION_OF_BONE": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가"
+    },
+    "CARD.PULL_AGGRO": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가"
+    },
+    "CARD.REANIMATE": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "소환 효과 → 골골이 최대/현재 HP 증가"
+    },
+    "CARD.ACCURACY": {
+      "axes": [
+        "SHIV_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "SCALING",
+        "SHIV_CONSUMER"
+      ],
+      "reason": "단도 피해량 영구 +N 증폭. CardAxisMap 의 AccuracyPower→SCALING 은 자기성장 스케일링이 아닌 단도 전용 증폭이므로 제거; CSV 의 SHIV_CONSUMER 는 소비자가 아닌 증폭자 오분류 — 둘 다 빼야 일반 딜/방어 빌드와의 잘못된 시너지가 사라짐."
+    },
+    "CARD.DARKNESS": {
+      "axes": [
+        "DARK_ORB",
+        "DARK_ORB_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "DARK_ORB"
+      ],
+      "exclude_axes": [
+        "ORB_AMPLIFIER"
+      ],
+      "reason": "암흑 구체 지속 능력 2번 발동 → 암흑 구체 전용 증폭기. CardAxisMap 이 ORB_AMPLIFIER 로 오분류, 범용 증폭기 제거 [audit-applied]"
+    },
+    "CARD.GENETIC_ALGORITHM": {
+      "axes": [
+        "BLOCK_SCALING"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "방어도가 영구 증가하는 자체 성장 카드 — CardAxisMap 이 IncrementAmount 를 SCALING 으로 감지하나, 딜/포커스 빌드와 무관하므로 BLOCK_SCALING 으로 교체"
+    },
+    "CARD.HYPERBEAM": {
+      "axes": [
+        "FOCUS_PENALTY"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "FOCUS",
+        "SCALING"
+      ],
+      "reason": "밀집을 3 잃는 패널티 카드 — CardAxisMap 이 FocusPower 음수를 FOCUS/SCALING 으로 오분류. FOCUS_PENALTY 로 교체해 밀집 보상 카드(조각모음·인지편향 등)를 시너지로 제안. [audit-applied]"
+    },
+    "CARD.HAMMER_TIME": {
+      "axes": [
+        "FORGE_AMPLIFIER"
+      ],
+      "reason": "단조할 때마다 모든 아군이 추가 단조 → 기존 단조 이벤트에 배수 효과"
+    },
+    "CARD.BEAT_INTO_SHAPE": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "FORGE_AMPLIFIER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "공격+단조 — 이미 다른 적을 공격한 턴 추가 단조 발동, 멀티어택 시 단조 가속. 추가 공격 횟수당 단조 가산되므로 FORGE_AMPLIFIER 동시 보유. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.BULWARK": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "방어도+단조 — 방어 행동에 단조 누적을 부가하는 복합 생산 카드. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.CONQUEROR": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_AMPLIFIER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "단조+군주의 칼날 피해 2배 — 칼날을 강화하면서 동시에 칼날 딜을 배수 증폭. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.FURNACE": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "매 턴 시작 단조 4/6 — 지속형 단조 공급원, 전투가 길수록 칼날 수치 누적. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.PARRY": {
+      "axes": [
+        "LORDS_BLADE_PAYOFF"
+      ],
+      "reason": "군주의 칼날 사용 시 방어도 획득 → 칼날 사용 횟수가 많을수록 블록 스케일"
+    },
+    "CARD.REFINE_BLADE": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "단조+다음 턴 에너지 — 단조 생산과 에너지 선불을 겸하는 이중 자원 카드. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.SEEKING_EDGE": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_AMPLIFIER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "LORDS_BLADE_AMPLIFIER"
+      ],
+      "reason": "단조+칼날 공격 적용 — 칼날을 강화하면서 다음 칼날 사용 시 효과 연계. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭. [tier2-applied]"
+    },
+    "CARD.SPOILS_OF_BATTLE": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "단조+카드 2장 드로우 — 단조 생산과 드로우를 겸해 엔진 가속. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.SUMMON_FORTH": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_ACCESS",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "단조+모든 아군에게 군주의 칼날 즉시 지급 — 칼날을 지금 당장 쓸 수 있게 접근성 제공, 쳐내기·검성·정복자의 발동 횟수를 늘림. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.SWORD_SAGE": {
+      "axes": [
+        "DAMAGE_AMPLIFIER",
+        "LORDS_BLADE_AMPLIFIER",
+        "LORDS_BLADE_PAYOFF"
+      ],
+      "upgraded_axes": [
+        "LORDS_BLADE_AMPLIFIER"
+      ],
+      "reason": "군주의 칼날 사용 시 카드 1장 드로우 → 칼날 사용이 곧 드로우 엔진. 칼날 공격 시 추가 적중(피해 배수)이므로 DAMAGE_AMPLIFIER 동시 보유. [audit-applied]"
+    },
+    "CARD.THE_SMITH": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "단조 30/40 전용 — 순수 고효율 단조 공급원, 가장 빠르게 칼날을 강화. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.WROUGHT_IN_WAR": {
+      "axes": [
+        "FORGE_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "reason": "공격+단조 — 범용 공격에 단조 누적을 부가하는 기본 단조 생산 카드. + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭."
+    },
+    "CARD.NO_ESCAPE": {
+      "axes": [
+        "DOOM_AMPLIFIER"
+      ],
+      "reason": "기존 종말 보유량당 종말 추가 부여 → 기존 종말 효과 증폭 (Producer 역할도 병행)"
+    },
+    "CARD.DARK_EMBRACE": {
+      "axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "카드가 소멸될 때마다 드로우 → 소멸 이벤트 소비자"
+    },
+    "CARD.EVIL_EYE": {
+      "axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "이번 턴 소멸된 카드 수만큼 방어도 추가 획득 → EXHAUST_CONSUMER. EXHAUST_TAG(자기소멸 마커)는 CSV에서 유지 — 이 카드 자체도 소멸되므로 양쪽 역할 모두 가짐."
+    },
+    "CARD.BULLY": {
+      "axes": [
+        "VULN_AMPLIFIER",
+        "FREE_ATTACK"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "보유한 취약마다 피해량 증가 → 취약 스택 스케일링; 0코스트 공격 → 야성 복귀 연료. 자동감지 SCALING 은 within-attack 배수일 뿐 턴 성장이 아님 → 일반 딜/방어 추천 차단."
+    },
+    "CARD.COLOSSUS": {
+      "axes": [
+        "VULN_AMPLIFIER"
+      ],
+      "reason": "취약 상태의 적에게서 받는 피해 50% 감소 → 취약 상태 조건부 방어"
+    },
+    "CARD.COMPACT": {
+      "axes": [
+        "STATUS_CONSUMER",
+        "CARD_GEN"
+      ],
+      "reason": "손의 모든 상태이상 카드를 연료+로 변환 → STATUS_PRODUCER 카드와 핵심 시너지. 산출물 연료+ 는 EXHAUST_TAG + ENERGY + DRAW 토큰 (휘발성 아님) → VOLATILE_PRODUCER 매핑은 오류였음 (v1.10.0 audit 에서 catalog 의 FUEL 카드 keywords=['Exhaust'] 확인). CARD_GEN 으로 대체."
+    },
+    "CARD.CRASH_LANDING": {
+      "axes": [
+        "STATUS_TO_HAND"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "손을 잔해로 가득 채움 → 압축·대공포 등 STATUS_CONSUMER 카드들과 같은 턴 즉발 콤보 가능 (드로우 파일 추가가 아닌 손 직접 추가) [audit-applied]"
+    },
+    "CARD.CRUELTY": {
+      "axes": [
+        "VULN_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "취약 상태의 적이 받는 피해 50% 증가 → 글로벌 취약 피해 증폭. CrueltyPower→SCALING 자동감지는 플랫 +25% 증폭 오감지 (턴 성장 아님) → 일반 딜/방어 추천 차단."
+    },
+    "CARD.DEBILITATE": {
+      "axes": [
+        "VULN_AMPLIFIER",
+        "WEAK_AMPLIFIER"
+      ],
+      "reason": "취약과 약화의 효과가 2배 → 양 디버프 글로벌 증폭"
+    },
+    "CARD.DISMANTLE": {
+      "axes": [
+        "VULN_AMPLIFIER"
+      ],
+      "reason": "적이 취약 상태라면 2번 적중 → 취약 조건부 피해"
+    },
+    "CARD.DOMINATE": {
+      "axes": [
+        "VULN",
+        "VULN_AMPLIFIER",
+        "STRENGTH_PRODUCER",
+        "SCALING",
+        "UNLIMITED"
+      ],
+      "reason": "취약 2 부여 + 보유한 취약 스택만큼 힘 영구 획득 → 취약 producer + amplifier + 힘 공급. 소멸 + 영구 누적 → 다중 카피 = 다중 누적."
+    },
+    "CARD.MOLTEN_FIST": {
+      "axes": [
+        "VULN_AMPLIFIER",
+        "UNLIMITED"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "적이 보유한 취약이 2배로 증가 → 기존 취약 스택 증폭. 자동감지 SCALING 은 1회성 배수 적용 오감지 (턴 성장 아님) → 일반 딜/방어 추천 차단. 소멸 + 증폭 → 다중 카피 = 다중 발동."
+    },
+    "CARD.TRACKING": {
+      "axes": [
+        "WEAK_AMPLIFIER"
+      ],
+      "reason": "약화 상태의 적이 공격 카드로 받는 피해 2배 → 약화 스택 기반 피해 증폭"
+    },
+    "CARD.UNMOVABLE": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "매 턴 처음 얻는 방어도 2배 → 기존 BLOCK 효과 조건 없이 배수 증폭"
+    },
+    "CARD.ENTRENCH": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "현재 방어도 2배 → 기존 BLOCK 존재를 배수로 활용 (공급 없으면 공회전)"
+    },
+    "CARD.FASTEN": {
+      "axes": [
+        "DEFEND_TYPE_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "수비 카드를 통해 얻는 방어도 증가 → DEFEND_TYPE 카드 없으면 공회전, 완전 의존성. SCALING 제거: 방어 파워의 스케일링이 DAMAGE 카드를 필요로 하는 것처럼 오독되어 타격 카드와 허위 시너지 발생."
+    },
+    "CARD.COORDINATE": {
+      "axes": [
+        "STRENGTH_PRODUCER"
+      ],
+      "reason": "이번 턴 다른 플레이어에게 힘 5 — 힘 공급 효과(아군 대상이라도 STRENGTH_PRODUCER로 분류)."
+    },
+    "CARD.LETHALITY": {
+      "axes": [],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "휘발성 파워 — 매 턴 첫 공격 카드 +50% 피해. ETHEREAL_SELF가 카드 한정 표시, 시한 의미 없음. DURATION 자동 감지 오류 제거."
+    },
+    "CARD.EXPERTISE": {
+      "axes": [
+        "DRAW_CONDITIONAL"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "손이 6장(7장)이 될 때까지 뽑는 조건부 드로우 — 손이 차 있으면 0장. 배타 규칙: DRAW와 DRAW_CONDITIONAL 동시 등록 금지. [consensus-2of3-applied]"
+    },
+    "CARD.EXPOSE": {
+      "axes": [
+        "VULN",
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약을 3 부여 → CardAxisMap VulnerablePower 미감지, explicit 등록. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.MALAISE": {
+      "axes": [
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "약화를 X+1 부여 → X 코스트 카드라 Var 스캔 누락, explicit 등록. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결."
+    },
+    "CARD.PUTREFY": {
+      "axes": [
+        "WEAK",
+        "VULN_PRODUCER",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "약화를 3 부여 → CardAxisMap WeakPower 미감지, explicit 등록. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결."
+    },
+    "CARD.SHOCKWAVE": {
+      "axes": [
+        "VULN",
+        "VULN_PRODUCER",
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "모든 적에게 약화 + 취약 부여 (AOE) → CardAxisMap 미감지, explicit 등록. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.UPPERCUT": {
+      "axes": [
+        "WEAK",
+        "VULN",
+        "VULN_PRODUCER",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "약화 2 + 취약 2 부여 → CardAxisMap 미감지, explicit 등록. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결."
+    },
+    "CARD.ANOINTED": {
+      "axes": [
+        "DRAW_PILE_SEARCH",
+        "CARD_RETURN"
+      ],
+      "reason": "더미의 모든 희귀 카드를 손으로 — 더미 탐색 + 회수."
+    },
+    "CARD.DREDGE": {
+      "axes": [
+        "CARD_RETURN"
+      ],
+      "reason": "버린 카드 더미에서 3장 손으로 — 회수 효과 보강."
+    },
+    "CARD.ERADICATE": {
+      "axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "upgraded_axes": [
+        "RETAIN_SELF"
+      ],
+      "reason": "X번 11/14 피해 — X 코스트 다타 공격이므로 MULTI_HIT_SCALING. 강화 시 Retain 획득 (base는 키워드 없음)"
+    },
+    "CARD.AFTERIMAGE": {
+      "upgraded_axes": [
+        "INNATE_SELF"
+      ],
+      "reason": "강화 시 Innate 획득 → 매 전투 오프닝 핸드에 시작"
+    },
+    "CARD.AGGRESSION": {
+      "axes": [
+        "CARD_RETURN",
+        "DAMAGE_AMPLIFIER"
+      ],
+      "reason": "매 턴 버린 카드 더미에서 무작위 공격 카드 1장 손으로 + 강화 — 카드 회수 + 영구 강화. SCALING/RANDOM 자동 감지 유지."
+    },
+    "CARD.ARSENAL": {
+      "axes": [
+        "STRENGTH_PRODUCER"
+      ],
+      "reason": "카드 생성 시 힘 1 얻음 — 힘 공급 효과 누락 보강. SCALING 자동 감지 유지."
+    },
+    "CARD.BEACON_OF_HOPE": {
+      "axes": [],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 매 턴 방어도 얻을 때 아군이 절반 받음. 효과 한정자 '내 턴 동안'으로 인한 DURATION 오감지 제거."
+    },
+    "CARD.BIG_BANG": {
+      "upgraded_axes": [
+        "INNATE_SELF"
+      ],
+      "reason": "강화 시 Innate 획득. 0코스트 드로우 + 강력 효과 → 다중 카피 가치 보존 / ENERGY_PRODUCER 보강: 0코 + 1 에너지 + 카드 1장 + 별 + 단조 5 + 자기소멸. ENERGY_PRODUCER (다목적 burst skill, X_COST 시너지). + LORDS_BLADE_PRODUCER: 군주의 칼날에 단조를 누적 → 칼날 빌드의 핵심 자원 공급. FORGE_PRODUCER 와 별개의 _PRODUCER 접미사 매칭.",
+      "axes": [
+        "FORGE_PRODUCER",
+        "UNLIMITED",
+        "ENERGY_PRODUCER",
+        "LORDS_BLADE_PRODUCER"
+      ],
+      "auto_axes": [
+        "FORGE_PRODUCER"
+      ]
+    },
+    "CARD.BOOT_SEQUENCE": {
+      "upgraded_axes": [
+        "INNATE_SELF"
+      ],
+      "reason": "강화 시 Innate 획득"
+    },
+    "CARD.CALL_OF_THE_VOID": {
+      "axes": [
+        "CARD_GEN",
+        "SCALING"
+      ],
+      "reason": "매 턴 무작위 카드 1장 손으로(휘발성 부여) — 핸드/덱 풀이 매 턴 누적되는 결과적 SCALING. SCALE plan 시너지 인정."
+    },
+    "CARD.CREATIVE_AI": {
+      "axes": [
+        "SCALING"
+      ],
+      "reason": "매 턴 무작위 파워 카드 1장 손으로 — Power 카드 풀이 매 턴 누적되는 결과적 SCALING. RANDOM/CARD_GEN 자동 감지 유지."
+    },
+    "CARD.ENTROPY": {
+      "axes": [
+        "CARD_GEN",
+        "RANDOM"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "매 턴 시작 시 손 카드 1장 무작위 변화(morph) — 강화/변환 축이 별도로 없으므로 RANDOM 만 표시. 기존 DRAW exclude 유지. [tier2-applied]"
+    },
+    "_comment_exhaust_burst": "EXHAUST_BURST: 한 번의 발동으로 손 전체 또는 3장+ 소멸 — 1장 소멸 카드(EXHAUST_PRODUCER) 와 격차 분리. role_needs.json 에서 EXHAUST_CONSUMER 가 BURST(4.5) > PRODUCER(3.0) 로 가중. 자동 FORCED 강도(×1.5) 로 잡혀 EXHAUST_TARGET_FORCED 별도 마킹은 생략 가능. PURITY/CORRUPTION 처럼 플레이어가 발동을 통제하는 burst 는 default CHOSEN. axis-tagger SKILL 의 소멸 섹션 참조.",
+    "CARD.DRUM_OF_BATTLE": {
+      "axes": [
+        "EXHAUST_DRAIN_PASSIVE",
+        "EXHAUST_TARGET_FORCED"
+      ],
+      "exclude_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "reason": "내 턴 시작 시 뽑을 카드 더미 맨 위 카드를 영구 소멸 — 사용 시점 1회 EXHAUST_PRODUCER 와 달리 패시브 매턴 누적이라 빈 덱에서 자해. role_needs.json EXHAUST_DRAIN_PASSIVE 항목 + AxisDependencies costOverride=3, min=3 EXHAUST_CONSUMER 로 페널티 적용. EXHAUST_PRODUCER 는 자동 감지 유지(소멸 카운터/연료 신호). 강제 위치(덱 맨 위)이므로 TARGET_FORCED. [audit-applied]"
+    },
+    "CARD.FIEND_FIRE": {
+      "axes": [
+        "EXHAUST_BURST",
+        "EXHAUST_TARGET_FORCED"
+      ],
+      "reason": "손 전체 소멸 + 소멸 1장당 7 데미지 다타. 대량 BURST + 강제 손 전체 — 위험도 ×1.5 자동, S-tier + DAMAGE 동반으로 옵션-손실 페널티는 거의 정당화."
+    },
+    "CARD.EIDOLON": {
+      "axes": [
+        "EXHAUST_BURST",
+        "EXHAUST_TARGET_FORCED"
+      ],
+      "reason": "손에 있는 모든 카드 소멸 + 9장 소멸 시 불가침 1. 강제 손 전체 BURST."
+    },
+    "CARD.SECOND_WIND": {
+      "axes": [
+        "EXHAUST_BURST",
+        "EXHAUST_TARGET_FILTERED"
+      ],
+      "reason": "손에 있는 비공격 카드 전체 소멸 + 소멸 1장당 5 방어도. 비공격 한정 필터라 공격 카드는 보존 — TARGET_FILTERED. BURST 출력량 + 안전한 타겟."
+    },
+    "CARD.STOKE": {
+      "axes": [
+        "CARD_GEN",
+        "EXHAUST_BURST",
+        "EXHAUST_TARGET_FORCED"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "손 전체 소멸 + 소멸 수만큼 무작위 강화 카드 손으로. 강제 BURST. [audit-applied]"
+    },
+    "CARD.HAVOC": {
+      "axes": [
+        "EXHAUST_TARGET_FORCED",
+        "RANDOM"
+      ],
+      "upgraded_axes": [
+        "RANDOM"
+      ],
+      "reason": "뽑을 카드 더미 맨 위 카드 사용 후 소멸. 1장 소멸(EXHAUST_PRODUCER 자동 유지) + 강제 위치(예측 불가)이므로 TARGET_FORCED. C tier 약효율 + cost-0/1 — 작은 덱에서 옵션-손실 페널티 큰 카드. [audit-applied]"
+    },
+    "CARD.CINDER": {
+      "axes": [
+        "EXHAUST_PRODUCER",
+        "EXHAUST_TARGET_RANDOM"
+      ],
+      "upgraded_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "exclude_axes": [
+        "EXHAUST_CONSUMER",
+        "EXHAUST_TAG"
+      ],
+      "reason": "18 데미지 + 무작위 1장 소멸. CSV 가 EXHAUST_CONSUMER 로 잘못 라벨링했지만 실제 효과는 PRODUCER (소멸-반응 페이오프 없음, 데미지 고정). CSV 를 EXHAUST_PRODUCER 로 수정 + override 에서 RANDOM 타겟 추가. CINDER 는 Exhaust 키워드가 없는데 cards_catalog.json 에 EXHAUST_TAG 가 남아 있어 (헤드리스 덤프 잔여) 추가 exclude. STOKE/잿불 같은 가짜 시너지 발생의 원인. [audit-applied]"
+    },
+    "CARD.SPIRIT_OF_ASH": {
+      "axes": [],
+      "exclude_axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "휘발성 카드 사용 시 방어도 4 — VOLATILE 메커니즘 페이오프 (CSV 의 VOLATILE_CONSUMER 정확). 게임 내부 power 명이 BlockOnExhaust 라 CardAxisMap 이 EXHAUST_CONSUMER 도 자동 추가 → 휘발성 카드 부재 시 EXHAUST 빌드 시너지로 잘못 추천됨. exclude 만 적용."
+    },
+    "CARD.TRUE_GRIT": {
+      "axes": [
+        "EXHAUST_TARGET_RANDOM"
+      ],
+      "reason": "방어도 + 손에서 카드 1장 소멸. base 는 무작위, 강화 시 선택으로 변경 — schema 한계로 base 기준 RANDOM 마킹. 강화판은 약간 over-penalize 가능."
+    },
+    "CARD.TYRANNY": {
+      "axes": [
+        "EXHAUST_TARGET_RANDOM"
+      ],
+      "exclude_axes": [
+        "EXHAUST_PRODUCER"
+      ],
+      "reason": "파워 — 매 턴 시작 시 1장 뽑고 손에서 1장 무작위 소멸. RANDOM 페널티 + EXHAUST_PRODUCER 자동 유지. [audit-applied]"
+    },
+    "CARD.DUAL_WIELD": {
+      "axes": [
+        "CARD_GEN",
+        "POWER_AMPLIFIER",
+        "REPLAY"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "공격/파워 카드 1장 복사본 손으로 — 사실상 재사용 효과 + 파워 카드 중복 가능. [audit-applied]"
+    },
+    "CARD.PERFECTED_STRIKE": {
+      "axes": [
+        "STRIKE_CONSUMER"
+      ],
+      "reason": "덱의 타격(Strike) 카드 수만큼 피해 증가 → STRIKE_TYPE 카드를 연료로 스케일링하는 소비자"
+    },
+    "CARD.BARRICADE": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "내 턴 시작 시 방어도가 사라지지 않음 → 모든 BLOCK 카드의 방어도 누적 가치를 영구 증폭"
+    },
+    "CARD.ONE_TWO_PUNCH": {
+      "axes": [
+        "ATTACK_REPLAY",
+        "REPEAT"
+      ],
+      "upgraded_axes": [
+        "REPEAT"
+      ],
+      "exclude_axes": [
+        "ATTACK_COUNT"
+      ],
+      "reason": "다음 공격 카드 2장을 1번 추가 사용 → 강력한 딜 카드를 복사할수록 이득, DAMAGE/AOE_DAMAGE 필요 [audit-applied]"
+    },
+    "CARD.BURST": {
+      "axes": [
+        "SKILL_REPLAY"
+      ],
+      "exclude_axes": [
+        "SKILL_COUNT"
+      ],
+      "reason": "다음 스킬 카드 2장을 1번 추가 사용 → 모든 스킬 카드 대상, BLOCK/DRAW/SCALING 등 고가치 스킬 복사 [audit-applied]"
+    },
+    "CARD.ECHO_FORM": {
+      "axes": [
+        "REPEAT"
+      ],
+      "upgraded_axes": [
+        "REPEAT"
+      ],
+      "exclude_axes": [
+        "DURATION",
+        "VOLATILE_PRODUCER"
+      ],
+      "reason": "휘발성 파워 — 매 턴 첫 카드 1번 추가 사용. 시한 명시 없음(ETHEREAL_SELF로 충분). DURATION 자동 감지 오류 제거. [audit-applied]"
+    },
+    "CARD.STAMPEDE": {
+      "axes": [
+        "ATTACK_REPLAY",
+        "ATTACK_REPLAY_RANDOM"
+      ],
+      "upgraded_axes": [
+        "ATTACK_REPLAY"
+      ],
+      "reason": "내 턴 종료 시 손의 무작위 공격 카드 1장 자동 사용 → 매 턴 +1 공격 발동. ECHO_FORM/ONE_TWO_PUNCH(플레이어가 선택)와 달리 풀에서 랜덤 추첨이라 0코스트 공격이 섞이면 'DAMAGE 이지만 어차피 칠 수 있던' 카드를 뽑아 가치 희석. DAMAGE_COSTED/AOE_DAMAGE_COSTED 만 매칭하는 ATTACK_REPLAY_RANDOM 사용. [audit-applied]"
+    },
+    "CARD.BODY_SLAM": {
+      "axes": [
+        "BLOCK_PAYOFF"
+      ],
+      "reason": "방어도만큼 피해 → 현재 방어도 수치를 딜로 변환, BLOCK 축적량 + BLOCK_AMPLIFIER(바리케이드 등)에 직접 의존"
+    },
+    "CARD.BLUR": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "다음 턴 시작 시 방어도가 사라지지 않음 → 방어도 1턴 연장 증폭, 여러 장 쌓이면 블록 복합 누적 (바리케이드의 약한 버전)"
+    },
+    "CARD.MEMENTO_MORI": {
+      "axes": [
+        "DISCARD_TURN_PAYOFF"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "이번 턴에 버린 카드 수만큼 피해 증가 → 같은 턴에 다량 버리는 콤보 필요 (계산된 도박 등). SCALING 자동 감지는 오류 — 다음 턴엔 페이오프가 0부터 다시 시작하는 turn-only nova 이지 영구 성장이 아님. DISCARD_TURN_PAYOFF 가 정확한 분류."
+    },
+    "CARD.STACK": {
+      "axes": [
+        "DISCARD_PAYOFF"
+      ],
+      "reason": "버린 카드 더미 크기만큼 방어도 → 버리기 엔진(CUNNING_CONSUMER)이 많을수록 스케일"
+    },
+    "_comment_defect_orb": "디펙트 구체 타입 축 — LIGHTNING_ORB/FROST_ORB/DARK_ORB/PLASMA_ORB 로 타입별 시너지 분리. ORB_EVOKE = 명시적 발현 카드. SLOT_EXPAND = 슬롯 증가 카드.",
+    "CARD.MULTI_CAST": {
+      "axes": [
+        "ORB_AMPLIFIER",
+        "ORB_CONSUMER",
+        "ORB_EVOKE"
+      ],
+      "upgraded_axes": [
+        "ORB_CONSUMER"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "가장 오른쪽 구체 N+1번 채널 → 현재 주력 구체 대량 증폭, 슬롯 초과 시 발현 트리거 [audit-applied]"
+    },
+    "CARD.QUADCAST": {
+      "axes": [
+        "ORB_AMPLIFIER",
+        "ORB_CONSUMER",
+        "ORB_EVOKE"
+      ],
+      "upgraded_axes": [
+        "ORB_CONSUMER"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "가장 오른쪽 구체 4+N번 채널 → 단일 타입 대량 채널로 슬롯 전체 강제 발현, MULTI_CAST의 강화판 [audit-applied]"
+    },
+    "CARD.COMPILE_DRIVER": {
+      "axes": [
+        "ORB_VARIETY_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "드로우 = 슬롯의 구체 타입 종류 수 → 타입 다양성으로 스케일하는 증폭기. 개별 구체 효과 강도(FOCUS)와 무관. [audit-applied]"
+    },
+    "CARD.SYNCHRONIZE": {
+      "axes": [
+        "FOCUS",
+        "ORB_VARIETY_AMPLIFIER",
+        "STACKABLE"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "영창된 구체 타입 종류당 밀집 2 획득 → FOCUS 생산자. 타입 다양성이 많을수록 획득량 증가 → ORB_VARIETY_AMPLIFIER. 구체를 직접 영창하지 않으므로 ORB_PRODUCER 제거. 이번 턴 발동 + 다른 카드 조화 필요 → 1~2장 STACKABLE."
+    },
+    "_comment_defect_focus": "밀집(Focus) 부여 카드 — 구체 패시브/발현 효과를 직접 스케일링. FOCUS 축 태깅으로 scalingScore 반영 + ORB 생태계 ROLE_NEEDS 양방향 연결.",
+    "CARD.DEFRAGMENT": {
+      "axes": [
+        "FOCUS"
+      ],
+      "reason": "밀집 +2 영구 부여 → 구체 패시브/발현 효과 스케일링의 핵심 카드"
+    },
+    "CARD.BIASED_COGNITION": {
+      "axes": [
+        "BURST_FINISHER"
+      ],
+      "reason": "집중 +4(구체 폭딜) + 사용 즉시 매 턴 집중 -1(4턴 후 음수 진입 → 모든 구체 약화). 사용 즉시 패널티가 시작되므로 보유 전략 무용 — 빠른 회수 가능한 빌드(고화력 구체 덱)에서만 가치. 빌드 의존도 강함."
+    },
+    "CARD.FOCUSED_STRIKE": {
+      "axes": [
+        "DAMAGE",
+        "FOCUS",
+        "STRIKE_TYPE"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "9뎀 + 이번 턴 한정 밀집 +1 → 같은 턴 영창/패시브에만 의미. 일시 밀집은 누적 성장이 아니므로 SCALING 제거(영구 부여 DEFRAGMENT/BIASED_COGNITION 과 차별화). FOCUS 축은 같은 턴 ORB 활용 시너지 표현용 유지."
+    },
+    "CARD.HAILSTORM": {
+      "axes": [
+        "FROST_PAYOFF",
+        "AOE",
+        "AOE_DAMAGE",
+        "AOE_OTHER"
+      ],
+      "exclude_axes": [
+        "FROST_ORB"
+      ],
+      "reason": "냉기 보유 시 모든 적에게 6 피해 — 광역 피해. 기존 FROST_PAYOFF/FROST_ORB exclude 유지하며 AOE 계열 보강."
+    },
+    "CARD.THUNDER": {
+      "axes": [
+        "LIGHTNING_EVOKE",
+        "ORB_EVOKE"
+      ],
+      "exclude_axes": [
+        "LIGHTNING_ORB"
+      ],
+      "reason": "전기를 발현할 때마다 추가 피해 — 번개 발현 이벤트 페이오프. 영창(channel) 없음, LIGHTNING_ORB 제거. LIGHTNING_EVOKE로 번개 영창 카드를 시너지로 요청.",
+      "auto_axes": [
+        "ORB_EVOKE"
+      ]
+    },
+    "CARD.TESLA_COIL": {
+      "axes": [
+        "FREE_ATTACK",
+        "LIGHTNING_EVOKE",
+        "ORB_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "ORB_CONSUMER"
+      ],
+      "exclude_axes": [
+        "LIGHTNING_ORB"
+      ],
+      "reason": "모든 전기(번개 구체) 일제 발현 — LIGHTNING_EVOKE 전용 축. LIGHTNING_ORB 제거: collectNeededRoles 자기참조 필터 우회 → 번개 영창 카드를 시너지 최상위로 요청 [audit-applied]"
+    },
+    "CARD.TEMPEST": {
+      "axes": [
+        "LIGHTNING_ORB"
+      ],
+      "reason": "전기를 X번 영창 → 번개 구체 전용 대량 채널 (X_COST CardAxisMap 자동 감지)"
+    },
+    "CARD.LIGHTNING_ROD": {
+      "axes": [
+        "LIGHTNING_ORB"
+      ],
+      "exclude_axes": [
+        "DAMAGE"
+      ],
+      "reason": "LIGHTNING_ROD + ORB_PRODUCER → 번개 구체 채널 계열. DAMAGE 자동 감지는 오류 (자체 피해 0, 영창된 구체가 발현/패시브로 피해)."
+    },
+    "CARD.RAINBOW": {
+      "axes": [
+        "LIGHTNING_ORB",
+        "FROST_ORB",
+        "DARK_ORB",
+        "MULTI_ORB",
+        "DARK_ORB_PRODUCER"
+      ],
+      "reason": "번개+냉기+암흑 각 1번 영창 → 3타입 구체 동시 Producer. MULTI_ORB = 1장으로 다양성 3개 충족, ORB_VARIETY_AMPLIFIER 전용 상위 매칭. + DARK_ORB_PRODUCER: 암흑 구체 전용 공급 — DARK_ORB_AMPLIFIER(어둠같이)·DARK_ORB(자체 마커) 와 _PRODUCER 접미사 매칭."
+    },
+    "CARD.BALL_LIGHTNING": {
+      "axes": [
+        "LIGHTNING_ORB"
+      ],
+      "reason": "번개 구체 채널"
+    },
+    "CARD.ZAP": {
+      "axes": [
+        "LIGHTNING_ORB"
+      ],
+      "reason": "번개 구체 채널"
+    },
+    "CARD.REFRACT": {
+      "axes": [
+        "GLASS_ORB",
+        "HIT_2",
+        "LIGHTNING_ORB"
+      ],
+      "upgraded_axes": [
+        "HIT_2"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "번개 구체 채널 [audit-applied]"
+    },
+    "CARD.STORM": {
+      "axes": [
+        "LIGHTNING_ORB",
+        "POWER_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "DAMAGE"
+      ],
+      "reason": "번개 구체 채널. DAMAGE 자동 감지는 오류 (자체 피해 0, 파워 사용 시 영창). + POWER_AMPLIFIER: 파워 사용 트리거 — 자체가 파워이면서 다른 파워 사용 시 추가 효과 발동(이중 파워)."
+    },
+    "CARD.VOLTAIC": {
+      "axes": [
+        "LIGHTNING_ORB"
+      ],
+      "reason": "번개 구체 채널"
+    },
+    "CARD.DUALCAST": {
+      "axes": [
+        "ORB_CONSUMER",
+        "ORB_EVOKE"
+      ],
+      "upgraded_axes": [
+        "ORB_CONSUMER"
+      ],
+      "exclude_axes": [
+        "LIGHTNING_ORB",
+        "ORB_PRODUCER"
+      ],
+      "reason": "가장 오른쪽 구체 2번 발현 — 영창(channel) 없음, 순수 발현(evoke) 카드. LIGHTNING_ORB 제거. [audit-applied]"
+    },
+    "CARD.COLD_SNAP": {
+      "axes": [
+        "FROST_ORB"
+      ],
+      "reason": "서리 구체 채널"
+    },
+    "CARD.CHILL": {
+      "axes": [
+        "FROST_ORB"
+      ],
+      "reason": "서리 구체 채널"
+    },
+    "CARD.COOLANT": {
+      "axes": [
+        "FROST_ORB",
+        "ORB_VARIETY_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "서리 구체 채널 [audit-applied]"
+    },
+    "CARD.GLACIER": {
+      "axes": [
+        "FROST_ORB"
+      ],
+      "reason": "서리 구체 채널"
+    },
+    "CARD.NULL": {
+      "axes": [
+        "DARK_ORB",
+        "WEAK",
+        "WEAK_PRODUCER",
+        "DARK_ORB_PRODUCER"
+      ],
+      "reason": "어둠 구체 채널. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. + DARK_ORB_PRODUCER: 암흑 구체 전용 공급 — DARK_ORB_AMPLIFIER(어둠같이)·DARK_ORB(자체 마커) 와 _PRODUCER 접미사 매칭.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "CARD.CONSUMING_SHADOW": {
+      "axes": [
+        "DARK_ORB",
+        "DARK_ORB_PRODUCER",
+        "ORB_EVOKE"
+      ],
+      "exclude_axes": [
+        "DAMAGE",
+        "EXHAUST_CONSUMER",
+        "REPEAT"
+      ],
+      "reason": "어둠 구체 채널 + 턴 종료 시 가장 왼쪽 구체 발현. DAMAGE 자동 감지는 오류 (자체 피해 0, 어둠 구체 누적 → 발현 시 피해). EXHAUST_CONSUMER 도 오류 — power 명 ConsumingShadowPower 가 CardAxisMap 에서 자동 부여되지만 효과는 ORB 메커니즘이지 EXHAUST 무관. + DARK_ORB_PRODUCER: 암흑 구체 전용 공급 — DARK_ORB_AMPLIFIER(어둠같이)·DARK_ORB(자체 마커) 와 _PRODUCER 접미사 매칭. [audit-applied]"
+    },
+    "CARD.SHADOW_SHIELD": {
+      "axes": [
+        "DARK_ORB",
+        "DARK_ORB_PRODUCER"
+      ],
+      "reason": "어둠 구체 채널 + 슬롯 수 비례 방어. + DARK_ORB_PRODUCER: 암흑 구체 전용 공급 — DARK_ORB_AMPLIFIER(어둠같이)·DARK_ORB(자체 마커) 와 _PRODUCER 접미사 매칭."
+    },
+    "CARD.FUSION": {
+      "axes": [
+        "PLASMA_ORB"
+      ],
+      "reason": "플라즈마 구체 채널"
+    },
+    "CARD.METEOR_STRIKE": {
+      "axes": [
+        "PLASMA_ORB"
+      ],
+      "reason": "플라즈마 구체 채널"
+    },
+    "CARD.BULK_UP": {
+      "axes": [
+        "SLOT_COST"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "구체 슬롯 1개 소모 비용 → SLOT_EXPAND 카드로 보상 필요. 힘/민첩 영구 부여는 CardAxisMap 자동 감지(StrengthPower/DexterityPower). [audit-applied]"
+    },
+    "CARD.CAPACITOR": {
+      "axes": [
+        "SLOT_EXPAND"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER",
+        "REPEAT"
+      ],
+      "reason": "구체 슬롯 수 증가 [audit-applied]"
+    },
+    "CARD.LOOP": {
+      "axes": [
+        "ORB_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "ORB_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "DURATION",
+        "ORB_PRODUCER"
+      ],
+      "reason": "영구 파워 — 매 턴 시작 시 가장 오른쪽 구체 발동 2배. DURATION 자동 감지 오류 제거. [audit-applied]"
+    },
+    "CARD.GLASSWORK": {
+      "axes": [
+        "GLASS_ORB"
+      ],
+      "reason": "유리 구체 채널"
+    },
+    "CARD.SPINNER": {
+      "axes": [
+        "GLASS_ORB"
+      ],
+      "reason": "유리 구체 채널"
+    },
+    "_comment_free_attack": "FREE_ATTACK 마커: 비소멸 0코스트 공격 카드. 야성(FREE_ATTACK_RETURNER)이 있으면 매 턴 처음 사용 시 손으로 복귀 — 무한 반복 가능. EXHAUST_SELF 있는 카드(단도·암살·배신 등)와 X코스트 카드는 제외. FREE_ATTACK_RECLAIMER(하나를 위한 모두): 버린 더미의 0코스트 카드 전부 회수. FREE_ATTACK_FILTER(긁어내기): 드로우 중 0코스트 아닌 카드 전부 버려 손을 0코스트만으로 정리.",
+    "CARD.ALL_FOR_ONE": {
+      "axes": [
+        "FREE_ATTACK_RECLAIMER"
+      ],
+      "exclude_axes": [
+        "DISCARD_RECLAIM",
+        "ENERGY"
+      ],
+      "reason": "이미 사용해서 버린 더미에 들어간 0코스트 카드를 회수 — FREE_ATTACK 카드가 많을수록 강함. 교활(Sly)처럼 '버리기' 트리거 페이오프가 아니라 사용한 0코 카드 재사용기이므로 DISCARD_RECLAIM 제거 (버리기 빌드와 시너지 오인 방지). ENERGY 도 오류 — 0⚡ 카드 회수지 에너지 공급 아님 (FREE_ATTACK_RECLAIMER 가 정확)."
+    },
+    "CARD.ANGER": {
+      "axes": [
+        "CARD_GEN",
+        "FREE_ATTACK"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [tier2-applied]"
+    },
+    "CARD.ASTRAL_PULSE": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "STAR_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [audit-applied]"
+    },
+    "CARD.BEAM_CELL": {
+      "axes": [
+        "FREE_ATTACK",
+        "VULN_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.BOLAS": {
+      "axes": [
+        "FREE_ATTACK",
+        "SELF_RETURN"
+      ],
+      "upgraded_axes": [
+        "SELF_RETURN"
+      ],
+      "reason": "0코스트 비소멸 공격, 자기복귀 별도 → 야성 복귀도 추가 트리거 가능 [audit-applied]"
+    },
+    "CARD.BYRD_SWOOP": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료"
+    },
+    "CARD.CLASH": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료"
+    },
+    "CARD.CLAW": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료; 스케일링 시너지 특히 강함"
+    },
+    "CARD.COLLISION_COURSE": {
+      "axes": [
+        "FREE_ATTACK",
+        "STATUS_TO_HAND"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료; 잔해를 손에 직접 추가 → 압축·대공포 즉발 소비 가능"
+    },
+    "CARD.COMET": {
+      "axes": [
+        "FREE_ATTACK",
+        "WEAK",
+        "VULN_PRODUCER",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "CARD.FALLING_STAR": {
+      "axes": [
+        "FREE_ATTACK",
+        "VULN_PRODUCER",
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "STAR_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.FETCH": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료"
+    },
+    "CARD.FLAK_CANNON": {
+      "axes": [
+        "EXHAUST_BURST",
+        "EXHAUST_TARGET_FILTERED",
+        "STATUS_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "EXHAUST_BURST"
+      ],
+      "reason": "손의 모든 상태이상 카드를 소멸, 소멸당 피해 → STATUS_PRODUCER 카드들(가속 이탈·불가피한 충돌 등)과 핵심 시너지. 상태이상 한정 필터 (dead 카드만 제거) — TARGET_FILTERED 로 옵션-손실 페널티 0. [audit-applied]"
+    },
+    "_comment_defect_status_trigger": "상태이상 트리거 페이오프 카드 — '상태이상 카드 뽑을 시/생성 시' 트리거. 덱에 상태이상 공급원이 없으면 dead. STATUS_CONSUMER 로 빌드 핏 분리 (상태이상 빌드 외엔 점수 0).",
+    "CARD.ITERATION": {
+      "axes": [
+        "DRAW_ON_DRAW",
+        "STATUS_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "DRAW_ON_DRAW"
+      ],
+      "exclude_axes": [
+        "DRAW",
+        "DURATION"
+      ],
+      "reason": "매 턴 처음 상태이상 카드 뽑을 시 +2 드로우 → 상태이상 트리거 페이오프. 일반 DRAW 시너지가 아니라 STATUS_CONSUMER 로 분류 — 상태이상 0장 덱에서 dead. 부수 드로우 가치는 STATUS_CONSUMER 의 forward needs(DRAW w=0.8) 에서 표현됨. DURATION 자동 감지 오류 제거 (영구 파워). [audit-applied]"
+    },
+    "CARD.SMOKESTACK": {
+      "axes": [
+        "AOE",
+        "STATUS_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "BLOCK"
+      ],
+      "reason": "상태이상 카드 *생성* 시 5 광역 딜 → STATUS_CONSUMER (생성 트리거 페이오프). BLOCK 자동 감지 오류 — description 에 방어도 효과 없음. [audit-applied]"
+    },
+    "CARD.TRASH_TO_TREASURE": {
+      "axes": [
+        "STATUS_CONSUMER"
+      ],
+      "exclude_axes": [
+        "ORB_PRODUCER",
+        "RANDOM"
+      ],
+      "reason": "상태이상 카드 *생성* 시 무작위 구체 1번 영창 → STATUS_CONSUMER + ORB_PRODUCER 양쪽 트리거 페이오프. ORB_PRODUCER/RANDOM 자동 감지 유지. [audit-applied]"
+    },
+    "CARD.FLASH_OF_STEEL": {
+      "axes": [
+        "FREE_ATTACK",
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료; 드로우 효과도 매 턴 반복. 0코스트 드로우 cantrip — 다중 카피 가치 보존."
+    },
+    "CARD.FTL": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료; 디펙트 주력 시너지"
+    },
+    "CARD.GAMMA_BLAST": {
+      "axes": [
+        "FREE_ATTACK",
+        "WEAK",
+        "VULN_PRODUCER",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "CARD.GO_FOR_THE_EYES": {
+      "axes": [
+        "FREE_ATTACK",
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료; 디펙트 주력 시너지. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "CARD.GRAND_FINALE": {
+      "axes": [
+        "ABSENT_CONDITIONAL"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "뽑을 카드 더미가 비었을 때만 사용 가능 (모든 적 60 피해) — 더미 부재 조건의 압축덱 핵심 카드. [audit-applied]"
+    },
+    "CARD.LUNAR_BLAST": {
+      "axes": [
+        "FREE_ATTACK",
+        "SKILL_COUNT"
+      ],
+      "upgraded_axes": [
+        "SKILL_COUNT"
+      ],
+      "exclude_axes": [
+        "COMBO",
+        "SCALING"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [audit-applied]"
+    },
+    "CARD.MAKE_IT_SO": {
+      "axes": [
+        "FREE_ATTACK",
+        "SELF_RETURN",
+        "SKILL_CONDITIONAL",
+        "SKILL_COUNT"
+      ],
+      "upgraded_axes": [
+        "SELF_RETURN",
+        "SKILL_COUNT"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. 한 턴에 스킬 3장 사용 시 손으로 회수 → SKILL_TYPE 트리거 카드. DRAW 자동 감지는 오류 (카드를 *뽑지* 않고 자기 카드를 *손으로 회수*). [audit-applied]"
+    },
+    "CARD.METEOR_SHOWER": {
+      "axes": [
+        "FREE_ATTACK",
+        "VULN_PRODUCER",
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.MISERY": {
+      "axes": [
+        "AOE",
+        "AOE_DEBUFF",
+        "FREE_ATTACK"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [audit-applied]"
+    },
+    "CARD.NEUTRALIZE": {
+      "axes": [
+        "FREE_ATTACK",
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "CARD.OMNISLICE": {
+      "axes": [
+        "AOE",
+        "FREE_ATTACK"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [audit-applied]"
+    },
+    "CARD.POKE": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료"
+    },
+    "CARD.PRECISE_CUT": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료"
+    },
+    "CARD.RADIATE": {
+      "axes": [
+        "FREE_ATTACK",
+        "STAR_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "STAR_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "STAR_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [audit-applied]"
+    },
+    "CARD.RIGHT_HAND_HAND": {
+      "axes": [
+        "FREE_ATTACK",
+        "SELF_RETURN"
+      ],
+      "upgraded_axes": [
+        "SELF_RETURN"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. ENERGY 매핑은 오류 — 비용 ⚡⚡ 이상 카드 사용 시 자기 손 회수인 HIGH_COST 트리거지 에너지 공급 아님 (CSV SynergyAxes 오분류). [tier2-applied]"
+    },
+    "CARD.SLICE": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료"
+    },
+    "CARD.SPITE": {
+      "axes": [
+        "FREE_ATTACK",
+        "HIT_2",
+        "HP_LOSS_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "HIT_3"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료 [audit-applied]"
+    },
+    "CARD.CRESCENT_SPEAR": {
+      "axes": [
+        "DAMAGE",
+        "SCALING",
+        "STAR_PAYOFF"
+      ],
+      "exclude_axes": [
+        "STAR_AMPLIFIER",
+        "STAR_PRODUCER"
+      ],
+      "reason": "덱의 별 소비 카드 수에 비례해 데미지 증가 — STAR_CONSUMER 동료가 핵심. STAR_AMPLIFIER는 '별 연료 필요' 방향으로 오연결되므로 제거. [audit-applied]"
+    },
+    "CARD.STARDUST": {
+      "axes": [
+        "FREE_ATTACK",
+        "MULTI_HIT_SCALING",
+        "STAR_CONSUMER",
+        "STAR_X_COST",
+        "X_COST"
+      ],
+      "upgraded_axes": [
+        "MULTI_HIT_SCALING",
+        "X_COST"
+      ],
+      "exclude_axes": [
+        "STAR_PRODUCER"
+      ],
+      "reason": "0에너지 코스트, 별 X개 소모 → 별 X 스케일 공격. CSV의 STAR_PRODUCER 오분류 제거. [audit-applied]"
+    },
+    "CARD.CHILD_OF_THE_STARS": {
+      "axes": [
+        "STAR_CONSUMER",
+        "STAR_PAYOFF"
+      ],
+      "upgraded_axes": [
+        "STAR_CONSUMER"
+      ],
+      "exclude_axes": [
+        "EXHAUST_CONSUMER",
+        "EXHAUST_TAG",
+        "STAR_AMPLIFIER",
+        "STAR_PRODUCER"
+      ],
+      "reason": "별 소모 시마다 방어도 획득 — 소멸(exhaust) 무관, '별을 소모'의 소모가 EXHAUST_CONSUMER로 오분류됨. STAR_PAYOFF로 재분류해 STAR_CONSUMER/STAR_X_COST 카드를 핵심 파트너로 추천. [audit-applied]"
+    },
+    "CARD.SUPPRESS": {
+      "axes": [
+        "FREE_ATTACK",
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "0코스트 비소멸 공격 → 야성 복귀 연료. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_axes": [
+        "WEAK"
+      ]
+    },
+    "_comment_star_burst": "STAR_BURST: 한 번의 발동으로 별을 2개 이상 대량 생산하는 카드 — 방출(STAR_AMPLIFIER) 이 별 1개짜리 생산자보다 훨씬 강하게 요구. 봉인된 왕좌는 카드 1장당 별 1개이지만 1턴에 3-5장 사용 → 실질 3-5개 생산으로 STAR_BURST 기준 충족.",
+    "CARD.GENESIS": {
+      "axes": [
+        "STAR_BURST"
+      ],
+      "reason": "매 턴 시작 시 별 2-3개 획득(파워) — 단발 대량 생산 기준 충족"
+    },
+    "CARD.ROYAL_GAMBLE": {
+      "axes": [
+        "STAR_BURST"
+      ],
+      "reason": "별 5 소모 → 별 9 획득, 소멸 — 순이익 +4, 단발 최대 별 생산량"
+    },
+    "CARD.THE_SEALED_THRONE": {
+      "axes": [
+        "STAR_BURST"
+      ],
+      "reason": "카드 사용마다 별 1개(파워) → 1턴 3-5장 사용 시 3-5개 생산, 실질 고출력 생산자"
+    },
+    "CARD.VENERATE": {
+      "axes": [
+        "STAR_BURST"
+      ],
+      "reason": "별 2-3개 일괄 획득 — STAR_BURST 기준 충족"
+    },
+    "_comment_power_cost_enabler": "POWER_COST_ENABLER: 다음에 사용하는 파워 카드의 비용을 0으로 낮춤. CardAxisMap 이 '0 ⚡' 를 ENERGY(생성)로 오분류 → exclude_axes 로 제거하고 POWER_COST_ENABLER 로 교체. 파워 카드가 덱에 없으면 효과가 낭비됨.",
+    "CARD.SYNTHESIS": {
+      "axes": [
+        "POWER_COST_ENABLER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "다음에 사용하는 파워 카드의 비용이 0 — '0 ⚡' 를 ENERGY 생성으로 오감지, 실제로는 파워 카드 비용 감소. POWER_COST_ENABLER 로 교체해 파워 카드 시너지 표시."
+    },
+    "_comment_multi_hit": "HIT_N / MULTI_HIT_SCALING: 타격 횟수 축. 힘·취약·약화가 타격당 적용되므로 타수에 비례해 시너지 weight 가 증가. 게임 Var 에 타격 횟수 정보가 없으므로 전량 explicit 등록. upgraded_axes 로 강화 버전 타수 변경 반영 — 점수 계산은 최고 weight 를 선택하므로 두 HIT_N 이 공존해도 강한 쪽이 사용됨.",
+    "CARD.CELESTIAL_MIGHT": {
+      "axes": [
+        "HIT_3",
+        "HIT_4"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "고정 4타 공격 — 힘/취약/약화 시너지 타수 배수 적용 [audit-applied]"
+    },
+    "CARD.PECK": {
+      "axes": [
+        "HIT_3"
+      ],
+      "upgraded_axes": [
+        "HIT_4"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "기본 3타 / 강화 4타 고정 다타 공격 [audit-applied]"
+    },
+    "CARD.RICOCHET": {
+      "axes": [
+        "HIT_4"
+      ],
+      "upgraded_axes": [
+        "HIT_5"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "기본 4타 / 강화 5타 랜덤 다타 공격 [audit-applied]"
+    },
+    "CARD.SWORD_BOOMERANG": {
+      "axes": [
+        "HIT_3"
+      ],
+      "upgraded_axes": [
+        "HIT_4"
+      ],
+      "exclude_axes": [
+        "RANDOM",
+        "REPEAT"
+      ],
+      "reason": "3타 랜덤 다타 공격 [audit-applied]"
+    },
+    "CARD.TEAR_ASUNDER": {
+      "axes": [
+        "MULTI_HIT_SCALING",
+        "HP_LOSS_CONSUMER"
+      ],
+      "reason": "X번 타격 + 전투 중 체력 손실 횟수만큼 반복 — MULTI_HIT_SCALING & HP_LOSS_CONSUMER 이중 축"
+    },
+    "_comment_hp_loss_consumer": "HP_LOSS_CONSUMER: 체력을 잃는 이벤트에 반응해 효과가 발동하는 카드. HP_LOSS(자해 비용 카드)가 덱에 있을수록 가치 상승 — 역방향 시너지 페어링.",
+    "CARD.RUPTURE": {
+      "axes": [
+        "HP_LOSS_CONSUMER"
+      ],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 체력 잃을 때마다 힘 1 얻음. HP_LOSS_CONSUMER (자해 페이오프). DURATION 자동 감지 오류 제거."
+    },
+    "CARD.INFERNO": {
+      "axes": [
+        "AOE",
+        "HP_LOSS",
+        "HP_LOSS_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 매 턴 체력 1 잃고(HP_LOSS producer), 체력 잃을 때마다 광역 6 피해(HP_LOSS_CONSUMER). 자기충족 자해 페이오프. DURATION 자동 감지 오류 제거. [audit-applied]"
+    },
+    "CARD.CRIMSON_MANTLE": {
+      "axes": [
+        "HP_LOSS"
+      ],
+      "reason": "매 턴 체력 1 잃고 방어도 8 얻음 (자기 자해 producer + 스케일링 BLOCK). 자해 archetype 의 enabler."
+    },
+    "_comment_power_amplifier": "POWER_AMPLIFIER: 다음에 사용하는 파워 카드를 1번 추가로 사용(이중 발동). 파워 카드가 덱에 없으면 효과가 낭비됨 → POWER_TYPE 강요구. POWER_COST_ENABLER(합성)과 동일 패턴이나 비용이 아닌 발동 횟수를 증폭.",
+    "CARD.SIGNAL_BOOST": {
+      "axes": [
+        "EXHAUST_TAG",
+        "POWER_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "ORB"
+      ],
+      "reason": "다음에 사용하는 파워 카드를 1번 추가로 사용 — CardAxisMap 이 SignalBoostPower 를 ORB 로 오분류, POWER_AMPLIFIER 로 교체."
+    },
+    "CARD.SHATTER": {
+      "axes": [
+        "ORB_CONSUMER",
+        "ORB_EVOKE"
+      ],
+      "upgraded_axes": [
+        "ORB_CONSUMER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "ORB_PRODUCER"
+      ],
+      "reason": "[auto] 발현 → 구체 발현 트리거 [audit-applied]"
+    },
+    "CARD.DEATHBRINGER": {
+      "axes": [
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[auto] 약화을/를/와 → 약화 디버프 부여. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.DEFY": {
+      "axes": [
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "VOLATILE_PRODUCER"
+      ],
+      "reason": "[auto] 약화을/를/와 → 약화 디버프 부여. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.KNOW_THY_PLACE": {
+      "axes": [
+        "WEAK",
+        "VULN_PRODUCER",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "[auto] 약화을/를/와 → 약화 디버프 부여. + VULN_PRODUCER: 취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_generated": true,
+      "auto_patterns": [
+        "약화[을를와]"
+      ]
+    },
+    "CARD.LEG_SWEEP": {
+      "axes": [
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[auto] 약화을/를/와 → 약화 디버프 부여. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.NECRO_MASTERY": {
+      "axes": [
+        "AOE",
+        "AOE_DAMAGE",
+        "SKELETON_CONSUMER",
+        "SKELETON_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "AOE",
+        "SKELETON_CONSUMER"
+      ],
+      "reason": "골골이 체력 손실 시 모든 적이 동일 체력 손실 — 광역 피해성 효과(HP_LOSS 전파). AOE_DAMAGE 보강. 기존 SKELETON_PRODUCER override 유지. [audit-applied]"
+    },
+    "CARD.SIC_EM": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "[auto] 소환 N → 골골이 소환",
+      "auto_generated": true,
+      "auto_patterns": [
+        "소환\\s*\\d"
+      ]
+    },
+    "CARD.SPUR": {
+      "axes": [
+        "SKELETON_PRODUCER"
+      ],
+      "reason": "[auto] 소환 N → 골골이 소환",
+      "auto_generated": true,
+      "auto_patterns": [
+        "소환\\s*\\d"
+      ]
+    },
+    "CARD.SUCKER_PUNCH": {
+      "axes": [
+        "WEAK",
+        "WEAK_PRODUCER"
+      ],
+      "reason": "[auto] 약화을/를/와 → 약화 디버프 부여. + WEAK_PRODUCER: 약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결.",
+      "auto_generated": true,
+      "auto_patterns": [
+        "약화[을를와]"
+      ]
+    },
+    "CARD.NEUROSURGE": {
+      "axes": [
+        "BURST_FINISHER",
+        "DOOM_SELF_PRODUCER",
+        "ENERGY_PRODUCER"
+      ],
+      "exclude_axes": [
+        "DOOM_PRODUCER"
+      ],
+      "reason": "0코스트 4에너지 + 2드로우(즉발 폭딜) + 매 턴 자기 종말 +3(사용 후부터). ENERGY_PRODUCER (즉발 4에너지 = X_COST 1턴 폭딜 셋업). 0코스트라 손에 들고 있다가 마지막 턴에 사용 시 자해 누적 회피 가능 — 거의 모든 빌드에서 강력. BURST_FINISHER 가중치는 빠른 킬 빌드에서 추가 부스트 역할. 자기 종말은 적 누적 빌드와 무관 → DOOM_PRODUCER 제거하고 DOOM_SELF_PRODUCER로 정확 분류(수의·죽음의 문턱과 페어링)."
+    },
+    "CARD.DEATHS_DOOR": {
+      "axes": [
+        "DOOM_CONSUMER"
+      ],
+      "exclude_axes": [
+        "DOOM_PRODUCER",
+        "REPEAT"
+      ],
+      "reason": "죽음의 문턱은 '이번 턴 종말 부여했다면 방어도 추가' — 종말 부여 이벤트를 트리거로 읽는 페이오프 카드. 자체는 종말 미부여이므로 DOOM_PRODUCER 제거하고 DOOM_CONSUMER 부여. [audit-applied]"
+    },
+    "CARD.SHROUD": {
+      "exclude_axes": [
+        "DOOM_PRODUCER"
+      ],
+      "reason": "수의는 '종말 부여할 때마다 방어도 +3' — 종말 부여 이벤트 페이오프 (DOOM_CONSUMER) 만 해당. 자체는 종말 미부여이므로 DOOM_PRODUCER 오분류 제거."
+    },
+    "CARD.TIMES_UP": {
+      "axes": [
+        "DOOM_CONSUMER"
+      ],
+      "exclude_axes": [
+        "DOOM_PRODUCER"
+      ],
+      "reason": "때가 되었다는 '대상 적이 보유한 종말만큼 피해' — 적 종말 스택을 소비/참조하는 페이오프 (DOOM_CONSUMER). 자체는 종말 미부여이므로 DOOM_PRODUCER 제거."
+    },
+    "CARD.CONFLAGRATION": {
+      "axes": [
+        "ATTACK_COUNT",
+        "DAMAGE_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "ATTACK_COUNT"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "COMBO",
+        "SCALING"
+      ],
+      "reason": "이번 턴 사용한 다른 공격 카드 1장당 피해량 +2 — turn-only nova. SCALING 자동 감지는 오류 (다음 턴엔 0부터 재시작, 영구 성장 아님). DAMAGE_AMPLIFIER 가 정확한 분류. [audit-applied]"
+    },
+    "CARD.BULLET_TIME": {
+      "axes": [
+        "POWER_COST_ENABLER"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "이번 턴 손의 모든 카드 0코 + '카드를 뽑을 수 없음' — 비용 활성화 효과. 오히려 anti-draw 효과인데 Cards/CardCount var이 DRAW로 오감지되어 드로우 빌드에 잘못 매핑되던 문제 제거. 파워/고비용 카드 페이오프와 시너지."
+    },
+    "CARD.VOID_FORM": {
+      "axes": [],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "휘발성 파워 — 매 턴 첫 2장 비용 0. ETHEREAL_SELF가 카드 한정 표시, 시한 의미 없음. DURATION 자동 감지 오류 제거."
+    },
+    "CARD.SHADOWMELD": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "이번 턴 방어도 2배 — 표준 BLOCK 배수."
+    },
+    "CARD.FAN_OF_KNIVES": {
+      "axes": [
+        "AOE",
+        "SHIV_AMPLIFIER",
+        "SHIV_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "AOE",
+        "SHIV_PRODUCER"
+      ],
+      "reason": "단도 카드를 AOE 변환 + 단도 4/5장 생성 → 단도 페이오프 증폭. [audit-applied]"
+    },
+    "CARD.HANG": {
+      "axes": [
+        "DAMAGE_AMPLIFIER"
+      ],
+      "reason": "매달기 카드의 동일 적 피해 2배 — 동명 카드 누적 피해 배수."
+    },
+    "CARD.HEAVENLY_DRILL": {
+      "axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "X번 다타 + 4 이상 시 2배 — X 코스트 임계 다타 폭발."
+    },
+    "CARD.HELIX_DRILL": {
+      "axes": [],
+      "exclude_axes": [
+        "ENERGY",
+        "DURATION"
+      ],
+      "reason": "이번 턴 동안 *소모한* ⚡당 피해 — 에너지 소비 페이오프 (ENERGY_CONSUMER 패턴) 이지 공급 아님. ATTACK / EXHAUST_TAG / STRENGTH_CONSUMER 자동 감지 유지. ENERGY 매핑은 CSV SynergyAxes 오분류 — 비용 표기의 ⚡ 아이콘과 *소모* 동사를 *공급* 으로 잘못 라벨링. DURATION 도 오류 — 텍스트의 '이번 턴 동안' 은 효과 적용 범위지 별도 지속 효과 부여 아님."
+    },
+    "CARD.KNOCKDOWN": {
+      "axes": [
+        "DAMAGE_AMPLIFIER"
+      ],
+      "reason": "동맹 피해 3배 — 멀티플레이/협동 피해 배수."
+    },
+    "CARD.KNIFE_TRAP": {
+      "axes": [
+        "SHIV_CONSUMER"
+      ],
+      "exclude_axes": [
+        "SCALING",
+        "EXHAUST_TAG",
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "소멸된 '단도'만을 대상으로 강화 후 사용 — 단도 자체가 항상 소멸되는 token이므로 일반 소멸 빌드(소멸 카드 모음 활용)와는 무관하고 오직 단도 빌드의 페이오프(SHIV_CONSUMER)로만 작동. 정밀(SHIV_AMPLIFIER)·잉크 칼날/비책(SHIV_PRODUCER) 등과만 시너지. EXHAUST_TAG/EXHAUST_CONSUMER 자동 감지를 제거해 소멸 빌드 오매핑 차단. SCALING은 단도 수 비례지만 generic DAMAGE/BLOCK needs와는 무관해 제거."
+    },
+    "CARD.SQUEEZE": {
+      "axes": [
+        "SKELETON_AMPLIFIER",
+        "SKELETON_ATTACK_AMPLIFIER",
+        "SKELETON_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "SKELETON_CONSUMER"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "골골이 단일 + 다른 골골이 공격 카드당 피해 가산 — 골골이 공격 카드 보유량 페이오프. 자동감지 SCALING 은 영구 +N 증폭 오감지 → 일반 딜/방어 추천 차단. + SKELETON_AMPLIFIER: 골골이 공격 증폭 stem 통일 alias — SKELETON_PRODUCER 와 stem 일치 (`SKELETON_*`) 로 mod _AMPLIFIER 접미사 매칭. [audit-applied]"
+    },
+    "CARD.FOREGONE_CONCLUSION": {
+      "axes": [
+        "DRAW_PILE_SEARCH"
+      ],
+      "reason": "다음 턴 더미에서 카드 2장 손으로 — 더미 탐색 보강."
+    },
+    "CARD.MACHINE_LEARNING": {
+      "axes": [
+        "DRAW_AMPLIFIER"
+      ],
+      "reason": "매턴 +1 드로우 — 드로우 양 자체 증폭 파워."
+    },
+    "CARD.SEVEN_STARS": {
+      "axes": [
+        "HIT_5",
+        "MULTI_HIT_SCALING"
+      ],
+      "upgraded_axes": [
+        "HIT_5"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "REPEAT",
+        "STAR_PRODUCER"
+      ],
+      "reason": "별 7 소모 + 7×7 다타 AOE — 다타 폭발. [audit-applied]"
+    },
+    "CARD.THRASH": {
+      "axes": [
+        "DAMAGE_AMPLIFIER",
+        "EXHAUST_PRODUCER",
+        "EXHAUST_TARGET_RANDOM",
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "DAMAGE_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "RANDOM"
+      ],
+      "reason": "2번 다타 + 손의 무작위 공격 소멸로 자체 피해 가산 — 손 카드 소멸 공급 + 다타. 손에서 무작위 추첨 (좋은 공격 잃을 위험) — TARGET_RANDOM. [audit-applied]"
+    },
+    "CARD.BEAT_DOWN": {
+      "axes": [
+        "ATTACK_REPLAY"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "버린 더미 무작위 공격 카드 재사용 — 공격 카드 풀 의존 ATTACK_REPLAY. DRAW 자동 감지는 오류 (카드를 *사용*하는 거지 *드로우*하는 게 아님 — magic 값이 사용 횟수라 DRAW로 오감지)."
+    },
+    "CARD.FINESSE": {
+      "axes": [
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 비조건 방어 + 드로우 cantrip — 다중 카피 가치 보존."
+    },
+    "CARD.ESCAPE_PLAN": {
+      "axes": [
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 비조건 방어 + 드로우 cantrip — 다중 카피 가치 보존."
+    },
+    "CARD.BRIGHTEST_FLAME": {
+      "axes": [
+        "UNLIMITED",
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코스트 비조건 드로우 + 에너지/회복 — 다중 카피 가치 보존 / ENERGY_PRODUCER 보강: 0코 + 2 에너지 + 카드 2장 + 최대 HP -1. ENERGY_PRODUCER (강력한 burst draw + 에너지)."
+    },
+    "CARD.SECRET_TECHNIQUE": {
+      "axes": [
+        "DRAW_PILE_SEARCH",
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 드로우 + 더미 검색 + 소멸 — 다중 카피 = 다중 검색. [audit-applied]"
+    },
+    "CARD.ADRENALINE": {
+      "axes": [
+        "UNLIMITED",
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코스트 드로우 + 에너지 + 소멸 — 다중 카피 = 다중 에너지/드로우 / ENERGY_PRODUCER 보강: 0코 + 1 에너지 + 카드 2장 + 자기소멸. ENERGY_PRODUCER (즉발 에너지 - X_COST/finisher 셋업 연료). UNLIMITED + ENERGY_PRODUCER 양립."
+    },
+    "CARD.MASTER_OF_STRATEGY": {
+      "axes": [
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 비조건 드로우 + 소멸 — 다중 카피 가치 보존."
+    },
+    "CARD.THINKING_AHEAD": {
+      "axes": [
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 비조건 드로우 + 소멸 — 다중 카피 가치 보존."
+    },
+    "CARD.WISH": {
+      "axes": [
+        "DRAW_PILE_SEARCH",
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 드로우 + 더미 검색 + 소멸 — 다중 카피 = 다중 검색. [audit-applied]"
+    },
+    "CARD.SECRET_WEAPON": {
+      "axes": [
+        "DRAW_PILE_SEARCH",
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 드로우 + 더미 검색 + 소멸 — 다중 카피 = 다중 검색. [audit-applied]"
+    },
+    "CARD.REBOOT": {
+      "axes": [
+        "UNLIMITED"
+      ],
+      "reason": "0코스트 비조건 드로우 + 소멸 — 다중 카피 가치 보존."
+    },
+    "CARD.DECISIONS_DECISIONS": {
+      "axes": [
+        "SKILL_REPLAY",
+        "UNLIMITED"
+      ],
+      "upgraded_axes": [
+        "SKILL_REPLAY"
+      ],
+      "reason": "0코스트 비조건 드로우 + 소멸 — 다중 카피 가치 보존. [audit-applied]"
+    },
+    "CARD.OVERCLOCK": {
+      "axes": [
+        "STATUS_PRODUCER",
+        "UNLIMITED"
+      ],
+      "upgraded_axes": [
+        "STATUS_PRODUCER"
+      ],
+      "reason": "0코스트 드로우 — 상태이상 부작용은 STATUS_CONSUMER 와 시너지로 변환 가능, 기본적으로 다중 카피 가치 보존. [audit-applied]"
+    },
+    "CARD.OFFERING": {
+      "axes": [
+        "STACKABLE",
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코스트 강력 드로우 + 에너지 — HP_LOSS 부작용으로 다중 발동 위험. 1~2장 적정 / ENERGY_PRODUCER 보강: 0코 + 2 에너지 + 카드 3장 + HP 6 손실 + 자기소멸. ENERGY_PRODUCER (HP_LOSS 코어 finisher 셋업)."
+    },
+    "CARD.BATTLE_TRANCE": {
+      "axes": [
+        "STACKABLE"
+      ],
+      "reason": "0코스트 3드로우 — 같은 턴 중복 사용 시 추가 효과 무효. 1~2장 적정."
+    },
+    "CARD.FEED": {
+      "axes": [
+        "STACKABLE"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "처치 시 maxHP 영구 +N — 강력하지만 처치 조건 + 1코스트라 매 턴 굴리기 어려움. 1~2장 적정. SCALING 자동감지는 자기 카드 단독 성장이라 일반 딜 추천 노이즈 차단."
+    },
+    "CARD.HOTFIX": {
+      "axes": [
+        "STACKABLE"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "0코스트 이번 턴 한정 FOCUS +2 + 소멸 — 일시 밀집(영구 누적 아님)이라 SCALING 제외, 같은 턴 ORB 활용 빌드(디펙트 구체) 외에는 가치 떨어짐. 1~2장 적정."
+    },
+    "CARD.TRANSFIGURE": {
+      "axes": [
+        "STACKABLE"
+      ],
+      "exclude_axes": [
+        "SCALING",
+        "ENERGY"
+      ],
+      "reason": "손 카드 1장에 재사용+1 부여 + 그 카드 비용 ⚡ 증가 + 소멸 — STACKABLE 정확. SCALING 자동 감지 오류 (덱 누적 성장 아니라 1회 적용). ENERGY 도 오류 — 비용을 *올림*(anti-energy)이지 공급 아님."
+    },
+    "CARD.SLEIGHT_OF_FLESH": {
+      "axes": [
+        "DEBUFF_APPLY_TRIGGER",
+        "DEBUFF",
+        "PLAY_TRIGGER"
+      ],
+      "reason": "디버프(취약/약화/허약/독/종말 등)를 부여할 때마다 대상 적에게 9 피해 — 모든 디버프 부여를 트리거로 받는 페이오프 파워. DAMAGE 자동 감지에 더해 디버프 트리거 축 보강."
+    },
+    "CARD.FORBIDDEN_GRIMOIRE": {
+      "axes": [],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "전투 종료 시 덱에서 카드 1장 제거 + 영구. 구체 채널링과 무관 — ORB_PRODUCER 자동 감지 오류. 시너지 축 없음(영구만 유지)."
+    },
+    "CARD.MAYHEM": {
+      "axes": [
+        "REPLAY",
+        "RANDOM"
+      ],
+      "reason": "매 턴 시작 시 뽑을 카드 더미 맨 위 카드 자동 사용 — 매 턴 1장 무작위 추가 사용 = REPLAY+RANDOM. 자동 감지 빈 결과 보강."
+    },
+    "CARD.STRATAGEM": {
+      "axes": [
+        "CARD_RETURN",
+        "DRAW_PILE_SEARCH"
+      ],
+      "reason": "뽑을 카드 더미 셔플 시 더미에서 카드 1장 선택해 손으로 — 더미 탐색+회수형 효과. 자동 감지 빈 결과 보강."
+    },
+    "CARD.TANK": {
+      "axes": [
+        "TAUNT"
+      ],
+      "reason": "받는 피해 2배 + 아군 피해 절반 — 자신을 표적으로 끌어 아군을 보호하는 도발(meat shield) 메커니즘. 자동 감지 빈 결과 보강."
+    },
+    "CARD.INFINITE_BLADES": {
+      "axes": [
+        "SHIV",
+        "SHIV_PRODUCER",
+        "CARD_GEN"
+      ],
+      "reason": "매 턴 시작 시 단도 1장 손으로 — 단도 빌드 핵심 공급원. 자동 감지 빈 결과 보강."
+    },
+    "CARD.HELLRAISER": {
+      "axes": [
+        "STRIKE_ON_DRAW",
+        "STRIKE_CONSUMER",
+        "DAMAGE"
+      ],
+      "reason": "이름에 '타격' 포함 카드 뽑을 때마다 무작위 적에게 사용 — 강타 드로우 트리거 페이오프. STRIKE_ON_DRAW 전용 축 보강.",
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "auto_exclude_patterns": [
+        "카드를?\\s*\\n?\\s*뽑을\\s*때마다(?!.*?\\d+\\s*장?\\s*뽑)"
+      ]
+    },
+    "CARD.JUGGERNAUT": {
+      "axes": [
+        "BLOCK_PAYOFF",
+        "DAMAGE"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "방어도 얻을 때마다 무작위 적에게 5 피해 — 정액 피해(SCALING 아님), 방어도 페이오프. SCALING 자동 감지 오류 제거."
+    },
+    "CARD.JUGGLING": {
+      "axes": [
+        "CARD_GEN",
+        "ATTACK_COUNT",
+        "REPLAY"
+      ],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "매 턴 세 번째 공격 카드 복사본 손으로 — 영구 파워(DURATION 아님), 공격 횟수 트리거+카드 생성+재사용."
+    },
+    "CARD.NOSTALGIA": {
+      "axes": [
+        "REPLAY",
+        "CARD_RETURN"
+      ],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "매 턴 처음 attack/skill 카드를 뽑을 카드 더미 맨 위로 — 영구 파워, 카드 회수+다음 턴 재사용 보장. DURATION 자동 감지 오류 제거."
+    },
+    "CARD.HELLO_WORLD": {
+      "axes": [
+        "CARD_GEN",
+        "SCALING"
+      ],
+      "exclude_axes": [
+        "RANDOM"
+      ],
+      "reason": "매 턴 시작 시 무작위 일반 카드 1장 손으로 — 핸드/덱 풀이 매 턴 누적되는 결과적 SCALING. [audit-applied]"
+    },
+    "CARD.SPECTRUM_SHIFT": {
+      "axes": [
+        "CARD_GEN",
+        "SCALING"
+      ],
+      "reason": "매 턴 시작 시 무작위 무색 카드 1장 손으로 — 핸드/덱 풀이 매 턴 누적되는 결과적 SCALING."
+    },
+    "CARD.CALAMITY": {
+      "axes": [
+        "ATTACK_CONDITIONAL"
+      ],
+      "reason": "공격 카드 사용할 때마다 무작위 공격 카드 손으로 회수 → ATTACK_TYPE 트리거 카드 (POWER_CONDITIONAL/SKILL_CONDITIONAL 의 공격 버전)."
+    },
+    "CARD.SUBROUTINE": {
+      "axes": [
+        "POWER_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "POWER_CONDITIONAL"
+      ],
+      "reason": "파워 카드 사용 시 에너지 얻음 — 파워가 많을수록 강해지는 페이오프(POWER_AMPLIFIER). POWER_CONDITIONAL은 '조건부 사용/강화'로 의미가 달라 제거."
+    },
+    "CARD.BLADE_OF_INK": {
+      "axes": [
+        "SHIV",
+        "SHIV_PRODUCER",
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "잉크 단도 2장 손으로 — 단도 생성 효과(드로우 아님). DRAW 자동 감지 오류 제거."
+    },
+    "CARD.BLADE_DANCE": {
+      "axes": [
+        "SHIV",
+        "SHIV_PRODUCER",
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "단도 3장(강화 시 4장) 손으로 + 소멸 — 단도 생성 효과(드로우 아님). DRAW 자동 감지 오류 제거. EXHAUST_TAG/EXHAUST_SELF는 Exhaust 키워드로 자동 감지."
+    },
+    "CARD.CHARGE": {
+      "axes": [
+        "CARD_GEN",
+        "DRAW_PILE_SEARCH",
+        "MINION"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "더미에서 카드 2장 선택해 '하수인 투하+'로 변화 — 더미 탐색 + 하수인 토큰 생성. DRAW 자동 감지 오류 제거."
+    },
+    "CARD.FLANKING": {
+      "axes": [
+        "DEBUFF",
+        "DAMAGE_AMPLIFIER",
+        "DURATION"
+      ],
+      "reason": "이번 턴 대상 적이 다른 플레이어에게 받는 피해 2배 — 일시 디버프 + 피해 증폭(아군 공격 가치 상승)."
+    },
+    "CARD.PRIMAL_FORCE": {
+      "axes": [
+        "CARD_GEN",
+        "DAMAGE"
+      ],
+      "reason": "손 모든 공격 카드를 '거대한 바위+'로 변화 — 카드 생성(morph) + 강력한 공격 토큰화."
+    },
+    "CARD.UP_MY_SLEEVE": {
+      "axes": [
+        "SHIV",
+        "SHIV_PRODUCER",
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "DRAW",
+        "ENERGY"
+      ],
+      "reason": "단도 3장 손으로 + 비용 1 감소 — 단도 생성(드로우 아님). DRAW 자동 감지 오류 제거.",
+      "auto_exclude_patterns": [
+        "이\\s*카드의?\\s*비용이"
+      ]
+    },
+    "CARD.NIGHTMARE": {
+      "axes": [
+        "CARD_GEN",
+        "REPLAY"
+      ],
+      "reason": "다음 턴 카드 복사본 3장 손으로 — 카드 생성 + 사실상 3회 재사용 효과."
+    },
+    "CARD.GUARDS": {
+      "axes": [
+        "CARD_GEN",
+        "MINION",
+        "SKELETON_CONSUMER"
+      ],
+      "reason": "손 카드를 '하수인 희생+'로 변화 — 하수인 토큰 생성, 골골이 희생 트리거."
+    },
+    "CARD.CATASTROPHE": {
+      "axes": [
+        "REPLAY"
+      ],
+      "exclude_axes": [
+        "ENERGY",
+        "DRAW"
+      ],
+      "reason": "더미에서 무작위 카드 2장 자동 사용 — 사실상 2회 재사용. ENERGY 매핑은 오류 (X_COST 페어링 부정확 — 카드 비용 우회지 에너지 공급 아님). DRAW 도 오류 (카드를 *사용*하지 *뽑지* 않음)."
+    },
+    "CARD.IMPATIENCE": {
+      "axes": [
+        "ABSENT_CONDITIONAL"
+      ],
+      "exclude_axes": [
+        "DRAW_CONDITIONAL"
+      ],
+      "reason": "손에 공격 카드가 없을 때만 2장 드로우 — 부재 조건(ABSENT_CONDITIONAL). DRAW_CONDITIONAL은 일반 조건부 드로우 의미라 부재 조건과 분리."
+    },
+    "CARD.RESTLESSNESS": {
+      "axes": [
+        "ABSENT_CONDITIONAL",
+        "DRAW_CONDITIONAL",
+        "ENERGY_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "DRAW_CONDITIONAL"
+      ],
+      "reason": "손이 비었을 때 2장 드로우 + 에너지 — 부재 조건 카드 / ENERGY_PRODUCER 보강: 0코 + 보존. 손 비었을 때 카드 2장 + 2 에너지. ENERGY_PRODUCER (조건부지만 충족 시 강력한 에너지 공급, ABSENT_CONDITIONAL 와 양립). [audit-applied]"
+    },
+    "CARD.ENLIGHTENMENT": {
+      "axes": [
+        "COST_ENABLER_ANY"
+      ],
+      "reason": "이번 전투 손 카드 비용 1로 감소 — 전체 비용 절감 효과 보강."
+    },
+    "CARD.PILLAR_OF_CREATION": {
+      "axes": [
+        "BLOCK_AMPLIFIER",
+        "CARD_GEN_PAYOFF"
+      ],
+      "reason": "카드 생성마다 방어도 3 — CARD_GEN_PAYOFF (생성 트리거 페이오프) + BLOCK_AMPLIFIER (방어도 증폭). 생성덱 keystone."
+    },
+    "CARD.SENTRY_MODE": {
+      "axes": [
+        "CARD_GEN",
+        "SCALING"
+      ],
+      "reason": "매 턴 시작 시 '훑어보기' 카드 1장 손으로 — 핸드 풀이 매 턴 누적되는 결과적 SCALING. BLOCK 자동 감지 유지."
+    },
+    "CARD.BUFFER": {
+      "axes": [
+        "HP_LOSS_PREVENT"
+      ],
+      "exclude_axes": [
+        "BLOCK"
+      ],
+      "reason": "다음 1회 체력 손실을 직접 막음 — 방어도와 무관한 HP 보호. BLOCK 자동 감지는 오류, HP_LOSS_PREVENT 신규 축으로 정확히 분류."
+    },
+    "CARD.COUNTDOWN": {
+      "axes": [],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 매 턴 시작 시 종말 6 부여. DURATION 자동 감지 오류 제거."
+    },
+    "CARD.MONARCHS_GAZE": {
+      "axes": [],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 적 공격할 때마다 적 힘 1 감소. 효과 한정자 '이번 턴 동안'으로 인한 DURATION 오감지 제거."
+    },
+    "CARD.PHANTOM_BLADES": {
+      "axes": [
+        "SHIV_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "SHIV_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 단도 보존 + 매 턴 첫 단도 피해 +9. DURATION 자동 감지 오류 제거. [audit-applied]"
+    },
+    "CARD.SPEEDSTER": {
+      "axes": [
+        "AOE",
+        "DRAW_ON_DRAW"
+      ],
+      "exclude_axes": [
+        "AOE_DAMAGE",
+        "AOE_OTHER",
+        "DRAW",
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 카드 뽑을 때마다 모든 적 2 피해 (DRAW_ON_DRAW). DURATION 자동 감지 오류 제거. DRAW 도 오류 (자체 드로우 X, per-draw 트리거). [audit-applied]"
+    },
+    "CARD.FERAL": {
+      "axes": [
+        "FREE_ATTACK_RETURNER"
+      ],
+      "exclude_axes": [
+        "DURATION",
+        "ENERGY",
+        "SCALING"
+      ],
+      "reason": "영구 파워 — 매 턴 첫 0코스트 공격 카드 사용 시 손 회수 (FREE_ATTACK_RETURNER 의 정의). ENERGY 는 잘못된 매핑 (직접 에너지 공급 아님), SCALING 도 오류 (영구 passive 효과지 누적 성장 아님), DURATION 자동 감지 오류 모두 제거."
+    },
+    "CARD.FRIENDSHIP": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "exclude_axes": [
+        "DURATION",
+        "STRENGTH_PRODUCER"
+      ],
+      "reason": "영구 파워 — 힘 2 잃고 매 턴 +1 에너지. ENERGY_PRODUCER (X_COST 카드 — 척결·장송가의 진짜 시너지 파트너). DURATION 자동 감지 오류 제거. vars 의 StrengthPower:2 가 자동 매칭으로 STRENGTH_PRODUCER 가 잡혔으나 실제로는 자기 페널티(힘을 *잃는다*) — STRENGTH_PRODUCER 시너지 신호로 사용되면 안 됨."
+    },
+    "CARD.DEMESNE": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "exclude_axes": [
+        "VOLATILE_PRODUCER"
+      ],
+      "reason": "휘발성 파워 — 매 턴 +1 에너지, +1 드로우. ENERGY_PRODUCER (X_COST 시너지). 자기 자신이 휘발성일 뿐 휘발성 카드를 *생성*하지 않음 (ETHEREAL_SELF 로 충분). VOLATILE_CONSUMER 페이오프 카드들에 잘못된 시너지 신호 방지."
+    },
+    "CARD.BORROWED_TIME": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "단발성 burst — 4 에너지 즉발 + 이번 턴 카드 비용 +1 패널티. ENERGY_PRODUCER (X_COST·고비용 finisher 의 1턴 셋업 연료). 영구 누적 효과 없으므로 SCALING 정책상 부적절 (영구 +N 증폭만 SCALING)."
+    },
+    "CARD.WISP": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 + 1 에너지 획득 + 자기소멸. 순수 ENERGY_PRODUCER (X_COST 카드 — 장송가·정신 폭주의 셋업 연료). 자동 감지는 ENERGY(cost-marker 혼재) 만 잡아 BuildFit 가치 0. IceCream 보유 시 에너지 누적, Pendulum 보유 시 cycle 안정성까지 결합. cf. 우정·연명·정신 폭주·BorrowedTime 패턴과 일관."
+    },
+    "CARD.PYRE": {
+      "axes": [],
+      "exclude_axes": [
+        "DURATION"
+      ],
+      "reason": "영구 파워 — 매 턴 시작 시 에너지 얻음. 카드 설명에 시한 명시 없음. DURATION 자동 감지 오류 제거."
+    },
+    "CARD.WRAITH_FORM": {
+      "axes": [
+        "BURST_FINISHER"
+      ],
+      "reason": "불가침 2(피해 캡) + 사용 즉시 매 턴 민첩 -1(누적 시 방어도 음수 진입 → 자해). 사용 즉시 패널티 시작 — 보유 전략 무용. 단기 폭딜 마무리에 적합, 지구전엔 자해 누적이 큼. 빌드 의존도 강함."
+    },
+    "CARD.PINPOINT": {
+      "axes": [
+        "SKILL_CONDITIONAL"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "이번 턴 스킬 카드 사용할 때마다 자기 비용 -1 → 스킬 다발 덱에서 강력. SKILL_TYPE 트리거 카드. ENERGY 자동 감지는 오류 — 에너지를 공급하지 않고 자기 비용 디스카운트일 뿐 (X_COST 시너지 매칭 방지)."
+    },
+    "CARD.POUNCE": {
+      "axes": [
+        "SKILL_COST_ENABLER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "다음에 사용하는 스킬 카드 비용 0 — POWER_COST_ENABLER(합성)의 스킬 버전. ENERGY 자동 감지는 오류(에너지 공급 아님)."
+    },
+    "CARD.MASTER_PLANNER": {
+      "axes": [
+        "CUNNING_PRODUCER",
+        "SKILL_CONDITIONAL"
+      ],
+      "reason": "스킬 카드 사용 시 그 카드에 교활 부여 → SKILL_TYPE 트리거 카드. 교활 빌드 + 스킬 다발 덱 양방향 시너지."
+    },
+    "CARD.CORRUPTION": {
+      "axes": [
+        "SKILL_CONDITIONAL",
+        "SKILL_COST_ENABLER",
+        "EXHAUST_BURST"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "모든 스킬 카드 비용 0 (영구) + 스킬 사용 시 소멸. POWER_COST_ENABLER(합성)의 영구·전체 버전. EXHAUST_PRODUCER 는 자동 유지. ENERGY 자동 감지는 오류 (스킬 비용 0 은 SKILL_COST_ENABLER 가 의미 담당, 직접 에너지 공급 아님). 매 스킬 사용마다 자동 소멸 누적이라 실질 BURST — 플레이어가 어떤 스킬 사용할지 통제하므로 default CHOSEN.",
+      "auto_axes": [
+        "SKILL_CONDITIONAL"
+      ]
+    },
+    "CARD.RAGE": {
+      "axes": [
+        "ATTACK_CONDITIONAL"
+      ],
+      "reason": "이번 턴 공격 카드 사용할 때마다 방어도 3 획득 → ATTACK_TYPE 트리거 카드. 기존 BLOCK 자동 감지는 유지."
+    },
+    "CARD.UNRELENTING": {
+      "axes": [
+        "ATTACK_COST_ENABLER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "다음 공격 카드 비용 0 — POWER_COST_ENABLER(합성)/SKILL_COST_ENABLER(덮치기) 의 공격 버전. ENERGY 자동 감지는 오류(에너지 공급 아님, 자기 비용 디스카운트)."
+    },
+    "CARD.JACKPOT": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "SCALING",
+        "ENERGY"
+      ],
+      "reason": "25 고정 데미지 + 0코 강화 카드 3장 손 생성 — burst damage + card gen. SCALING 오류(턴마다 누적 성장 아니라 일회성), ENERGY 오류(0코 카드 가져옴은 직접 에너지 공급이 아님). CARD_GEN 이 정확한 분류."
+    },
+    "CARD.MOMENTUM_STRIKE": {
+      "axes": [
+        "FREE_ATTACK"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "자기 비용 0 으로 영구 감소 — 자기 디스카운트지 다른 카드/덱에 에너지 공급 아님. ENERGY 매핑은 오류 (X_COST 와 잘못된 페어링 차단). 첫 사용 후 영구 0코스트라 야성·하나를위한모두·긁어내기 트리거 자원으로 정적 0코스트 공격과 동일하게 작동 → FREE_ATTACK 등록."
+    },
+    "CARD.ROCKET_PUNCH": {
+      "axes": [
+        "STATUS_CONSUMER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "13 데미지 + 1드로우. 상태이상 카드 생성 시 자기 비용 0 → STATUS_CONSUMER (상태이상 페이오프, role_needs.json 주석에 명시됨). ENERGY 매핑은 오류 (자기 디스카운트)."
+    },
+    "CARD.FLATTEN": {
+      "axes": [
+        "SKELETON_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "SKELETON_CONSUMER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "골골이가 공격했다면 자기 비용 0 → 자기 디스카운트지 직접 에너지 공급 아님. OSTY 마커는 자동 유지 (골골이 빌드 매칭). ENERGY 매핑은 오류. [tier2-applied]"
+    },
+    "CARD.MELANCHOLY": {
+      "axes": [],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "방어도 13 + 누군가 죽을 때마다 자기 비용 -1 → 자기 디스카운트 (kill 트리거). ENERGY 매핑은 오류 (직접 공급 아님)."
+    },
+    "CARD.STOMP": {
+      "axes": [
+        "ATTACK_CONDITIONAL"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "ENERGY",
+        "SCALING"
+      ],
+      "reason": "광역 12 데미지 + 이번 턴 사용한 공격 1장당 자기 비용 -1 → 공격 누적 트리거 자기 디스카운트. ATTACK_TYPE 페어 (격노/재앙과 같은 트리거 패턴). ENERGY 매핑은 오류. [audit-applied]"
+    },
+    "CARD.BANSHEES_CRY": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "ENERGY"
+      ],
+      "reason": "광역 33 데미지 + 휘발성 1장당 자기 비용 -1 → VOLATILE_CONSUMER 가 정확한 페이오프 (자동 감지 유지). ENERGY 매핑은 오류 (자기 디스카운트, 공급 아님). [audit-applied]"
+    },
+    "CARD.VEILPIERCER": {
+      "axes": [],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "10 데미지 + 다음 휘발성 카드 비용 0 → VOLATILE_CONSUMER (자동 감지 유지) 가 페이오프 의미 담당. ENERGY 매핑은 오류 (다른 카드 비용 인하지 직접 공급 아님)."
+    },
+    "CARD.ADAPTIVE_STRIKE": {
+      "axes": [
+        "FREE_ATTACK_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "FREE_ATTACK_PRODUCER"
+      ],
+      "exclude_axes": [
+        "ENERGY"
+      ],
+      "reason": "18 데미지 + 버린 더미에 자기 0코 복사본 1장 추가 → 자기 복제 (CARD_GEN 비슷한 자기 효과). ENERGY 매핑은 오류 (직접 에너지 공급 아니라 자기 0코 복사본 생성). [audit-applied]"
+    },
+    "CARD.GANG_UP": {
+      "axes": [],
+      "exclude_axes": [
+        "SCALING"
+      ],
+      "reason": "5 데미지 + 이번 턴 다른 플레이어가 대상 적을 공격한 횟수당 +5 → turn-only nova (메멘토 모리/대화재 패턴). SCALING 자동 감지는 오류."
+    },
+    "CARD.PURITY": {
+      "axes": [
+        "EXHAUST_BURST"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "보존 + 손 카드 최대 3장 소멸 + 자기 소멸. DRAW 자동 감지는 오류 (카드를 뽑지 않고 *소멸*시킴 — magic 값 = 소멸 횟수). 최대 3장 BURST 출력량 — 플레이어 선택이라 default CHOSEN (TARGET 축 미부여)."
+    },
+    "CARD.PACTS_END": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "DRAW"
+      ],
+      "reason": "소멸 더미 3장+ 조건 광역 17 데미지. DRAW 자동 감지는 오류 (카드 뽑는 효과 없음, EXHAUST_CONSUMER 가 정확). [audit-applied]"
+    },
+    "CARD.HOWL_FROM_BEYOND": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "내 턴 시작 시 *이 카드가* 소멸 더미에 있으면 자동 사용 — 자기 자신만 더미에 있으면 충분하며 다른 소멸 이벤트/더미 크기로 스케일하지 않음. CSV 자동 부여된 EXHAUST_CONSUMER 제거 — EXHAUST_TAG 로 자기 소멸은 이미 표현됨. 기사회생(EXHAUST_TARGET_FILTERED 비공격만) 같은 EXHAUST_PRODUCER 와의 false-positive 시너지 차단. [audit-applied]"
+    },
+    "CARD.BOMBARDMENT": {
+      "axes": [],
+      "exclude_axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "내 턴 시작 시 *이 카드가* 소멸 더미에 있으면 자동 사용 (HOWL_FROM_BEYOND 와 동일 메커니즘) — 자기 자신만 더미에 있으면 충분, 다른 소멸 이벤트와 무관. CSV 자동 부여된 EXHAUST_CONSUMER 제거."
+    },
+    "CARD.ORBIT": {
+      "axes": [],
+      "exclude_axes": [
+        "EXHAUST_CONSUMER",
+        "ORB_PRODUCER"
+      ],
+      "reason": "리젠트 파워: '4 에너지를 *소모*할 때마다 에너지 1 획득' — '소모'는 에너지 spend 의미이며 카드 exhaust 와 무관. CSV 가 키워드 ORB|ENERGY 매칭으로 EXHAUST_CONSUMER + ORB_PRODUCER 를 잘못 부여. 리젠트는 구체 메커니즘 없음 (디펙트 전용) — 리젠트 풀에서 ORB_PRODUCER 를 가진 유일한 카드라는 점이 버그 증거. 자기 소멸은 EXHAUST_TAG 로 이미 표현됨."
+    },
+    "CARD.FOLLOW_THROUGH": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "7 데미지 + 손에 다른 카드 5장+ 시 1번 추가 적중. DRAW 자동 감지는 오류 (손패 크기 조건 카드, 카드를 뽑지 않음)."
+    },
+    "CARD.CORROSIVE_WAVE": {
+      "axes": [
+        "AOE",
+        "DRAW_ON_DRAW"
+      ],
+      "upgraded_axes": [
+        "AOE",
+        "DRAW_ON_DRAW"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "DRAW",
+        "DRAW_CONDITIONAL"
+      ],
+      "reason": "이번 턴 카드 뽑을 때마다 모든 적에게 중독 부여 (DRAW_ON_DRAW). DRAW 자동 감지는 오류 (자체 드로우 효과 없음, 외부 드로우 트리거 페이오프). DRAW_CONDITIONAL 자동 유지. [audit-applied]"
+    },
+    "CARD.KINGLY_KICK": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW",
+        "ENERGY"
+      ],
+      "reason": "27 데미지 + 이 카드를 뽑을 때마다 자기 비용 -1 (DRAW_ON_DRAW 자기 페이오프). DRAW 자동 감지는 오류 (자체 드로우 X).",
+      "auto_exclude_patterns": [
+        "이\\s*카드의?\\s*비용이",
+        "카드를?\\s*\\n?\\s*뽑을\\s*때마다(?!.*?\\d+\\s*장?\\s*뽑)"
+      ]
+    },
+    "CARD.KINGLY_PUNCH": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "8 데미지 + 이 카드를 뽑을 때마다 이번 전투 동안 자기 피해 +4 (영구 자기 강화, DRAW_ON_DRAW). DRAW 자동 감지는 오류."
+    },
+    "CARD.METAMORPHOSIS": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "뽑을 카드 더미에 무작위 공격 3장 추가 + 이번 전투 비용 0 + 자기 소멸. DRAW 자동 감지는 오류 (카드를 뽑지 않고 *덱에 추가*, CARD_GEN 비슷). [audit-applied]"
+    },
+    "CARD.SHINING_STRIKE": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "8 데미지 + 별 2 획득. DRAW 자동 감지는 오류 (카드를 뽑지 않고 *별 자원 획득*). STAR_PRODUCER 자동 유지."
+    },
+    "CARD.CAPTURE_SPIRIT": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "적 체력 3 잃음 + 뽑을 더미에 영혼 3장 추가. DRAW 자동 감지는 오류 (카드를 뽑지 않고 *영혼 토큰을 덱에 추가*). SOUL_PRODUCER 자동 유지."
+    },
+    "CARD.GLIMPSE_BEYOND": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "모든 플레이어 뽑을 더미에 영혼 3장 + 자기 소멸. DRAW 자동 감지는 오류 (영혼 토큰을 덱에 추가, 카드 뽑기 X). SOUL_PRODUCER 자동 유지."
+    },
+    "CARD.GRAVE_WARDEN": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "방어도 8 + 뽑을 더미에 영혼 1장. DRAW 자동 감지는 오류 (영혼 토큰을 덱에 추가)."
+    },
+    "CARD.REAVE": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "9 데미지 + 뽑을 더미에 영혼+ 1장. DRAW 자동 감지는 오류 (영혼 토큰을 덱에 추가)."
+    },
+    "CARD.SEANCE": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "휘발성 + 뽑을 더미 카드 1장을 영혼으로 변환. DRAW 자동 감지는 오류 (카드를 뽑지 않고 변환만)."
+    },
+    "CARD.DRAIN_POWER": {
+      "axes": [],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "10 데미지 + 버린 더미 무작위 카드 2장 강화. DRAW 자동 감지는 오류 (카드를 뽑지 않고 강화만)."
+    },
+    "CARD.FINISHER": {
+      "axes": [
+        "ATTACK_COUNT"
+      ],
+      "upgraded_axes": [
+        "ATTACK_COUNT"
+      ],
+      "exclude_axes": [
+        "COMBO",
+        "SCALING"
+      ],
+      "reason": "[auto] 제외: turn-only payoff (다음 턴엔 0부터 재시작) — SCALING 자동 감지 오류 차단 [audit-applied]"
+    },
+    "CARD.MODDED": {
+      "axes": [
+        "SLOT_EXPAND"
+      ],
+      "upgraded_axes": [
+        "SLOT_EXPAND"
+      ],
+      "exclude_axes": [
+        "ENERGY",
+        "ORB_PRODUCER",
+        "REPEAT"
+      ],
+      "reason": "[auto] 제외: 자기 비용 디스카운트 (직접 에너지 공급 아님) — ENERGY 자동 감지 오류 차단 [audit-applied]"
+    },
+    "CARD.UPROAR": {
+      "axes": [
+        "ATTACK_REPLAY",
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "ATTACK_REPLAY",
+        "HIT_2"
+      ],
+      "exclude_axes": [
+        "DRAW"
+      ],
+      "reason": "[auto] 제외: 더미 카드 N장 *사용* — REPLAY 의미 (DRAW 자동 감지 오류 차단) [audit-applied]"
+    },
+    "CARD.ALIGNMENT": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 + 2 에너지 획득. 순수 ENERGY_PRODUCER (X_COST 셋업 연료)."
+    },
+    "CARD.BLOODLETTING": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 + 2 에너지 + 체력 3 손실. ENERGY_PRODUCER (HP_LOSS 코어의 핵심 셋업)."
+    },
+    "CARD.FUEL": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 + 1 에너지 + 카드 1장 + 자기소멸. ENERGY_PRODUCER (cycle + 에너지)."
+    },
+    "CARD.LUMINESCE": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 보존 + 2 에너지 + 자기소멸. ENERGY_PRODUCER (보존 빌드의 셋업 카드)."
+    },
+    "CARD.PRODUCTION": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 + 2 에너지 + 자기소멸. 순수 ENERGY_PRODUCER (X_COST 셋업 연료)."
+    },
+    "CARD.SUPERCRITICAL": {
+      "axes": [
+        "ENERGY_PRODUCER"
+      ],
+      "reason": "0코 + 4 에너지 + 자기소멸. 강력한 ENERGY_PRODUCER (X_COST burst 셋업, 한 턴 풀가동 가능)."
+    },
+    "CARD.TURBO": {
+      "axes": [
+        "ENERGY_PRODUCER",
+        "STATUS_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "STATUS_PRODUCER"
+      ],
+      "reason": "0코 + 2 에너지 + 버린 더미에 공허 1장. ENERGY_PRODUCER (디펙트 X_COST/AOE 셋업). [audit-applied]"
+    },
+    "CARD.ASSASSINATE": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.BASH": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.BREAK": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.FEAR": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "exclude_axes": [
+        "VOLATILE_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.HIGH_FIVE": {
+      "axes": [
+        "SKELETON_CONSUMER",
+        "VULN_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "SKELETON_CONSUMER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.SQUASH": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.TAUNT": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.THUNDERCLAP": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결. [audit-applied]"
+    },
+    "CARD.TREMBLE": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.VICIOUS": {
+      "axes": [
+        "VULN_PRODUCER"
+      ],
+      "reason": "취약 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 VULN_AMPLIFIER pair 연결."
+    },
+    "CARD.DOUBT": {
+      "axes": [
+        "WEAK_PRODUCER"
+      ],
+      "reason": "약화 부여 → mod BuildSynergy.cs `_PRODUCER` 접미사 매칭으로 WEAK_AMPLIFIER pair 연결."
+    },
+    "CARD.BLACK_HOLE": {
+      "axes": [
+        "AOE",
+        "STAR_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "AOE",
+        "STAR_CONSUMER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.EXTERMINATE": {
+      "axes": [
+        "HIT_4"
+      ],
+      "upgraded_axes": [
+        "HIT_4"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.GUNK_UP": {
+      "axes": [
+        "HIT_3",
+        "STATUS_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "HIT_3",
+        "STATUS_PRODUCER"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.MIRAGE": {
+      "axes": [
+        "POISON_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "POISON_CONSUMER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "POISON_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.OUTBREAK": {
+      "axes": [
+        "AOE"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.DAGGER_SPRAY": {
+      "axes": [
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "HIT_2"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.DYING_STAR": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER",
+        "STAR_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.ECHOING_SLASH": {
+      "axes": [
+        "REPEAT"
+      ],
+      "upgraded_axes": [
+        "REPEAT"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.FIGHT_ME": {
+      "axes": [
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "HIT_2"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.HEIRLOOM_HAMMER": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.ICE_LANCE": {
+      "axes": [
+        "FROST_ORB"
+      ],
+      "upgraded_axes": [
+        "FROST_ORB"
+      ],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.NOXIOUS_FUMES": {
+      "axes": [
+        "AOE"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PALE_BLUE_DOT": {
+      "axes": [
+        "DRAW_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "DRAW_AMPLIFIER"
+      ],
+      "exclude_axes": [
+        "DRAW_CONDITIONAL"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PANACHE": {
+      "axes": [
+        "AOE"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.QUASAR": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "exclude_axes": [
+        "RANDOM"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.RATTLE": {
+      "axes": [
+        "REPEAT",
+        "SKELETON_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "REPEAT",
+        "SKELETON_CONSUMER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.RESONANCE": {
+      "axes": [
+        "AOE_DEBUFF"
+      ],
+      "upgraded_axes": [
+        "AOE_DEBUFF"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.ROLLING_BOULDER": {
+      "axes": [
+        "AOE",
+        "AOE_DAMAGE"
+      ],
+      "upgraded_axes": [
+        "AOE",
+        "AOE_DAMAGE"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.THE_BOMB": {
+      "axes": [
+        "AOE"
+      ],
+      "upgraded_axes": [
+        "AOE"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.WHIRLWIND": {
+      "axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "upgraded_axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.ALCHEMIZE": {
+      "axes": [],
+      "exclude_axes": [
+        "RANDOM"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BUNDLE_OF_JOY": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.CHAOS": {
+      "axes": [],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.END_OF_DAYS": {
+      "axes": [
+        "DOOM_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "DOOM_CONSUMER"
+      ],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.HAUNT": {
+      "axes": [],
+      "exclude_axes": [
+        "SOUL_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.MANIFEST_AUTHORITY": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PIERCING_WAIL": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.SOUL_STORM": {
+      "axes": [],
+      "exclude_axes": [
+        "SOUL_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BARRAGE": {
+      "axes": [],
+      "exclude_axes": [
+        "ORB_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BONE_SHARDS": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BOOST_AWAY": {
+      "axes": [
+        "STATUS_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "STATUS_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BOUNCING_FLASK": {
+      "axes": [],
+      "exclude_axes": [
+        "REPEAT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BREAKTHROUGH": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.BUBBLE_BUBBLE": {
+      "axes": [
+        "POISON_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "POISON_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.CLOAK_AND_DAGGER": {
+      "axes": [
+        "SHIV_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "SHIV_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.CLOAK_OF_STARS": {
+      "axes": [],
+      "exclude_axes": [
+        "STAR_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.COOLHEADED": {
+      "axes": [
+        "FROST_ORB"
+      ],
+      "upgraded_axes": [
+        "FROST_ORB"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.CRUSH_UNDER": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.DISCOVERY": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.DISTRACTION": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.DRAMATIC_ENTRANCE": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.FEEL_NO_PAIN": {
+      "axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.FIGHT_THROUGH": {
+      "axes": [
+        "STATUS_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "STATUS_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.FLECHETTES": {
+      "axes": [
+        "SKILL_COUNT"
+      ],
+      "upgraded_axes": [
+        "SKILL_COUNT"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.FLICK_FLACK": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.FORGOTTEN_RITUAL": {
+      "axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "upgraded_axes": [
+        "EXHAUST_CONSUMER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.GUIDING_STAR": {
+      "axes": [],
+      "exclude_axes": [
+        "STAR_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.HAZE": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.IGNITION": {
+      "axes": [
+        "PLASMA_ORB"
+      ],
+      "upgraded_axes": [
+        "PLASMA_ORB"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.INFERNAL_BLADE": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.JACK_OF_ALL_TRADES": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.LEADING_STRIKE": {
+      "axes": [
+        "SHIV_PRODUCER"
+      ],
+      "upgraded_axes": [
+        "SHIV_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.MAUL": {
+      "axes": [
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "HIT_2"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.NEGATIVE_PULSE": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PARTICLE_WALL": {
+      "axes": [
+        "SELF_RETURN"
+      ],
+      "upgraded_axes": [
+        "SELF_RETURN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PATTER": {
+      "axes": [],
+      "exclude_axes": [
+        "STAR_PRODUCER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PILLAGE": {
+      "axes": [
+        "DRAW_CONDITIONAL"
+      ],
+      "upgraded_axes": [
+        "DRAW_CONDITIONAL"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.RIP_AND_TEAR": {
+      "axes": [
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "HIT_2"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.SEEKER_STRIKE": {
+      "axes": [
+        "DRAW_PILE_SEARCH"
+      ],
+      "upgraded_axes": [
+        "DRAW_PILE_SEARCH"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.SKEWER": {
+      "axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "upgraded_axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.SOW": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.SWEEPING_BEAM": {
+      "axes": [],
+      "exclude_axes": [
+        "AOE_OTHER"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.THRUMMING_HATCHET": {
+      "axes": [
+        "SELF_RETURN"
+      ],
+      "upgraded_axes": [
+        "SELF_RETURN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.TWIN_STRIKE": {
+      "axes": [
+        "HIT_2"
+      ],
+      "upgraded_axes": [
+        "HIT_2"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.UNDEATH": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.VOLLEY": {
+      "axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "upgraded_axes": [
+        "MULTI_HIT_SCALING"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.LARGESSE": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.SPLASH": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[audit-applied]"
+    },
+    "CARD.PROLONG": {
+      "axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "BLOCK_AMPLIFIER"
+      ],
+      "reason": "[tier2-applied]"
+    },
+    "CARD.HIDDEN_CACHE": {
+      "axes": [
+        "STAR_BURST"
+      ],
+      "upgraded_axes": [
+        "STAR_BURST"
+      ],
+      "reason": "[tier2-applied]"
+    },
+    "CARD.KNOCKOUT_BLOW": {
+      "axes": [
+        "STAR_BURST"
+      ],
+      "upgraded_axes": [
+        "STAR_BURST"
+      ],
+      "reason": "[tier2-applied]"
+    },
+    "CARD.PREDATOR": {
+      "axes": [
+        "DRAW_AMPLIFIER"
+      ],
+      "upgraded_axes": [
+        "DRAW_AMPLIFIER"
+      ],
+      "reason": "[tier2-applied]"
+    },
+    "CARD.WHITE_NOISE": {
+      "axes": [
+        "CARD_GEN"
+      ],
+      "upgraded_axes": [
+        "CARD_GEN"
+      ],
+      "reason": "[tier2-applied]"
+    },
+    "CARD.TAG_TEAM": {
+      "axes": [
+        "ATTACK_REPLAY"
+      ],
+      "upgraded_axes": [
+        "ATTACK_REPLAY"
+      ],
+      "reason": "[tier2-applied]"
+    },
+    "CARD.CONVERGENCE": {
+      "axes": [],
+      "upgraded_axes": [
+        "STAR_BURST"
+      ],
+      "reason": "[tier2-applied]"
+    }
+  },
+  "text_rules": []
+}
