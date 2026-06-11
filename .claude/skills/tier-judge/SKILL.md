@@ -3,7 +3,7 @@ name: tier-judge
 description: Judge or adjust STS2 card tiers in card_tier_data.csv using efficiency + secondary effects + conditional/self-penalty rules. Use when the user asks to audit, re-tier, demote, promote, or evaluate cards in the card pool.
 ---
 
-> **공개 번들 노트**: 이 스킬은 sts2-expert 공개 레포 번들이다. 데이터 파일은 모두 레포의 `data/` 아래에 있다. 원본 개발 레포 전용 스크립트(ML 재학습 `rebuild_tiers.py`, `build_card_weights.py`, `validate_expected_values.py`, 대시보드 `build_catalog.py` 등)는 이 번들에 포함되지 않는다 — 해당 단계는 건너뛰고, 판정 결과는 리포트로만 산출한다.
+> **공개 번들 노트**: 이 스킬은 sts2-expert 공개 레포 번들이다. 데이터 파일은 모두 레포의 `data/` 아래에 있다. 원본 개발 레포 전용 스크립트(ML 재학습 `rebuild_tiers.py`, `build_card_weights.py`, `validate_expected_values.py`, 대시보드 `build_catalog.py` 등)와 `card_tier_data.csv`(커뮤니티 앵커 티어)는 단독 평가 원칙에 따라 이 번들에 포함되지 않는다 — 이 스킬은 코스트별 효율 테이블과 판정 규칙 **루브릭으로만** 사용하고, 판정 결과는 리포트로만 산출한다.
 
 # STS2 카드 티어 판정 스킬
 

@@ -37,15 +37,15 @@ claude
 ```
 
 에이전트는 **읽기 전용 평가자**입니다 — 데이터에서 정보를 정리하고 S~D 등급과 근거가 담긴
-리포트를 반환하며, 파일을 수정하지 않습니다. 정적 등급(천장)과 맥락 등급(덱/시점)을 항상
-분리해 평가합니다.
+리포트를 반환하며, 파일을 수정하지 않습니다. 등급은 효과 사실과 평가 루브릭만으로 산정하는
+**에이전트 단독 판정**이며(커뮤니티 티어 리스트류의 외부 평가 데이터는 포함하지 않음),
+정적 등급(천장)과 맥락 등급(덱/시점)을 항상 분리해 평가합니다.
 
 ## 데이터
 
 | 파일 | 내용 |
 |---|---|
 | `data/cards_catalog.json` | 카드 마스터 카탈로그 (~1,117장, 강화판 포함, `game_version` 필드) |
-| `data/card_tier_data.csv` | S~D 큐레이션 티어 |
 | `data/card_expected_value.json` | 카드 EV — 5턴 baseline 데미지 등가 |
 | `data/card_axis_overrides.json` | 명시 축 태그 (Producer/Consumer/Amplifier/Trigger) |
 | `data/role_needs.json` | 축 간 시너지 방향/가중치 |
