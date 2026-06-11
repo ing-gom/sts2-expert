@@ -86,8 +86,10 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
       <label class="chk"><input type="checkbox" id="card-upg"> 강화판 포함</label>
       <span class="count" id="card-count"></span>
     </div>
+    <div class="banner">* "기존 티어"는 커뮤니티 티어에 앵커된 참고 데이터 — sts2-expert 에이전트의 평가 입력이 아니다.
+      에이전트는 효과 사실만으로 블라인드 선평가 후 이 티어와 사후 비교한다 (에이전트 안내 탭 참조).</div>
     <table>
-      <thead><tr><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>티어</th><th>EV</th><th>축</th></tr></thead>
+      <thead><tr><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>기존 티어*</th><th>EV</th><th>축</th></tr></thead>
       <tbody id="card-body"></tbody>
     </table>
   </section>
@@ -275,12 +277,14 @@ claude</pre>
 <pre>"sts2-expert 에이전트로 BLOOD_POTION 평가해줘"
 "사일런트 레어 카드 전체를 정리·평가해줘"
 "Akabeko 유물 어때?"</pre>
-<p>에이전트는 <b>읽기 전용 평가자</b>다 — 데이터에서 정보를 정리하고 S~D 등급과 근거가 담긴 리포트를 반환하며, 파일을 수정하지 않는다.
+<p>에이전트는 <b>읽기 전용 평가자</b>이며 등급은 <b>에이전트의 단독 판정</b>이다 — 효과 사실(description·수치·축)만으로 블라인드 선평가해 S~D 등급을 확정하고,
+기존 커뮤니티 앵커 티어는 확정 <i>후</i> 사후 비교로만 인용한다(앵커링 방지). 파일은 수정하지 않는다.
 번들된 루브릭 스킬: <code>tier-judge</code>(코스트별 효율 테이블), <code>card-expected-value</code>(5턴 EV 기준), <code>card-effect-verify</code>(설명 정독 검증).</p>
 
 <h2>평가 철학 (실측 기반)</h2>
 <table>
 <tr><th>원칙</th><th>근거</th></tr>
+<tr><td><b>단독 평가 — 블라인드 선평가 → 사후 비교</b></td><td>기존 티어를 먼저 보면 판단이 앵커링됨. 자체 등급 확정 후에만 기존 티어와 대조, 불일치는 발견으로 보고</td></tr>
 <tr><td><b>정적 티어 ≠ 맥락 가치</b></td><td>정적 점수와 실제 승률 기여의 상관은 약함(Spearman −0.26). S티어도 스타터 덱에서는 승률 마이너스인 사례 실측</td></tr>
 <tr><td><b>엔진 집중 &gt; 개별 티어</b></td><td>개별 티어 추종 픽이 아키타입 집중 픽보다 헤드리스 풀런 성과가 나빴음 (A/B)</td></tr>
 <tr><td><b>포션은 막 내 제로섬</b></td><td>same-seed A/B: 중간 전투 지출은 보스전 기아. 보스-집중 규율이 기준선</td></tr>
