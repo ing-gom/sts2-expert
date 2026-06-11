@@ -1,59 +1,1270 @@
 {
-  "_meta": {
-    "schema": "sts2-expert/potions/v1",
-    "game_version_era": "v0.103.2",
-    "source": "Sts2CombatAI SimPotion.cs PotionKind 분류 (헤드리스 정적 카탈로그 덤프 부재 — 알려진 갭)",
-    "note": "이 파일은 효과 '분류'만 담는다. 수치(Amount)는 런타임 스냅샷/디컴파일로만 확정 가능하며, 게임 전체 포션 풀과 1:1 완전 커버가 아니다.",
-    "categories": ["즉발 전투력", "버프(자신)", "디버프(적)", "방어·생존", "드로우·카드", "자원·캐릭터", "유틸"]
-  },
-  "potions": [
-    { "id": "FIRE_POTION", "kind": "Damage", "category": "즉발 전투력", "target": "AnyEnemy", "note": "단일 대상 직접 피해. 보스전 피니셔 1순위 후보" },
-    { "id": "GIGANTIFICATION_POTION", "kind": "AttackTriple", "category": "즉발 전투력", "target": "Self", "note": "다음 공격 카드 피해 ×3 — 고데미지 단일타와 결합 시 폭발적" },
-    { "id": "DUPLICATOR", "kind": "NextCardDouble", "category": "즉발 전투력", "target": "Self", "note": "다음 카드를 2회 발동 (피해·블록 ×2)" },
-
-    { "id": "STRENGTH_POTION", "kind": "Strength", "category": "버프(자신)", "target": "Self", "note": "힘 +N — 다단히트 덱에서 가치 상승" },
-    { "id": "DEXTERITY_POTION", "kind": "Dexterity", "category": "버프(자신)", "target": "Self", "note": "민첩 +N — 블록 카드 수에 비례" },
-    { "id": "FOCUS_POTION", "kind": "Focus", "category": "버프(자신)", "target": "Self", "note": "집중 +N (Defect 오브 스케일)" },
-    { "id": "ENERGY_POTION", "kind": "Energy", "category": "버프(자신)", "target": "Self", "note": "이번 턴 에너지 +N — 셋업/피니시 턴 가속" },
-
-    { "id": "VULNERABLE_POTION", "kind": "EnemyVuln", "category": "디버프(적)", "target": "AnyEnemy", "note": "취약 부여 (받는 피해 +50%) — 후속 공격과 결합" },
-    { "id": "WEAK_POTION", "kind": "EnemyWeak", "category": "디버프(적)", "target": "AnyEnemy", "note": "약화 부여 (적 공격 −25%) — 방어적 가치" },
-    { "id": "POTION_OF_BINDING", "kind": "EnemyWeak", "category": "디버프(적)", "target": "AnyEnemy", "note": "약화 계열" },
-    { "id": "POISON_POTION", "kind": "EnemyPoison", "category": "디버프(적)", "target": "AnyEnemy", "note": "중독 부여 (턴 기반 DoT)" },
-    { "id": "POTION_OF_DOOM", "kind": "EnemyDoom", "category": "디버프(적)", "target": "AnyEnemy", "note": "파멸 부여 (턴 종료 DoT)" },
-    { "id": "SHACKLING_POTION", "kind": "EnemyStrengthDown", "category": "디버프(적)", "target": "AnyEnemy", "note": "적 힘 −N (받는 공격 약화)" },
-    { "id": "BEETLE_JUICE", "kind": "EnemyStrengthDown", "category": "디버프(적)", "target": "AnyEnemy", "note": "적 힘 −N 계열" },
-
-    { "id": "BLOCK_POTION", "kind": "Block", "category": "방어·생존", "target": "Self", "note": "즉시 블록 +N" },
-    { "id": "FORTIFIER", "kind": "BlockMult", "category": "방어·생존", "target": "Self", "note": "현재 블록 × N 추가 획득 — 블록을 쌓은 뒤 사용할수록 가치 상승" },
-    { "id": "BLOOD_POTION", "kind": "HealPercent", "category": "방어·생존", "target": "Self", "note": "최대 HP의 N% 회복" },
-    { "id": "GHOST_IN_A_JAR", "kind": "SelfIntangible", "category": "방어·생존", "target": "Self", "note": "무형 N턴 — 모든 피격을 1로 캡. 보스 빅히트 턴 카운터" },
-    { "id": "LUCKY_TONIC", "kind": "SelfBuffer", "category": "방어·생존", "target": "Self", "note": "버퍼 N회 — 피격 전체 무효" },
-    { "id": "HEART_OF_IRON", "kind": "SelfPlating", "category": "방어·생존", "target": "Self", "note": "금속화 — 매 턴 종료 블록 +N" },
-    { "id": "LIQUID_BRONZE", "kind": "SelfThorns", "category": "방어·생존", "target": "Self", "note": "가시 — 피격당 N 반사" },
-    { "id": "REGEN_POTION", "kind": "SelfRegen", "category": "방어·생존", "target": "Self", "note": "재생 — 턴당 회복(감쇠)" },
-    { "id": "FRUIT_JUICE", "kind": "MaxHpGain", "category": "방어·생존", "target": "Self", "note": "최대 HP +N (영구) — 언제 마셔도 손해 없는 유일 부류" },
-
-    { "id": "SWIFT_POTION", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "카드 N장 드로우" },
-    { "id": "BOTTLED_POTENTIAL", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "드로우 계열" },
-    { "id": "SNECKO_OIL", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "대량 드로우 + 코스트 무작위화" },
-    { "id": "CLARITY", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "드로우 계열" },
-    { "id": "LIQUID_MEMORIES", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "버린 카드 회수 계열" },
-    { "id": "DROPLET", "kind": "Draw", "category": "드로우·카드", "target": "Self", "note": "드로우 계열" },
-    { "id": "GLOWWATER_POTION", "kind": "DrawExhaustHand", "category": "드로우·카드", "target": "Self", "note": "현재 손패 소멸 후 N장 드로우 — 순 카드 스윙으로 평가" },
-    { "id": "ATTACK_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "공격 카드 1장 선택 생성" },
-    { "id": "SKILL_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "스킬 카드 1장 선택 생성" },
-    { "id": "POWER_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "파워 카드 1장 선택 생성" },
-    { "id": "COLORLESS_POTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "무색 카드 1장 선택 생성" },
-    { "id": "COSMIC_CONCOCTION", "kind": "GenerateCards", "category": "드로우·카드", "target": "Self", "note": "카드 3장 생성" },
-    { "id": "CUNNING_POTION", "kind": "GenerateShivs", "category": "드로우·카드", "target": "Self", "note": "표창 생성 (Silent)" },
-    { "id": "POT_OF_GHOULS", "kind": "GenerateShivs", "category": "드로우·카드", "target": "Self", "note": "영혼 생성 (0코 소형 공격 근사)" },
-
-    { "id": "STAR_POTION", "kind": "GainStars", "category": "자원·캐릭터", "target": "Self", "note": "별 +N (Regent) — 별 비용 카드 해금" },
-    { "id": "POTION_OF_CAPACITY", "kind": "OrbCapacity", "category": "자원·캐릭터", "target": "Self", "note": "오브 슬롯 +N (Defect)" },
-    { "id": "ESSENCE_OF_DARKNESS", "kind": "ChannelDark", "category": "자원·캐릭터", "target": "Self", "note": "빈 슬롯 전부 어둠 오브 충전 (Defect)" },
-
-    { "id": "BLESSING_OF_THE_FORGE", "kind": "UpgradeHand", "category": "유틸", "target": "Self", "note": "손패 전체 이번 전투 강화" },
-    { "id": "SOLDIERS_STEW", "kind": "UpgradeHand", "category": "유틸", "target": "Self", "note": "타격(Strike) 강화 계열" }
+ "_meta": {
+  "schema": "sts2-expert/potions/v2",
+  "game_version": "v0.103.3",
+  "generated": "2026-06-11 20:44:03",
+  "locales": [
+   "ko",
+   "en",
+   "zh"
+  ],
+  "source": "STS2 헤드리스 덤프 (ExtraCatalogDumper) — 이름/설명 ko·en·zh + Rarity/Usage/Target + CanonicalVars 실수치. kind/category/note 는 수동 큐레이션(분류) 주석.",
+  "categories": [
+   "즉발 전투력",
+   "버프(자신)",
+   "디버프(적)",
+   "방어·생존",
+   "드로우·카드",
+   "자원·캐릭터",
+   "유틸"
   ]
+ },
+ "potions": {
+  "Ashwater": {
+   "name": {
+    "ko": "잿물",
+    "en": "Ashwater",
+    "zh": "灰水"
+   },
+   "desc": {
+    "ko": "[gold]손[/gold]에 있는 카드를 원하는 만큼 [gold]소멸[/gold]시킵니다.",
+    "en": "[gold]Exhaust[/gold] any number of cards in your [gold]Hand[/gold].",
+    "zh": "[gold]消耗[/gold]你[gold]手牌[/gold]中的任意张牌。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {}
+  },
+  "AttackPotion": {
+   "name": {
+    "ko": "공격 포션",
+    "en": "Attack Potion",
+    "zh": "攻击药水"
+   },
+   "desc": {
+    "ko": "무작위 공격 카드 [blue]3[/blue]장 중 [blue]1[/blue]장을 선택해 [gold]손[/gold]으로 가져옵니다. 이번 턴 동안 그 카드를 비용 없이 사용할 수 있습니다.",
+    "en": "Choose [blue]1[/blue] of [blue]3[/blue] random Attack cards to add into your [gold]Hand[/gold]. It's free to play this turn.",
+    "zh": "从[blue]3[/blue]张随机攻击牌中选择[blue]1[/blue]张加入你的[gold]手牌[/gold]。这张牌在本回合可以免费打出。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "GenerateCards",
+   "category": "드로우·카드",
+   "note": "공격 카드 1장 선택 생성"
+  },
+  "BeetleJuice": {
+   "name": {
+    "ko": "딱정벌레 주스",
+    "en": "Beetle Juice",
+    "zh": "甲虫汁"
+   },
+   "desc": {
+    "ko": "{Repeat:choose(1):다음 턴에|다음 [blue]{}[/blue]턴 동안} 적이 가하는 공격의 피해량이 [blue]{DamageDecrease}%[/blue] 감소합니다.",
+    "en": "Enemy's attacks deal [blue]{DamageDecrease}%[/blue] less damage {Repeat:plural:next turn|for the next [blue]{}[/blue] turns}.",
+    "zh": "敌人的攻击在下[blue]{Repeat}[/blue]个回合中造成的伤害减少[blue]{DamageDecrease}%[/blue]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "DamageDecrease": 30,
+    "Repeat": 4
+   },
+   "kind": "EnemyStrengthDown",
+   "category": "디버프(적)",
+   "note": "적 힘 −N 계열"
+  },
+  "BlessingOfTheForge": {
+   "name": {
+    "ko": "재련의 축복",
+    "en": "Blessing of the Forge",
+    "zh": "熔炉的祝福"
+   },
+   "desc": {
+    "ko": "[gold]손[/gold]에 있는 모든 카드를 남은 전투 동안 [gold]강화[/gold]합니다.",
+    "en": "[gold]Upgrade[/gold] all cards in your [gold]Hand[/gold] for the rest of combat.",
+    "zh": "在本场战斗中[gold]升级[/gold]你[gold]手牌[/gold]中的所有牌。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "UpgradeHand",
+   "category": "유틸",
+   "note": "손패 전체 이번 전투 강화"
+  },
+  "BlockPotion": {
+   "name": {
+    "ko": "방어도 포션",
+    "en": "Block Potion",
+    "zh": "格挡药水"
+   },
+   "desc": {
+    "ko": "[gold]방어도[/gold]를 [blue]{Block}[/blue] 얻습니다.",
+    "en": "Gain [blue]{Block}[/blue] [gold]Block[/gold].",
+    "zh": "获得[blue]{Block}[/blue]点[gold]格挡[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Block": 12
+   },
+   "kind": "Block",
+   "category": "방어·생존",
+   "note": "즉시 블록 +N"
+  },
+  "BloodPotion": {
+   "name": {
+    "ko": "피 포션",
+    "en": "Blood Potion",
+    "zh": "鲜血药水"
+   },
+   "desc": {
+    "ko": "최대 체력의 [green]{HealPercent}%[/green]만큼 체력을 회복합니다.",
+    "en": "Heal for [green]{HealPercent}%[/green] of your Max HP.",
+    "zh": "回复你最大生命值的[green]{HealPercent}%[/green]。"
+   },
+   "rarity": "Common",
+   "usage": "AnyTime",
+   "target": "AnyPlayer",
+   "vars": {
+    "HealPercent": 20
+   },
+   "kind": "HealPercent",
+   "category": "방어·생존",
+   "note": "최대 HP의 N% 회복"
+  },
+  "BoneBrew": {
+   "name": {
+    "ko": "뼈다귀 영액",
+    "en": "Bone Brew",
+    "zh": "骨头酿"
+   },
+   "desc": {
+    "ko": "[gold]소환[/gold] [blue]{Summon}[/blue].",
+    "en": "[gold]Summon[/gold] [blue]{Summon}[/blue].",
+    "zh": "[gold]召唤[/gold][blue]{Summon}[/blue]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Summon": 15
+   }
+  },
+  "BottledPotential": {
+   "name": {
+    "ko": "병 속의 가능성",
+    "en": "Bottled Potential",
+    "zh": "瓶装潜能"
+   },
+   "desc": {
+    "ko": "모든 카드를 [gold]뽑을 카드 더미[/gold]에 섞어넣습니다. 카드를 [blue]{Cards}[/blue]장 뽑습니다.",
+    "en": "Shuffle ALL your cards into your [gold]Draw Pile[/gold]. Draw [blue]{Cards}[/blue] {Cards:plural:card|cards}.",
+    "zh": "将你的所有牌洗入你的[gold]抽牌堆[/gold]。抽[blue]{Cards}[/blue]张牌。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Cards": 5
+   },
+   "kind": "Draw",
+   "category": "드로우·카드",
+   "note": "드로우 계열"
+  },
+  "Clarity": {
+   "name": {
+    "ko": "명확성 추출물",
+    "en": "Clarity Extract",
+    "zh": "明晰提取物"
+   },
+   "desc": {
+    "ko": "카드를 [blue]{Cards}[/blue]장 뽑습니다. 다음 {ClarityPower:choose(1):턴|[blue]{}[/blue]턴} 시작 시, 카드를 추가로 [blue]1[/blue]장 뽑습니다.",
+    "en": "Draw [blue]{Cards}[/blue] {Cards:plural:card|cards}. At the start of your next {ClarityPower:plural:turn|[blue]{}[/blue] turns}, draw [blue]1[/blue] additional card.",
+    "zh": "抽[blue]{Cards}[/blue]张牌。在你的下[blue]{ClarityPower}[/blue]个回合开始时，额外抽[blue]1[/blue]张牌。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "ClarityPower": 3,
+    "Cards": 1
+   },
+   "kind": "Draw",
+   "category": "드로우·카드",
+   "note": "드로우 계열"
+  },
+  "ColorlessPotion": {
+   "name": {
+    "ko": "무색 포션",
+    "en": "Colorless Potion",
+    "zh": "无色药水"
+   },
+   "desc": {
+    "ko": "무작위 무색 카드 [blue]3[/blue]장 중 [blue]1[/blue]장을 선택해 [gold]손[/gold]으로 가져옵니다. 이번 턴 동안 그 카드를 비용 없이 사용할 수 있습니다.",
+    "en": "Choose [blue]1[/blue] of [blue]3[/blue] random Colorless cards to add into your [gold]Hand[/gold]. It's free to play this turn.",
+    "zh": "从[blue]3[/blue]张随机无色牌中选择[blue]1[/blue]张加入你的[gold]手牌[/gold]。这张牌在本回合可以免费打出。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "GenerateCards",
+   "category": "드로우·카드",
+   "note": "무색 카드 1장 선택 생성"
+  },
+  "CosmicConcoction": {
+   "name": {
+    "ko": "우주적 혼합물",
+    "en": "Cosmic Concoction",
+    "zh": "宇宙药剂"
+   },
+   "desc": {
+    "ko": "[gold]강화[/gold]된 무색 카드를 [blue]{Cards}[/blue]장 [gold]손[/gold]으로 가져옵니다.",
+    "en": "Add [blue]{Cards}[/blue] [gold]Upgraded[/gold] Colorless {Cards:plural:card|cards} into your [gold]Hand[/gold].",
+    "zh": "将[blue]{Cards}[/blue]张[gold]升级[/gold]的无色牌加入你的[gold]手牌[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Cards": 3
+   },
+   "kind": "GenerateCards",
+   "category": "드로우·카드",
+   "note": "카드 3장 생성"
+  },
+  "CunningPotion": {
+   "name": {
+    "ko": "교활함 포션",
+    "en": "Cunning Potion",
+    "zh": "狡诈药水"
+   },
+   "desc": {
+    "ko": "[gold]강화[/gold]된 [gold]단도[/gold]를 [blue]{Cards}[/blue]장 [gold]손[/gold]으로 가져옵니다.",
+    "en": "Add [blue]{Cards}[/blue] [gold]Upgraded {Cards:plural:Shiv|Shivs}[/gold] into your [gold]Hand[/gold].",
+    "zh": "将[blue]{Cards}[/blue]张[gold]小刀+[/gold]加入你的[gold]手牌[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Cards": 3
+   },
+   "kind": "GenerateShivs",
+   "category": "드로우·카드",
+   "note": "표창 생성 (Silent)"
+  },
+  "CureAll": {
+   "name": {
+    "ko": "묘약",
+    "en": "Cure All",
+    "zh": "痊愈药水"
+   },
+   "desc": {
+    "ko": "{Energy:energyIcons()}를 얻습니다. 카드를 [blue]{Cards}[/blue]장 뽑습니다.",
+    "en": "Gain {Energy:energyIcons()}. Draw [blue]{Cards}[/blue] {Cards:plural:card|cards}.",
+    "zh": "获得{Energy:energyIcons()}。抽[blue]{Cards}[/blue]张牌。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Energy": 1,
+    "Cards": 2
+   }
+  },
+  "DeprecatedPotion": {
+   "name": {
+    "ko": "구식 포션",
+    "en": "Deprecated Potion",
+    "zh": "废弃药水"
+   },
+   "desc": {
+    "ko": "이 포션은 게임에서 삭제되었습니다.",
+    "en": "This potion has been removed from the game.",
+    "zh": "这瓶药水已经从游戏中移除。"
+   },
+   "rarity": "None",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {}
+  },
+  "DexterityPotion": {
+   "name": {
+    "ko": "민첩 포션",
+    "en": "Dexterity Potion",
+    "zh": "敏捷药水"
+   },
+   "desc": {
+    "ko": "[gold]민첩[/gold]을 [blue]{DexterityPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{DexterityPower}[/blue] [gold]Dexterity[/gold].",
+    "zh": "获得[blue]{DexterityPower}[/blue]点[gold]敏捷[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "DexterityPower": 2
+   },
+   "kind": "Dexterity",
+   "category": "버프(자신)",
+   "note": "민첩 +N — 블록 카드 수에 비례"
+  },
+  "DistilledChaos": {
+   "name": {
+    "ko": "정제된 혼돈",
+    "en": "Distilled Chaos",
+    "zh": "精炼混沌"
+   },
+   "desc": {
+    "ko": "[gold]뽑을 카드 더미[/gold] 위에서부터 [blue]{Repeat}[/blue]장의 카드를 사용합니다.",
+    "en": "Play the top [blue]{Repeat}[/blue] cards of your [gold]Draw Pile[/gold].",
+    "zh": "打出你[gold]抽牌堆[/gold]顶部的[blue]{Repeat}[/blue]张牌。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Repeat": 3
+   }
+  },
+  "DropletOfPrecognition": {
+   "name": {
+    "ko": "예견의 방울",
+    "en": "Droplet of Precognition",
+    "zh": "预知之滴"
+   },
+   "desc": {
+    "ko": "[gold]뽑을 카드 더미[/gold]에서 카드를 1장 선택해 [gold]손[/gold]으로 가져옵니다.",
+    "en": "Choose a card in your [gold]Draw Pile[/gold] and add it into your [gold]Hand[/gold].",
+    "zh": "选择你[gold]抽牌堆[/gold]中的一张牌加入你的[gold]手牌[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {}
+  },
+  "Duplicator": {
+   "name": {
+    "ko": "복제액",
+    "en": "Duplicator",
+    "zh": "复制药水"
+   },
+   "desc": {
+    "ko": "이번 턴에 사용하는 다음 카드가 1번 추가로 사용됩니다.",
+    "en": "This turn, your next card is played an extra time.",
+    "zh": "本回合，你打出的下一张牌会额外打出一次。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "NextCardDouble",
+   "category": "즉발 전투력",
+   "note": "다음 카드를 2회 발동 (피해·블록 ×2)"
+  },
+  "EnergyPotion": {
+   "name": {
+    "ko": "에너지 포션",
+    "en": "Energy Potion",
+    "zh": "能量药水"
+   },
+   "desc": {
+    "ko": "{Energy:energyIcons()}를 얻습니다.",
+    "en": "Gain {Energy:energyIcons()}.",
+    "zh": "获得{Energy:energyIcons()}。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Energy": 2
+   },
+   "kind": "Energy",
+   "category": "버프(자신)",
+   "note": "이번 턴 에너지 +N — 셋업/피니시 턴 가속"
+  },
+  "EntropicBrew": {
+   "name": {
+    "ko": "엔트로피의 영액",
+    "en": "Entropic Brew",
+    "zh": "混沌药水"
+   },
+   "desc": {
+    "ko": "비어있는 모든 포션 슬롯을 무작위 포션으로 채웁니다.",
+    "en": "Fill all your empty potion slots with random potions.",
+    "zh": "在所有空药水栏位中获得随机药水。"
+   },
+   "rarity": "Rare",
+   "usage": "AnyTime",
+   "target": "Self",
+   "vars": {}
+  },
+  "EssenceOfDarkness": {
+   "name": {
+    "ko": "암흑의 정수",
+    "en": "Essence of Darkness",
+    "zh": "黑暗精华"
+   },
+   "desc": {
+    "ko": "모든 [gold]구체 슬롯[/gold]에 [gold]암흑[/gold]을 [gold]영창[/gold]합니다.",
+    "en": "[gold]Channel[/gold] a [gold]Dark[/gold] for each of your [gold]Orb Slots[/gold].",
+    "zh": "[gold]生成[/gold]你[gold]充能球栏位[/gold]数量个[gold]黑暗[/gold]充能球。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "ChannelDark",
+   "category": "자원·캐릭터",
+   "note": "빈 슬롯 전부 어둠 오브 충전 (Defect)"
+  },
+  "ExplosiveAmpoule": {
+   "name": {
+    "ko": "폭발성 앰플",
+    "en": "Explosive Ampoule",
+    "zh": "爆炸安瓿"
+   },
+   "desc": {
+    "ko": "모든 적에게 피해를 [blue]{Damage}[/blue] 줍니다.",
+    "en": "Deal [blue]{Damage}[/blue] damage to ALL enemies.",
+    "zh": "对所有敌人造成[blue]{Damage}[/blue]点伤害。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AllEnemies",
+   "vars": {
+    "Damage": 10
+   }
+  },
+  "FairyInABottle": {
+   "name": {
+    "ko": "병 속의 요정",
+    "en": "Fairy in a Bottle",
+    "zh": "瓶中精灵"
+   },
+   "desc": {
+    "ko": "체력이 [blue]0[/blue]이 될 때, 그 대신 이 포션이 버려지고 최대 체력의 [blue]30%[/blue]만큼 체력을 회복합니다.",
+    "en": "When your HP would be reduced to [blue]0[/blue], instead this potion is discarded and you heal to [blue]30%[/blue] of your Max HP.",
+    "zh": "当你的生命值将被减少至[blue]0[/blue]或以下时，改为丢弃这瓶药水，然后将你回复到你最大生命值的[blue]30%[/blue]。"
+   },
+   "rarity": "Rare",
+   "usage": "Automatic",
+   "target": "Self",
+   "vars": {}
+  },
+  "FirePotion": {
+   "name": {
+    "ko": "화염 포션",
+    "en": "Fire Potion",
+    "zh": "火焰药水"
+   },
+   "desc": {
+    "ko": "피해를 [blue]{Damage}[/blue] 줍니다.",
+    "en": "Deal [blue]{Damage}[/blue] damage.",
+    "zh": "造成[blue]{Damage}[/blue]点伤害。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "Damage": 20
+   },
+   "kind": "Damage",
+   "category": "즉발 전투력",
+   "note": "단일 대상 직접 피해. 보스전 피니셔 1순위 후보"
+  },
+  "FlexPotion": {
+   "name": {
+    "ko": "몸풀기 포션",
+    "en": "Flex Potion",
+    "zh": "肌肉药水"
+   },
+   "desc": {
+    "ko": "[gold]힘[/gold]을 [blue]{StrengthPower}[/blue] 얻습니다. 내 턴 종료 시 [gold]힘[/gold]을 [blue]{StrengthPower}[/blue] 잃습니다.",
+    "en": "Gain [blue]{StrengthPower}[/blue] [gold]Strength[/gold]. At the end of your turn, lose [blue]{StrengthPower}[/blue] [gold]Strength[/gold].",
+    "zh": "获得[blue]{StrengthPower}[/blue]点[gold]力量[/gold]。在你的这个回合结束时，失去[blue]{StrengthPower}[/blue]点[gold]力量[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "StrengthPower": 5
+   }
+  },
+  "FocusPotion": {
+   "name": {
+    "ko": "밀집 포션",
+    "en": "Focus Potion",
+    "zh": "集中药水"
+   },
+   "desc": {
+    "ko": "[gold]밀집[/gold]을 [blue]{FocusPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{FocusPower}[/blue] [gold]Focus[/gold].",
+    "zh": "获得[blue]{FocusPower}[/blue]点[gold]集中[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "FocusPower": 2
+   },
+   "kind": "Focus",
+   "category": "버프(자신)",
+   "note": "집중 +N (Defect 오브 스케일)"
+  },
+  "Fortifier": {
+   "name": {
+    "ko": "강장제",
+    "en": "Fortifier",
+    "zh": "固化药水"
+   },
+   "desc": {
+    "ko": "[gold]방어도[/gold]를 3배로 만듭니다.",
+    "en": "Triple your [gold]Block[/gold].",
+    "zh": "将你的[gold]格挡[/gold]变为三倍。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {},
+   "kind": "BlockMult",
+   "category": "방어·생존",
+   "note": "현재 블록 × N 추가 획득 — 블록을 쌓은 뒤 사용할수록 가치 상승"
+  },
+  "FoulPotion": {
+   "name": {
+    "ko": "역겨운 포션",
+    "en": "Foul Potion",
+    "zh": "污浊药水"
+   },
+   "desc": {
+    "ko": "모든 플레이어와 적에게 피해를 [blue]{Damage}[/blue] 줍니다.\n[gold]상인[/gold]에게도 던질 수 있으며, 상인에게 던질 시 피해를 주는 대신 [gold]골드[/gold]를 [blue]{Gold}[/blue] 얻습니다.",
+    "en": "Deal [blue]{Damage}[/blue] damage to ALL players and enemies.\nCan be thrown at the [gold]Merchant[/gold] for [blue]{Gold}[/blue] [gold]Gold[/gold] instead.",
+    "zh": "对所有玩家和敌人造成[blue]{Damage}[/blue]点伤害。\n也可以投掷给[gold]商人[/gold]换取[blue]{Gold}[/blue][gold]金币[/gold]。"
+   },
+   "rarity": "Event",
+   "usage": "AnyTime",
+   "target": "TargetedNoCreature",
+   "vars": {
+    "Damage": 12,
+    "Gold": 100
+   }
+  },
+  "FruitJuice": {
+   "name": {
+    "ko": "과일 주스",
+    "en": "Fruit Juice",
+    "zh": "果汁"
+   },
+   "desc": {
+    "ko": "최대 체력을 [blue]{MaxHp}[/blue] 얻습니다.",
+    "en": "Gain [blue]{MaxHp}[/blue] Max HP.",
+    "zh": "获得[blue]{MaxHp}[/blue]点最大生命值。"
+   },
+   "rarity": "Rare",
+   "usage": "AnyTime",
+   "target": "AnyPlayer",
+   "vars": {
+    "MaxHp": 5
+   },
+   "kind": "MaxHpGain",
+   "category": "방어·생존",
+   "note": "최대 HP +N (영구) — 언제 마셔도 손해 없는 유일 부류"
+  },
+  "FyshOil": {
+   "name": {
+    "ko": "물교기 기름",
+    "en": "Fysh Oil",
+    "zh": "异鱼之油"
+   },
+   "desc": {
+    "ko": "[gold]힘[/gold]을 [blue]{StrengthPower}[/blue] 얻고 [gold]민첩[/gold]을 [blue]{DexterityPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{StrengthPower}[/blue] [gold]Strength[/gold] and [blue]{DexterityPower}[/blue] [gold]Dexterity[/gold].",
+    "zh": "获得[blue]{StrengthPower}[/blue]点[gold]力量[/gold]和[blue]{DexterityPower}[/blue]点[gold]敏捷[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "StrengthPower": 1,
+    "DexterityPower": 1
+   }
+  },
+  "GamblersBrew": {
+   "name": {
+    "ko": "도박꾼의 영액",
+    "en": "Gambler's Brew",
+    "zh": "赌徒特酿"
+   },
+   "desc": {
+    "ko": "원하는 만큼 카드를 버리고 버린 만큼 카드를 뽑습니다.",
+    "en": "Discard any number of cards, then draw that many.",
+    "zh": "丢弃任意张牌，然后抽相同数量的牌。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {}
+  },
+  "GhostInAJar": {
+   "name": {
+    "ko": "단지 속의 유령",
+    "en": "Ghost in a Jar",
+    "zh": "罐装幽灵"
+   },
+   "desc": {
+    "ko": "[gold]불가침[/gold]을 [blue]1[/blue] 얻습니다.",
+    "en": "Gain [blue]1[/blue] [gold]Intangible[/gold].",
+    "zh": "获得[blue]1[/blue]层[gold]无实体[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "IntangiblePower": 1
+   },
+   "kind": "SelfIntangible",
+   "category": "방어·생존",
+   "note": "무형 N턴 — 모든 피격을 1로 캡. 보스 빅히트 턴 카운터"
+  },
+  "GigantificationPotion": {
+   "name": {
+    "ko": "거대화 포션",
+    "en": "Gigantification Potion",
+    "zh": "超巨化药水"
+   },
+   "desc": {
+    "ko": "다음에 사용하는 공격 카드의 피해량이 3배로 증가합니다.",
+    "en": "The next Attack you play deals triple damage.",
+    "zh": "你打出的下一张攻击牌将会造成三倍伤害。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "GigantificationPower": 1
+   },
+   "kind": "AttackTriple",
+   "category": "즉발 전투력",
+   "note": "다음 공격 카드 피해 ×3 — 고데미지 단일타와 결합 시 폭발적"
+  },
+  "GlowwaterPotion": {
+   "name": {
+    "ko": "발광수 포션",
+    "en": "Glowwater Potion",
+    "zh": "发光水"
+   },
+   "desc": {
+    "ko": "[gold]손[/gold]에 있는 모든 카드를 [gold]소멸[/gold]시킵니다. 카드를 [blue]{Cards}[/blue]장 뽑습니다.",
+    "en": "[gold]Exhaust[/gold] your [gold]Hand[/gold]. Draw [blue]{Cards}[/blue] cards.",
+    "zh": "[gold]消耗[/gold]你的[gold]手牌[/gold]。抽[blue]{Cards}[/blue]张牌。"
+   },
+   "rarity": "Event",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Cards": 10
+   },
+   "kind": "DrawExhaustHand",
+   "category": "드로우·카드",
+   "note": "현재 손패 소멸 후 N장 드로우 — 순 카드 스윙으로 평가"
+  },
+  "HeartOfIron": {
+   "name": {
+    "ko": "무쇠의 심장",
+    "en": "Heart of Iron",
+    "zh": "铁心药水"
+   },
+   "desc": {
+    "ko": "[gold]판금[/gold]을 [blue]{PlatingPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{PlatingPower}[/blue] [gold]Plating[/gold].",
+    "zh": "获得[blue]{PlatingPower}[/blue]层[gold]覆甲[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "PlatingPower": 7
+   },
+   "kind": "SelfPlating",
+   "category": "방어·생존",
+   "note": "금속화 — 매 턴 종료 블록 +N"
+  },
+  "KingsCourage": {
+   "name": {
+    "ko": "왕의 기개",
+    "en": "King's Courage",
+    "zh": "王之勇气"
+   },
+   "desc": {
+    "ko": "[gold]단조[/gold] [blue]{Forge}[/blue].",
+    "en": "[gold]Forge[/gold] [blue]{Forge}[/blue].",
+    "zh": "[gold]铸造[/gold][blue]{Forge}[/blue]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Forge": 15
+   }
+  },
+  "LiquidBronze": {
+   "name": {
+    "ko": "액상 청동",
+    "en": "Liquid Bronze",
+    "zh": "流动铜液"
+   },
+   "desc": {
+    "ko": "[gold]가시[/gold]를 [blue]{ThornsPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{ThornsPower}[/blue] [gold]Thorns[/gold].",
+    "zh": "获得[blue]{ThornsPower}[/blue]点[gold]荆棘[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "ThornsPower": 3
+   },
+   "kind": "SelfThorns",
+   "category": "방어·생존",
+   "note": "가시 — 피격당 N 반사"
+  },
+  "LiquidMemories": {
+   "name": {
+    "ko": "액상 기억",
+    "en": "Liquid Memories",
+    "zh": "液态记忆"
+   },
+   "desc": {
+    "ko": "[gold]버린 카드 더미[/gold]에서 카드를 1장 선택해 [gold]손[/gold]으로 가져옵니다. 이번 턴 동안 그 카드를 비용 없이 사용할 수 있습니다.",
+    "en": "Put a card from your [gold]Discard Pile[/gold] into your [gold]Hand[/gold]. It's free to play this turn.",
+    "zh": "将你[gold]弃牌堆[/gold]中的一张牌放入你的[gold]手牌[/gold]。这张牌在本回合可以免费打出。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "Draw",
+   "category": "드로우·카드",
+   "note": "버린 카드 회수 계열"
+  },
+  "LuckyTonic": {
+   "name": {
+    "ko": "행운의 활력소",
+    "en": "Lucky Tonic",
+    "zh": "幸运补剂"
+   },
+   "desc": {
+    "ko": "[gold]버퍼[/gold]를 [blue]{BufferPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{BufferPower}[/blue] [gold]Buffer[/gold].",
+    "zh": "获得[blue]{BufferPower}[/blue]层[gold]缓冲[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "BufferPower": 1
+   },
+   "kind": "SelfBuffer",
+   "category": "방어·생존",
+   "note": "버퍼 N회 — 피격 전체 무효"
+  },
+  "MazalethsGift": {
+   "name": {
+    "ko": "마잘레스의 선물",
+    "en": "Mazaleth's Gift",
+    "zh": "马萨雷斯的赠礼"
+   },
+   "desc": {
+    "ko": "[gold]의식[/gold]을 [blue]{RitualPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{RitualPower}[/blue] [gold]Ritual[/gold].",
+    "zh": "获得[blue]{RitualPower}[/blue]层[gold]仪式[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "RitualPower": 1
+   }
+  },
+  "OrobicAcid": {
+   "name": {
+    "ko": "오로바스산",
+    "en": "Orobic Acid",
+    "zh": "欧洛巴斯之酸"
+   },
+   "desc": {
+    "ko": "무작위 공격, 스킬, 파워 카드를 [gold]손[/gold]으로 가져옵니다. 이번 턴 동안 그 카드들을 비용 없이 사용할 수 있습니다.",
+    "en": "Add a random Attack, Skill, and Power into your [gold]Hand[/gold]. They're free to play this turn.",
+    "zh": "往你的[gold]手牌[/gold]中加入一张随机攻击牌、一张随机技能牌和一张随机能力牌。这些牌在本回合免费。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {}
+  },
+  "PoisonPotion": {
+   "name": {
+    "ko": "중독 포션",
+    "en": "Poison Potion",
+    "zh": "毒药水"
+   },
+   "desc": {
+    "ko": "[gold]중독[/gold]을 [blue]{PoisonPower}[/blue] 부여합니다.",
+    "en": "Apply [blue]{PoisonPower}[/blue] [gold]Poison[/gold].",
+    "zh": "给予[blue]{PoisonPower}[/blue]层[gold]中毒[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "PoisonPower": 6
+   },
+   "kind": "EnemyPoison",
+   "category": "디버프(적)",
+   "note": "중독 부여 (턴 기반 DoT)"
+  },
+  "PotOfGhouls": {
+   "name": {
+    "ko": "구울 항아리",
+    "en": "Pot of Ghouls",
+    "zh": "尸鬼瓮"
+   },
+   "desc": {
+    "ko": "[gold]영혼[/gold]을 [blue]{Cards}[/blue]장 [gold]손[/gold]으로 가져옵니다.",
+    "en": "Add [blue]{Cards}[/blue] [gold]{Cards:plural:Soul|Souls}[/gold] into your [gold]Hand[/gold].",
+    "zh": "将[blue]{Cards}[/blue]张[gold]灵魂[/gold]加入你的[gold]手牌[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Cards": 2
+   },
+   "kind": "GenerateShivs",
+   "category": "드로우·카드",
+   "note": "영혼 생성 (0코 소형 공격 근사)"
+  },
+  "PotionOfBinding": {
+   "name": {
+    "ko": "속박의 포션",
+    "en": "Potion of Binding",
+    "zh": "缚魂药水"
+   },
+   "desc": {
+    "ko": "모든 적에게 [gold]약화[/gold]를 [blue]{WeakPower:diff()}[/blue], [gold]취약[/gold]을 [blue]{VulnerablePower:diff()}[/blue] 부여합니다.",
+    "en": "Apply [blue]{WeakPower:diff()}[/blue] [gold]Weak[/gold] and [blue]{VulnerablePower:diff()}[/blue] [gold]Vulnerable[/gold] to ALL enemies.",
+    "zh": "给予所有敌人[blue]{WeakPower:diff()}[/blue]层[gold]虚弱[/gold]和[blue]{VulnerablePower:diff()}[/blue]层[gold]易伤[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AllEnemies",
+   "vars": {
+    "VulnerablePower": 1,
+    "WeakPower": 1
+   },
+   "kind": "EnemyWeak",
+   "category": "디버프(적)",
+   "note": "약화 계열"
+  },
+  "PotionOfCapacity": {
+   "name": {
+    "ko": "수용의 포션",
+    "en": "Potion of Capacity",
+    "zh": "扩容药水"
+   },
+   "desc": {
+    "ko": "[gold]구체 슬롯[/gold]을 [blue]{Repeat}[/blue]개 얻습니다.",
+    "en": "Gain [blue]{Repeat}[/blue] [gold]Orb {Repeat:plural:Slot|Slots}[/gold].",
+    "zh": "获得[blue]{Repeat}[/blue]个[gold]充能球栏位[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Repeat": 2
+   },
+   "kind": "OrbCapacity",
+   "category": "자원·캐릭터",
+   "note": "오브 슬롯 +N (Defect)"
+  },
+  "PotionOfDoom": {
+   "name": {
+    "ko": "종말의 포션",
+    "en": "Potion of Doom",
+    "zh": "灾厄药水"
+   },
+   "desc": {
+    "ko": "[gold]종말[/gold]을 [blue]{DoomPower}[/blue] 부여합니다.",
+    "en": "Apply [blue]{DoomPower}[/blue] [gold]Doom[/gold].",
+    "zh": "给予[blue]{DoomPower}[/blue]层[gold]灾厄[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "DoomPower": 33
+   },
+   "kind": "EnemyDoom",
+   "category": "디버프(적)",
+   "note": "파멸 부여 (턴 종료 DoT)"
+  },
+  "PotionShapedRock": {
+   "name": {
+    "ko": "포션 모양 돌",
+    "en": "Potion-Shaped Rock",
+    "zh": "药水形状的石头"
+   },
+   "desc": {
+    "ko": "피해를 [blue]{Damage}[/blue] 줍니다.",
+    "en": "Deal [blue]{Damage}[/blue] damage.",
+    "zh": "造成[blue]{Damage}[/blue]点伤害。"
+   },
+   "rarity": "Token",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "Damage": 15
+   }
+  },
+  "PowderedDemise": {
+   "name": {
+    "ko": "종언의 가루",
+    "en": "Powdered Demise",
+    "zh": "消亡粉末"
+   },
+   "desc": {
+    "ko": "적의 턴 종료 시 적이 체력을 [blue]{Demise}[/blue] 잃습니다.",
+    "en": "Enemy loses [blue]{Demise}[/blue] HP at the end of each of its turns.",
+    "zh": "敌人在自身的每个回合结束时，失去[blue]{Demise}[/blue]点生命。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "Demise": 9
+   }
+  },
+  "PowerPotion": {
+   "name": {
+    "ko": "파워 포션",
+    "en": "Power Potion",
+    "zh": "能力药水"
+   },
+   "desc": {
+    "ko": "무작위 파워 카드 [blue]3[/blue]장 중 [blue]1[/blue]장을 선택해 [gold]손[/gold]으로 가져옵니다. 이번 턴 동안 그 카드를 비용 없이 사용할 수 있습니다.",
+    "en": "Choose [blue]1[/blue] of [blue]3[/blue] random Power cards to add into your [gold]Hand[/gold]. It's free to play this turn.",
+    "zh": "从[blue]3[/blue]张随机能力牌中选择[blue]1[/blue]张加入你的[gold]手牌[/gold]。这张牌在本回合可以免费打出。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "GenerateCards",
+   "category": "드로우·카드",
+   "note": "파워 카드 1장 선택 생성"
+  },
+  "RadiantTincture": {
+   "name": {
+    "ko": "광휘의 팅크",
+    "en": "Radiant Tincture",
+    "zh": "明耀酊剂"
+   },
+   "desc": {
+    "ko": "{Energy:energyIcons()}를 얻습니다. 다음 [blue]{RadiancePower}[/blue]턴 동안 추가로 {energyPrefix:energyIcons(1)}를 얻습니다.",
+    "en": "Gain {Energy:energyIcons()}. Gain an additional {energyPrefix:energyIcons(1)} at the start of your next [blue]{RadiancePower}[/blue] {RadiancePower:plural:turn|turns}.",
+    "zh": "获得{Energy:energyIcons()}。在你的下[blue]{RadiancePower}[/blue]个回合开始时，额外获得{energyPrefix:energyIcons(1)}。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Energy": 1,
+    "RadiancePower": 3
+   }
+  },
+  "RegenPotion": {
+   "name": {
+    "ko": "재생 포션",
+    "en": "Regen Potion",
+    "zh": "再生药水"
+   },
+   "desc": {
+    "ko": "[gold]재생[/gold]을 [green]{RegenPower}[/green] 얻습니다.",
+    "en": "Gain [green]{RegenPower}[/green] [gold]Regen[/gold].",
+    "zh": "获得[green]{RegenPower}[/green]层[gold]再生[/gold]。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "RegenPower": 5
+   },
+   "kind": "SelfRegen",
+   "category": "방어·생존",
+   "note": "재생 — 턴당 회복(감쇠)"
+  },
+  "ShacklingPotion": {
+   "name": {
+    "ko": "족쇄 포션",
+    "en": "Shackling Potion",
+    "zh": "镣铐药水"
+   },
+   "desc": {
+    "ko": "이번 턴 동안 모든 적이 [gold]힘[/gold]을 [blue]{StrengthPower}[/blue] 잃습니다.",
+    "en": "ALL enemies lose [blue]{StrengthPower}[/blue] [gold]Strength[/gold] this turn.",
+    "zh": "所有敌人在这个回合失去[blue]{StrengthPower}[/blue]点[gold]力量[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AllEnemies",
+   "vars": {
+    "StrengthPower": 7
+   },
+   "kind": "EnemyStrengthDown",
+   "category": "디버프(적)",
+   "note": "적 힘 −N (받는 공격 약화)"
+  },
+  "ShipInABottle": {
+   "name": {
+    "ko": "병 속의 배",
+    "en": "Ship in a Bottle",
+    "zh": "瓶中船"
+   },
+   "desc": {
+    "ko": "[gold]방어도[/gold]를 [blue]{Block:diff()}[/blue] 얻습니다. 다음 턴에 [gold]방어도[/gold]를 [blue]{Block:diff()}[/blue] 얻습니다.",
+    "en": "Gain [blue]{Block:diff()}[/blue] [gold]Block[/gold]. Next turn, gain [blue]{Block:diff()}[/blue] [gold]Block[/gold].",
+    "zh": "获得[blue]{Block:diff()}[/blue]点[gold]格挡[/gold]。在下个回合开始时获得[blue]{Block:diff()}[/blue]点[gold]格挡[/gold]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Block": 10
+   }
+  },
+  "SkillPotion": {
+   "name": {
+    "ko": "스킬 포션",
+    "en": "Skill Potion",
+    "zh": "技能药水"
+   },
+   "desc": {
+    "ko": "무작위 스킬 카드 [blue]3[/blue]장 중 [blue]1[/blue]장을 선택해 [gold]손[/gold]으로 가져옵니다. 이번 턴 동안 그 카드를 비용 없이 사용할 수 있습니다.",
+    "en": "Choose [blue]1[/blue] of [blue]3[/blue] random Skill cards to add into your [gold]Hand[/gold]. It's free to play this turn.",
+    "zh": "从[blue]3[/blue]张随机技能牌中选择[blue]1[/blue]张加入你的[gold]手牌[/gold]。这张牌在本回合可以免费打出。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {},
+   "kind": "GenerateCards",
+   "category": "드로우·카드",
+   "note": "스킬 카드 1장 선택 생성"
+  },
+  "SneckoOil": {
+   "name": {
+    "ko": "스네코 기름",
+    "en": "Snecko Oil",
+    "zh": "异蛇之油"
+   },
+   "desc": {
+    "ko": "카드를 [blue]{Cards}[/blue]장 뽑습니다. 이번 턴 동안 [gold]손[/gold]에 있는 카드의 비용을 무작위로 변경합니다.",
+    "en": "Draw [blue]{Cards}[/blue] cards. Randomize the cost of cards in your [gold]Hand[/gold] this turn.",
+    "zh": "抽[blue]{Cards}[/blue]张牌。在本回合随机化你[gold]手牌[/gold]中所有牌的耗能。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Cards": 7
+   },
+   "kind": "Draw",
+   "category": "드로우·카드",
+   "note": "대량 드로우 + 코스트 무작위화"
+  },
+  "SoldiersStew": {
+   "name": {
+    "ko": "병사의 스튜",
+    "en": "Soldier's Stew",
+    "zh": "士兵炖汤"
+   },
+   "desc": {
+    "ko": "이번 전투 동안 이름에 [gold]타격[/gold]이 포함된 카드가 [gold]재사용[/gold]을 [blue]1[/blue] 얻습니다.",
+    "en": "All cards containing [gold]Strike[/gold] gain [blue]1[/blue] [gold]Replay[/gold] this combat.",
+    "zh": "在本场战斗中，所有名字中有“[gold]打击[/gold]”的牌获得[gold]重放[/gold]：[blue]1[/blue]。"
+   },
+   "rarity": "Rare",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {},
+   "kind": "UpgradeHand",
+   "category": "유틸",
+   "note": "타격(Strike) 강화 계열"
+  },
+  "SpeedPotion": {
+   "name": {
+    "ko": "속도 포션",
+    "en": "Speed Potion",
+    "zh": "速度药水"
+   },
+   "desc": {
+    "ko": "[gold]민첩[/gold]을 [blue]{DexterityPower}[/blue] 얻습니다. 내 턴 종료 시 [gold]민첩[/gold]을 [blue]{DexterityPower}[/blue] 잃습니다.",
+    "en": "Gain [blue]{DexterityPower}[/blue] [gold]Dexterity[/gold]. At the end of your turn, lose [blue]{DexterityPower}[/blue] [gold]Dexterity[/gold].",
+    "zh": "获得[blue]{DexterityPower}[/blue]点[gold]敏捷[/gold]。在你的这个回合结束时，失去[blue]{DexterityPower}[/blue]点[gold]敏捷[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "DexterityPower": 5
+   }
+  },
+  "StableSerum": {
+   "name": {
+    "ko": "안정된 혈청",
+    "en": "Stable Serum",
+    "zh": "稳定血清"
+   },
+   "desc": {
+    "ko": "[gold]손[/gold]에 있는 카드를 [blue]{Repeat}[/blue]턴 동안 [gold]보존[/gold]합니다.",
+    "en": "[gold]Retain[/gold] your [gold]Hand[/gold] for [blue]{Repeat}[/blue] {Repeat:plural:turn|turns}.",
+    "zh": "[gold]保留[/gold]你的[gold]手牌[/gold][blue]{Repeat}[/blue]回合。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Repeat": 2
+   }
+  },
+  "StarPotion": {
+   "name": {
+    "ko": "별 포션",
+    "en": "Star Potion",
+    "zh": "星星药水"
+   },
+   "desc": {
+    "ko": "{Stars:starIcons()}을 얻습니다.",
+    "en": "Gain {Stars:starIcons()}.",
+    "zh": "获得{Stars:starIcons()}。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {
+    "Stars": 3
+   },
+   "kind": "GainStars",
+   "category": "자원·캐릭터",
+   "note": "별 +N (Regent) — 별 비용 카드 해금"
+  },
+  "StrengthPotion": {
+   "name": {
+    "ko": "힘 포션",
+    "en": "Strength Potion",
+    "zh": "力量药水"
+   },
+   "desc": {
+    "ko": "[gold]힘[/gold]을 [blue]{StrengthPower}[/blue] 얻습니다.",
+    "en": "Gain [blue]{StrengthPower}[/blue] [gold]Strength[/gold].",
+    "zh": "获得[blue]{StrengthPower}[/blue]点[gold]力量[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "StrengthPower": 2
+   },
+   "kind": "Strength",
+   "category": "버프(자신)",
+   "note": "힘 +N — 다단히트 덱에서 가치 상승"
+  },
+  "SwiftPotion": {
+   "name": {
+    "ko": "신속 포션",
+    "en": "Swift Potion",
+    "zh": "迅捷药水"
+   },
+   "desc": {
+    "ko": "카드를 [blue]{Cards}[/blue]장 뽑습니다.",
+    "en": "Draw [blue]{Cards}[/blue] {Cards:plural:card|cards}.",
+    "zh": "抽[blue]{Cards}[/blue]张牌。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyPlayer",
+   "vars": {
+    "Cards": 3
+   },
+   "kind": "Draw",
+   "category": "드로우·카드",
+   "note": "카드 N장 드로우"
+  },
+  "TouchOfInsanity": {
+   "name": {
+    "ko": "광기의 손길",
+    "en": "Touch of Insanity",
+    "zh": "癫狂之触"
+   },
+   "desc": {
+    "ko": "[gold]손[/gold]에서 카드를 1장 선택합니다. 이번 전투 동안 그 카드를 비용 없이 사용할 수 있습니다.",
+    "en": "Choose a card in your [gold]Hand[/gold]. It is free to play this combat.",
+    "zh": "选择你[gold]手牌[/gold]中的一张牌，使其在本场战斗可以免费打出。"
+   },
+   "rarity": "Uncommon",
+   "usage": "CombatOnly",
+   "target": "Self",
+   "vars": {}
+  },
+  "VulnerablePotion": {
+   "name": {
+    "ko": "취약 포션",
+    "en": "Vulnerable Potion",
+    "zh": "易伤药水"
+   },
+   "desc": {
+    "ko": "[gold]취약[/gold]을 [blue]{VulnerablePower}[/blue] 부여합니다.",
+    "en": "Apply [blue]{VulnerablePower}[/blue] [gold]Vulnerable[/gold].",
+    "zh": "给予[blue]{VulnerablePower}[/blue]层[gold]易伤[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "VulnerablePower": 3
+   },
+   "kind": "EnemyVuln",
+   "category": "디버프(적)",
+   "note": "취약 부여 (받는 피해 +50%) — 후속 공격과 결합"
+  },
+  "WeakPotion": {
+   "name": {
+    "ko": "약화 포션",
+    "en": "Weak Potion",
+    "zh": "虚弱药水"
+   },
+   "desc": {
+    "ko": "[gold]약화[/gold]를 [blue]{WeakPower}[/blue] 부여합니다.",
+    "en": "Apply [blue]{WeakPower}[/blue] [gold]Weak[/gold].",
+    "zh": "给予[blue]{WeakPower}[/blue]层[gold]虚弱[/gold]。"
+   },
+   "rarity": "Common",
+   "usage": "CombatOnly",
+   "target": "AnyEnemy",
+   "vars": {
+    "WeakPower": 3
+   },
+   "kind": "EnemyWeak",
+   "category": "디버프(적)",
+   "note": "약화 부여 (적 공격 −25%) — 방어적 가치"
+  }
+ }
 }

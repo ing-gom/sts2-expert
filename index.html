@@ -33,8 +33,9 @@ tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; 
 .chip { display: inline-block; background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 1px 8px; margin: 1px 2px 1px 0; font-size: 11px; color: var(--dim); white-space: nowrap; }
 .id { color: #5d6475; font-size: 11px; }
 .gold { color: var(--gold); } .blue { color: var(--blue); font-weight: 600; }
-.red { color: #e07a7a; } .green { color: #7ecf7e; }
-.missing { color: #e07a7a; border-bottom: 1px dotted #e07a7a; }
+.red { color: #e07a7a; } .green { color: #7ecf7e; } .purple { color: #c98bdb; font-weight: 600; }
+.star { color: var(--gold); } .miss { color: #e07a7a; border-bottom: 1px dotted #e07a7a; }
+.nrg { display: inline-block; min-width: 13px; text-align: center; background: #3a3526; color: var(--gold); border-radius: 3px; padding: 0 4px; font-size: 11px; font-weight: 700; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 12px; }
 .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
 .card h3 { margin: 0 0 2px; font-size: 15px; color: var(--gold); }
@@ -90,14 +91,19 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
       <input type="text" id="relic-q" placeholder="유물 이름 / 효과 검색">
       <span class="count" id="relic-count"></span>
     </div>
-    <div class="banner">설명의 <span class="blue">파란 수치</span>는 <code>relic_canonical_vars.json</code>에서 채운 실측 상수,
-      <span class="missing">{빨간 placeholder}</span>는 수치 미추출(76종) — 평가 시 "수치 미확인"으로 처리.</div>
+    <div class="banner">설명의 수치(<span class="blue">파란 값</span>)는 게임 DLL에서 추출한 <code>relic_canonical_vars.json</code>의 실측 상수로 채웠고,
+      <span class="star">★</span> 별 아이콘·<span class="nrg">1</span> 에너지·인챈트 이름(<span class="purple">예: 점착</span>)까지 해석한다.
+      혹시 못 채운 값은 <span class="miss">{빨간색}</span>으로 표시된다.</div>
     <div class="grid" id="relic-grid"></div>
   </section>
 
   <section id="tab-potions" class="hidden">
-    <div class="banner"><b>⚠ 정적 카탈로그 갭</b> — STS2 포션은 아직 헤드리스 덤프가 없어 이 목록은 효과 <b>분류</b>만 담는다
-      (수치는 게임 런타임/디컴파일로만 확정). 게임 전체 포션 풀과 1:1 완전 커버가 아니다.<br>
+    <div class="toolbar">
+      <input type="text" id="potion-q" placeholder="포션 이름 / ID / 효과 검색">
+      <span class="count" id="potion-count"></span>
+    </div>
+    <div class="banner">STS2 헤드리스 덤프(<code>ExtraCatalogDumper</code>)로 <b>전 포션의 이름·설명·수치를 추출</b>했다 — 이전엔 정적 소스가 없던 부분.
+      각 포션의 <span class="blue">실수치</span>(방어도 12, 피해 20 등)·희귀도·사용시점·대상이 채워져 있다.<br>
       평가 원칙: 포션은 막(act) 내 <b>제로섬 자원</b> — same-seed A/B 실측 기준, 중간 전투 지출은 보스전 기아로 이어진다. 보스전 가치를 1순위로 평가한다.</div>
     <div id="potion-list"></div>
   </section>
@@ -111,13 +117,61 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const MARKUP_CLASSES = new Set(['gold','blue','red','green']);
+const MARKUP_CLASSES = new Set(['gold','blue','red','green','purple','nrg','star','miss']);
 function renderMarkup(text) {
   let h = esc(text || '');
   h = h.replace(/\[(\w+)\]([\s\S]*?)\[\/\1\]/g, (m, tag, body) =>
     MARKUP_CLASSES.has(tag.toLowerCase()) ? `<span class="${tag.toLowerCase()}">${body}</span>` : body);
   return h.replace(/\n/g, '<br>');
 }
+const LANG = 'ko';   // 대시보드 표시 언어 (데이터는 ko/en/zh 보유)
+
+// ---- SmartFormat-lite 렌더러: STS2 LocString 토큰 부분집합을 vars/string_vars로 치환 ----
+// 지원: {Var} {Var:diff()} {Var:energyIcons()} {Var:starIcons()} {singleStarIcon}
+//       {Var:percentMore()} {Var:choose(N):a|b} {Var:plural:a|b} {Var.StringValue:cond:a|b}
+function sfFindMatch(s, i) { let d = 0; for (; i < s.length; i++) { if (s[i] === '{') d++; else if (s[i] === '}') { if (--d === 0) return i; } } return -1; }
+function sfSplitTop(s) { const out = []; let d = 0, cur = ''; for (const ch of s) { if (ch === '{') { d++; cur += ch; } else if (ch === '}') { d--; cur += ch; } else if (ch === '|' && d === 0) { out.push(cur); cur = ''; } else cur += ch; } out.push(cur); return out; }
+function sfNum(v) { const f = Number(v); return Number.isFinite(f) && Number.isInteger(f) ? String(f) : String(v); }
+function sfTruthy(v) { if (v == null) return false; if (typeof v === 'string') return v.trim() !== ''; const f = Number(v); return Number.isFinite(f) ? f !== 0 : !!v; }
+function sfBase(name) { return name.split('.')[0]; }
+function sfLookup(name, vars, strv) { const b = sfBase(name); if (strv && b in strv) return strv[b]; if (vars && b in vars) return sfNum(vars[b]); return '[miss]{' + name + '}[/miss]'; }
+function smartFormat(s, vars, strv) {
+  vars = vars || {}; strv = strv || {};
+  let out = '', i = 0;
+  while (i < s.length) {
+    if (s[i] === '{') { const j = sfFindMatch(s, i); if (j < 0) { out += s[i]; i++; continue; } out += sfToken(s.slice(i + 1, j), vars, strv); i = j + 1; }
+    else { out += s[i]; i++; }
+  }
+  return out;
+}
+function sfToken(inner, vars, strv) {
+  if (inner === 'singleStarIcon') return '[star]★[/star]';
+  if (inner === '') return '';
+  const ci = inner.indexOf(':');
+  if (ci < 0) return sfLookup(inner, vars, strv);
+  const name = inner.slice(0, ci); let rest = inner.slice(ci + 1);
+  const fm = rest.match(/^(\w+)/); const fmtr = fm ? fm[1] : ''; rest = rest.slice(fmtr.length);
+  let args = '';
+  if (rest[0] === '(') { let d = 0; for (let idx = 0; idx < rest.length; idx++) { const c = rest[idx]; if (c === '(') d++; else if (c === ')') { if (--d === 0) { args = rest.slice(1, idx); rest = rest.slice(idx + 1); break; } } } }
+  const options = rest[0] === ':' ? rest.slice(1) : '';
+  const b = sfBase(name); const ctrl = (b in vars) ? vars[b] : undefined; const sctrl = (strv && b in strv) ? strv[b] : undefined;
+  if (fmtr === 'diff' || fmtr === 'inverseDiff' || fmtr === 'percentMore') return sfLookup(name, vars, strv);
+  if (fmtr === 'energyIcons') { const n = (ctrl != null) ? parseInt(ctrl) : (/^\d+$/.test(args.trim()) ? parseInt(args) : 1); return '[nrg]' + n + '[/nrg]'; }
+  if (fmtr === 'starIcons') { const n = (ctrl != null) ? parseInt(ctrl) : (/^\d+$/.test(args.trim()) ? parseInt(args) : 1); return '[star]' + n + '★[/star]'; }
+  if (fmtr === 'choose' || fmtr === 'plural' || fmtr === 'cond') {
+    const opts = sfSplitTop(options); const cv = (sctrl != null) ? sctrl : ctrl; let pick = '';
+    if (fmtr === 'cond') pick = sfTruthy(cv) ? opts[0] : (opts.length > 1 ? opts[1] : '');
+    else if (fmtr === 'plural') pick = (ctrl != null && Number(ctrl) === 1) ? opts[0] : (opts.length ? opts[opts.length - 1] : '');
+    else { const a = args.trim(); if (a === '1' || a === '') pick = (ctrl != null && Number(ctrl) === 1) ? opts[0] : opts[opts.length - 1]; else { const keys = a.split('|'); pick = opts[0]; if (cv != null) { const pi = keys.indexOf(String(cv)); if (pi >= 0 && pi < opts.length) pick = opts[pi]; } } }
+    const rep = (sctrl != null) ? sctrl : (ctrl != null ? sfNum(ctrl) : '');
+    pick = pick.split('{}').join(String(rep));
+    return smartFormat(pick, vars, strv);
+  }
+  if (fmtr === 'show') { const opts = sfSplitTop(options); return smartFormat(opts[0] || '', vars, strv); }
+  return sfLookup(name, vars, strv);
+}
+// 유물/포션의 string_vars({Var:{ko,en,zh}})를 현재 언어의 평면 맵으로
+function strvForLocale(svObj) { const out = {}; if (!svObj) return out; for (const k in svObj) { const d = svObj[k]; out[k] = (d && (d[LANG] || d.ko || d.en)) || ''; } return out; }
 const CHAR_KO = { IRONCLAD:'아이언클래드', SILENT:'사일런트', DEFECT:'디펙트', REGENT:'리젠트',
   NECROBINDER:'네크로바인더', WATCHER:'와처', COLORLESS:'무색', CURSE:'저주', STATUS:'상태', NEUTRAL:'공용' };
 const charKo = c => CHAR_KO[c] || c || '—';
@@ -132,7 +186,9 @@ async function load() {
   })));
   files.forEach((f, i) => DATA[f] = res[i]);
   $('#loading').classList.add('hidden');
-  $('#verinfo').textContent = `게임 버전 ${DATA.cards_catalog.game_version} · 카드 ${DATA.cards_catalog.card_count}장 · 유물 ${Object.keys(DATA.relics_locale.relics).length}종 · 포션 분류 ${DATA.potions.potions.length}종`;
+  $('#verinfo').textContent = `카드 ${DATA.cards_catalog.card_count}장 (${DATA.cards_catalog.game_version}) · ` +
+    `유물 ${Object.keys(DATA.relics_locale.relics).length}종 (${DATA.relics_locale.game_version}) · ` +
+    `포션 ${Object.keys(DATA.potions.potions).length}종 (${DATA.potions._meta.game_version})`;
   initCards(); initRelics(); initPotions(); initAbout();
   $('#tab-cards').classList.remove('hidden');
 }
@@ -206,14 +262,11 @@ function initRelics() {
   $('#relic-q').addEventListener('input', renderRelics);
   renderRelics();
 }
-function fillVars(desc, vars) {
-  return (desc || '').replace(/\{(\w+)\}/g, (m, name) =>
-    vars && vars[name] != null ? `${vars[name]}` : `@@MISSING:${name}@@`);
-}
 function renderRelics() {
   const q = $('#relic-q').value.trim().toLowerCase();
   const relics = DATA.relics_locale.relics;
   const cvars = DATA.relic_canonical_vars.relics || {};
+  const svAll = DATA.relic_canonical_vars.string_vars || {};
   const overrides = (DATA.relic_axis_overrides.explicit) || {};
   const labels = DATA.axis_labels_ko;
   const keys = Object.keys(relics).sort((a, b) =>
@@ -221,16 +274,15 @@ function renderRelics() {
   let n = 0, html = '';
   for (const k of keys) {
     const r = relics[k];
-    const ko = r.name.ko || k, en = r.name.en || '';
-    const descRaw = r.desc.ko || r.desc.en || '';
-    if (q && !(ko.toLowerCase().includes(q) || en.toLowerCase().includes(q) ||
+    const nm = r.name[LANG] || r.name.ko || r.name.en || k, en = r.name.en || '';
+    const descRaw = r.desc[LANG] || r.desc.ko || r.desc.en || '';
+    if (q && !((r.name.ko || '').toLowerCase().includes(q) || en.toLowerCase().includes(q) ||
                k.toLowerCase().includes(q) || descRaw.toLowerCase().includes(q))) continue;
     n++;
-    let desc = renderMarkup(fillVars(descRaw, cvars[k]));
-    desc = desc.replace(/@@MISSING:(\w+)@@/g, '<span class="missing">{$1}</span>');
+    const desc = renderMarkup(smartFormat(descRaw, cvars[k] || {}, strvForLocale(svAll[k])));
     const ov = overrides[k];
     const axes = ov ? ov.card_axes.map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') : '';
-    html += `<div class="card"><h3>${esc(ko)}</h3><div class="en">${esc(en)} · <span class="id">${esc(k)}</span></div>
+    html += `<div class="card"><h3>${esc(nm)}</h3><div class="en">${esc(en)} · <span class="id">${esc(k)}</span></div>
       <div class="desc">${desc}</div>${axes ? `<div class="axes">카드 시너지 축: ${axes}</div>` : ''}</div>`;
   }
   $('#relic-count').textContent = `${n}종`;
@@ -238,18 +290,49 @@ function renderRelics() {
 }
 
 // ---- potions ----
+const POTION_RARITY_KO = { Common: '커먼', Uncommon: '언커먼', Rare: '레어', Shop: '상점', Special: '특수' };
+const POTION_USAGE_KO = { CombatOnly: '전투 중', AnyTime: '언제나', MapOnly: '맵에서' };
+const POTION_TARGET_KO = { Self: '자신', AnyPlayer: '자신', AnyEnemy: '적 1체', AllEnemies: '모든 적', None: '대상 없음' };
+const UNCATEGORIZED = '기타 (분류 미부여)';
 function initPotions() {
+  $('#potion-q').addEventListener('input', renderPotions);
+  renderPotions();
+}
+function renderPotions() {
+  const q = $('#potion-q').value.trim().toLowerCase();
+  const pots = DATA.potions.potions;
+  const cats = DATA.potions._meta.categories.concat([UNCATEGORIZED]);
   const byCat = {};
-  for (const p of DATA.potions.potions) (byCat[p.category] = byCat[p.category] || []).push(p);
-  let html = '';
-  for (const cat of DATA.potions._meta.categories) {
-    if (!byCat[cat]) continue;
-    html += `<div class="cat-head">${esc(cat)} (${byCat[cat].length})</div>
-      <table><thead><tr><th>ID</th><th>Kind</th><th>대상</th><th>노트</th></tr></thead><tbody>` +
-      byCat[cat].map(p => `<tr><td><b>${esc(p.id)}</b></td><td><span class="chip">${esc(p.kind)}</span></td>
-        <td>${esc(p.target)}</td><td>${esc(p.note)}</td></tr>`).join('') + '</tbody></table>';
+  let total = 0;
+  for (const tn in pots) {
+    const p = pots[tn];
+    const nm = p.name[LANG] || p.name.ko || tn;
+    const descRaw = p.desc[LANG] || p.desc.ko || '';
+    if (q && !(nm.toLowerCase().includes(q) || (p.name.en || '').toLowerCase().includes(q) ||
+               tn.toLowerCase().includes(q) || descRaw.toLowerCase().includes(q) ||
+               (p.note || '').toLowerCase().includes(q))) continue;
+    (byCat[p.category || UNCATEGORIZED] = byCat[p.category || UNCATEGORIZED] || []).push([tn, p]);
+    total++;
   }
-  $('#potion-list').innerHTML = html;
+  let html = '';
+  for (const cat of cats) {
+    const arr = byCat[cat];
+    if (!arr) continue;
+    arr.sort((a, b) => (a[1].name[LANG] || a[0]).localeCompare(b[1].name[LANG] || b[0], 'ko'));
+    html += `<div class="cat-head">${esc(cat)} (${arr.length})</div><div class="grid">`;
+    for (const [tn, p] of arr) {
+      const nm = p.name[LANG] || p.name.ko || tn;
+      const desc = renderMarkup(smartFormat(p.desc[LANG] || p.desc.ko || '', p.vars || {}, strvForLocale(p.string_vars)));
+      const meta = [POTION_RARITY_KO[p.rarity] || p.rarity, POTION_USAGE_KO[p.usage] || p.usage, POTION_TARGET_KO[p.target] || p.target].filter(Boolean);
+      const note = p.note ? `<div class="axes"><span class="chip">${esc(p.kind || '')}</span> ${esc(p.note)}</div>` : '';
+      html += `<div class="card"><h3>${esc(nm)}</h3><div class="en">${esc(p.name.en || '')} · <span class="id">${esc(tn)}</span></div>
+        <div style="margin:2px 0 7px">${meta.map(m => `<span class="chip">${esc(m)}</span>`).join('')}</div>
+        <div class="desc">${desc}</div>${note}</div>`;
+    }
+    html += '</div>';
+  }
+  $('#potion-count').textContent = `${total}종`;
+  $('#potion-list').innerHTML = html || '<div style="color:var(--dim)">검색 결과 없음</div>';
 }
 
 // ---- about ----
@@ -288,7 +371,8 @@ claude</pre>
 <tr><td><code>data/card_expected_value.json</code></td><td>카드 EV (5턴 baseline 데미지 등가)</td></tr>
 <tr><td><code>data/relics_locale.json</code> + <code>relic_canonical_vars.json</code></td><td>유물 294종 설명 + placeholder 실수치 218종</td></tr>
 <tr><td><code>data/relic_axis_overrides.json</code></td><td>유물 → 카드 축 시너지 매핑 165종</td></tr>
-<tr><td><code>data/potions.json</code></td><td>포션 효과 분류 (정적 카탈로그 갭 — 분류만)</td></tr>
+<tr><td><code>data/potions.json</code></td><td>포션 64종 — 헤드리스 덤프로 추출한 이름·설명·실수치(ko/en/zh) + 희귀도/사용시점/대상 + 역할 분류 주석</td></tr>
+<tr><td><code>data/relic_canonical_vars.json</code></td><td>유물 placeholder 실수치 + 인챈트 이름 등 StringVar 해석(string_vars)</td></tr>
 </table>
 <p style="color:var(--dim)">비공식 팬 프로젝트. 게임 데이터의 권리는 Mega Crit에 있으며, 얼리액세스 패치에 따라 스냅샷이 실제와 다를 수 있다.</p>`;
 }
