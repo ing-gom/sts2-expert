@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+# 채점 입력 청크(재생성 가능) — prep.py 만 추적
+_grading/*.json

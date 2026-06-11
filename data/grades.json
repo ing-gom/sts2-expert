@@ -1,0 +1,4758 @@
+{
+ "cards": {
+  "CARD.AGGRESSION": {
+   "grade": "A",
+   "ctx": "성장/소멸/공격 덱서 S, 무엔진 B",
+   "why": "매턴 무작위 공격카드 회수+강화는 EV16의 복리 엔진, 1코 파워 고가치"
+  },
+  "CARD.ANGER": {
+   "grade": "B",
+   "ctx": "무한공격/복사 누적덱서 A",
+   "why": "0코 6딜 무손실에 복사본 추가, 사용량 누적되나 덱 비대화 양면"
+  },
+  "CARD.ARMAMENTS": {
+   "grade": "B",
+   "ctx": "성장/강화 시너지덱서 A, 단독 C",
+   "why": "1코 5블록은 약하나 손패 전체 강화 업사이드가 성장덱 핵심"
+  },
+  "CARD.ASHEN_STRIKE": {
+   "grade": "B",
+   "ctx": "소멸덱서 A, 초반 C",
+   "why": "1코 base6 약하나 소멸카드당 +3 스케일, EV14 소멸엔진 연료"
+  },
+  "CARD.BARRICADE": {
+   "grade": "B",
+   "ctx": "방어/블록스택 빌드서 S, 무빌드 D",
+   "why": "3코 단독 효과없음, 블록유지+Body Slam/Juggernaut 콤보 전제 키스톤"
+  },
+  "CARD.BASH": {
+   "grade": "A",
+   "ctx": "취약덱 코어, 스타터로 범용",
+   "why": "2코 8딜+취약2는 베이직 표준, 취약 producer로 초반 필수"
+  },
+  "CARD.BATTLE_TRANCE": {
+   "grade": "B",
+   "ctx": "드로우/콤보덱서 A",
+   "why": "0코 3드로우는 강한 자원이나 추가드로우 봉쇄 페널티"
+  },
+  "CARD.BLOODLETTING": {
+   "grade": "B",
+   "ctx": "자해/에너지 콤보덱서 A",
+   "why": "0코 +2에너지를 HP3로 환산, 자원램프 강력하나 자해 감점"
+  },
+  "CARD.BLOOD_WALL": {
+   "grade": "B",
+   "ctx": "방어/자해덱서 A",
+   "why": "2코 16블록은 효율 양호, HP2 자해는 경미"
+  },
+  "CARD.BLUDGEON": {
+   "grade": "A",
+   "ctx": "단일딜 피니셔",
+   "why": "3코 32딜, 코스트당 ~10.7로 3코 S근접, EV22 강한 단발딜"
+  },
+  "CARD.BODY_SLAM": {
+   "grade": "B",
+   "ctx": "방어/블록페이오프 빌드서 S, 무빌드 D",
+   "why": "블록=딜 전환 1코, Barricade콤보 전제 높은 천장이나 단독 빈약"
+  },
+  "CARD.BRAND": {
+   "grade": "B",
+   "ctx": "성장/소멸/자해덱서 A",
+   "why": "0코 힘+1+소멸+HP손실, 영구 스케일러지만 단발 +1로 EV8 낮음"
+  },
+  "CARD.BREAK": {
+   "grade": "S",
+   "ctx": "취약덱 코어",
+   "why": "1코 20딜+취약5는 1코 기준 압도적(13+=S), EV30 최상위 효율"
+  },
+  "CARD.BREAKTHROUGH": {
+   "grade": "B",
+   "ctx": "광역덱서 A",
+   "why": "1코 전체9딜 우수 AOE, HP1 자해 경미"
+  },
+  "CARD.BULLY": {
+   "grade": "B",
+   "ctx": "취약덱서 A, 무취약 C",
+   "why": "0코 4딜+취약당+2 스케일, 취약 amplifier로 0코 무손실"
+  },
+  "CARD.BURNING_PACT": {
+   "grade": "B",
+   "ctx": "소멸/드로우덱서 A",
+   "why": "1코 소멸1+2드로우, 순드로우+1에 소멸 트리거 연료"
+  },
+  "CARD.CASCADE": {
+   "grade": "C",
+   "ctx": "X-cost 변수많은 무작위, 도박성",
+   "why": "무작위 카드 X+1장 사용은 통제 불가, 덱질에 따라 폭발/허당"
+  },
+  "CARD.CINDER": {
+   "grade": "B",
+   "ctx": "소멸덱서 A",
+   "why": "2코 18딜 양호 효율+무작위소멸 연료, EV18"
+  },
+  "CARD.COLOSSUS": {
+   "grade": "B",
+   "ctx": "방어/취약덱서 A, 스타터덱 C",
+   "why": "1코 5블록+취약적 피해50%감소, 정적 천장 높으나 취약 의존"
+  },
+  "CARD.CONFLAGRATION": {
+   "grade": "B",
+   "ctx": "광역/콤보덱서 A",
+   "why": "1코 전체8딜+공격당+2 스케일, 멀티공격턴서 EV18 폭발"
+  },
+  "CARD.CORRUPTION": {
+   "grade": "A",
+   "ctx": "소멸덱 코어 S, 무소멸 D",
+   "why": "3코 스킬 0코화 키스톤, 소멸엔진 폭발적 enabler지만 빌드 전제"
+  },
+  "CARD.CRIMSON_MANTLE": {
+   "grade": "A",
+   "ctx": "방어/자해/Barricade콤보서 S",
+   "why": "1코 매턴 8블록 영구생성, HP1 미미, 강력한 방어 파워"
+  },
+  "CARD.CRUELTY": {
+   "grade": "B",
+   "ctx": "취약덱서 A, 무취약 D",
+   "why": "1코 취약피해+25% 증폭 파워, 취약 빌드 전제 amplifier"
+  },
+  "CARD.DARK_EMBRACE": {
+   "grade": "B",
+   "ctx": "소멸덱 코어 A, 무소멸 D",
+   "why": "2코 소멸당 드로우, 소멸엔진 순환 키스톤이나 빌드 전제"
+  },
+  "CARD.DEFEND_IRONCLAD": {
+   "grade": "C",
+   "ctx": "스타터 방어 기본",
+   "why": "1코 5블록은 베이스라인 C, 압축 대상"
+  },
+  "CARD.DEMONIC_SHIELD": {
+   "grade": "C",
+   "ctx": "멀티플레이/방어 분배 특화",
+   "why": "0코 자기방어 복제 분배는 솔로서 효용 제한적, 소멸 연료 정도"
+  },
+  "CARD.DEMON_FORM": {
+   "grade": "A",
+   "ctx": "성장덱 코어 S",
+   "why": "3코 매턴 힘+2 영구복리, EV25 최강 스케일러지만 초반 부담"
+  },
+  "CARD.DISMANTLE": {
+   "grade": "B",
+   "ctx": "취약덱서 A",
+   "why": "1코 8딜, 취약시 2회로 16딜, EV14 취약 페이오프"
+  },
+  "CARD.DOMINATE": {
+   "grade": "B",
+   "ctx": "취약/성장덱서 A",
+   "why": "1코 취약당 힘획득+소멸(UNLIMITED), 취약스택서 폭발 EV14"
+  },
+  "CARD.DRUM_OF_BATTLE": {
+   "grade": "B",
+   "ctx": "드로우/소멸덱서 A",
+   "why": "0코 2드로우+매턴 덱탑소멸 패시브, 드로우+소멸연료 동시 EV22"
+  },
+  "CARD.EVIL_EYE": {
+   "grade": "B",
+   "ctx": "소멸덱서 A, 무소멸 C",
+   "why": "1코 8블록(소멸시 16) 조건부 우수, 소멸엔진 시너지"
+  },
+  "CARD.EXPECT_A_FIGHT": {
+   "grade": "C",
+   "ctx": "공격 다수 손패 조건부",
+   "why": "2코 손패 공격수 만큼 에너지, 조건부+추가에너지 봉쇄로 불안정"
+  },
+  "CARD.FEED": {
+   "grade": "A",
+   "ctx": "소멸/장기런 가치",
+   "why": "1코 10딜+처치시 최대체력+3 영구, 런 누적 자원으로 고가치"
+  },
+  "CARD.FEEL_NO_PAIN": {
+   "grade": "B",
+   "ctx": "소멸덱 코어 A, 무소멸 D",
+   "why": "1코 소멸당 블록3, 소멸엔진 방어 키스톤이나 빌드 전제"
+  },
+  "CARD.FIEND_FIRE": {
+   "grade": "A",
+   "ctx": "소멸/대형손패 피니셔 S",
+   "why": "2코 손패전체 소멸×7딜, 손패 많을수록 폭발 EV22 피니셔"
+  },
+  "CARD.FIGHT_ME": {
+   "grade": "A",
+   "ctx": "성장/탱커덱서 S",
+   "why": "2코 10딜+힘3 영구, EV22 딜과 스케일 겸비, 적 힘부여 경미"
+  },
+  "CARD.FLAME_BARRIER": {
+   "grade": "B",
+   "ctx": "방어/반격덱서 A",
+   "why": "2코 12블록+반격4, 피격 다수 적에 우수 효율"
+  },
+  "CARD.FORGOTTEN_RITUAL": {
+   "grade": "B",
+   "ctx": "소멸덱서 A, 무소멸 D",
+   "why": "1코 소멸조건시 +3에너지 폭발, 소멸 트리거 의존+자기소멸"
+  },
+  "CARD.HAVOC": {
+   "grade": "C",
+   "ctx": "소멸덱서 B, 무작위성",
+   "why": "1코 덱탑카드 무작위 사용+소멸, 통제불가 도박+소멸연료"
+  },
+  "CARD.HEADBUTT": {
+   "grade": "B",
+   "ctx": "덱조작/콤보덱서 A",
+   "why": "1코 9딜(B효율)+버린카드 회수 유틸, 핵심카드 재활용"
+  },
+  "CARD.HELLRAISER": {
+   "grade": "B",
+   "ctx": "타격/드로우덱서 A, 무빌드 C",
+   "why": "2코 타격 드로우시 자동발사 파워, 타격多+드로우 전제 EV16"
+  },
+  "CARD.HEMOKINESIS": {
+   "grade": "A",
+   "ctx": "자해덱서 S",
+   "why": "1코 15딜은 1코 기준 최상급(13+=S), HP2 자해 경미"
+  },
+  "CARD.HOWL_FROM_BEYOND": {
+   "grade": "B",
+   "ctx": "소멸/광역덱서 A",
+   "why": "3코 전체16딜+소멸시 매턴 무료재사용, 소멸엔진서 반복 AOE"
+  },
+  "CARD.IMPERVIOUS": {
+   "grade": "A",
+   "ctx": "방어 비상버튼",
+   "why": "2코 30블록+소멸, 코스트당 15 압도적 방어, 1회성"
+  },
+  "CARD.INFERNAL_BLADE": {
+   "grade": "C",
+   "ctx": "소멸/압축덱서 B",
+   "why": "1코 무료 무작위공격 확보+소멸, 자체 딜없는 enabler 보조"
+  },
+  "CARD.INFERNO": {
+   "grade": "A",
+   "ctx": "성장/광역/자해덱서 S",
+   "why": "1코 자해트리거 전체6딜 매턴+힘스케일, EV28 광역엔진 코어"
+  },
+  "CARD.INFLAME": {
+   "grade": "A",
+   "ctx": "성장덱 코어",
+   "why": "1코 힘+2 영구는 즉발 스케일러, EV10 효율 좋은 keystone"
+  },
+  "CARD.IRON_WAVE": {
+   "grade": "B",
+   "ctx": "방어/하이브리드",
+   "why": "1코 5블록+5딜 합10 균형, 범용 무난"
+  },
+  "CARD.JUGGERNAUT": {
+   "grade": "A",
+   "ctx": "방어/블록페이오프덱서 S",
+   "why": "2코 블록획득당 5딜, 방어덱서 딜 변환 폭발 EV18"
+  },
+  "CARD.JUGGLING": {
+   "grade": "C",
+   "ctx": "압축/공격다수덱서 B",
+   "why": "1코 매턴 3번째 공격 복사, 조건 까다롭고 효과 지연적"
+  },
+  "CARD.MANGLE": {
+   "grade": "A",
+   "ctx": "보스/엘리트 특화",
+   "why": "3코 15딜+적 힘-10(이번턴), 디버프로 방어겸비 EV28 우수"
+  },
+  "CARD.MOLTEN_FIST": {
+   "grade": "B",
+   "ctx": "취약덱서 A, 무취약 D",
+   "why": "1코 10딜+취약2배(UNLIMITED)+소멸, 취약스택 페이오프"
+  },
+  "CARD.NOT_YET": {
+   "grade": "C",
+   "ctx": "장기전 회복 유틸",
+   "why": "2코 HP10회복+소멸, 전투력 0 순방어, 압축 가치 정도"
+  },
+  "CARD.OFFERING": {
+   "grade": "A",
+   "ctx": "자해/드로우/콤보덱서 S",
+   "why": "0코 +2에너지+3드로우+소멸, HP6 대가로 폭발적 자원램프"
+  },
+  "CARD.ONE_TWO_PUNCH": {
+   "grade": "B",
+   "ctx": "고딜 공격/콤보덱서 A",
+   "why": "1코 다음공격 1회추가, 고딜카드와 콤보시 폭발이나 단독 0딜"
+  },
+  "CARD.PACTS_END": {
+   "grade": "B",
+   "ctx": "소멸덱서 A, 무소멸 사용불가",
+   "why": "0코 전체17딜 강력하나 소멸3장 조건 게이트, 빌드 의존"
+  },
+  "CARD.PERFECTED_STRIKE": {
+   "grade": "B",
+   "ctx": "타격덱서 A, 무빌드 C",
+   "why": "2코 base6+타격당+2 스케일, 타격多 덱 전제 EV18"
+  },
+  "CARD.PILLAGE": {
+   "grade": "B",
+   "ctx": "드로우덱서 A",
+   "why": "1코 6딜+공격아닌카드까지 드로우, 가변 드로우+딜 EV14"
+  },
+  "CARD.POMMEL_STRIKE": {
+   "grade": "B",
+   "ctx": "드로우덱서 A",
+   "why": "1코 9딜(B효율)+1드로우, 무손실 드로우 부가로 우수"
+  },
+  "CARD.PRIMAL_FORCE": {
+   "grade": "B",
+   "ctx": "생성덱서 A, 무빌드 C",
+   "why": "0코 손패 공격카드→거대바위+ 변환, 손패 의존 폭발 EV14"
+  },
+  "CARD.PYRE": {
+   "grade": "A",
+   "ctx": "에너지 램프 코어",
+   "why": "2코 매턴 +1에너지 영구, 항구적 자원이득 강한 파워"
+  },
+  "CARD.RAGE": {
+   "grade": "B",
+   "ctx": "방어/공격다수덱서 A",
+   "why": "0코 이번턴 공격당 블록3, 공격多 턴 무손실 방어"
+  },
+  "CARD.RAMPAGE": {
+   "grade": "B",
+   "ctx": "성장덱서 A",
+   "why": "1코 9딜+전투내 영구+5 누적, 다회 사용시 스케일 EV16"
+  },
+  "CARD.RUPTURE": {
+   "grade": "B",
+   "ctx": "자해/성장덱서 A, 무자해 D",
+   "why": "1코 HP손실당 힘+1, 자해 트리거 전제 스케일러 EV8"
+  },
+  "CARD.SECOND_WIND": {
+   "grade": "B",
+   "ctx": "소멸/방어덱서 A",
+   "why": "1코 비공격카드 소멸당 블록5, 손패 의존+소멸연료 EV12"
+  },
+  "CARD.SETUP_STRIKE": {
+   "grade": "B",
+   "ctx": "성장덱서 A",
+   "why": "1코 7딜+이번턴 힘2(다른공격 증폭), 멀티공격턴 가치"
+  },
+  "CARD.SHRUG_IT_OFF": {
+   "grade": "A",
+   "ctx": "방어/드로우 범용",
+   "why": "1코 8블록(B효율)+1드로우 무손실, 강력 범용 방어"
+  },
+  "CARD.SPITE": {
+   "grade": "B",
+   "ctx": "자해덱서 A",
+   "why": "0코 5딜(자해시 10딜) 무손실 조건부, 자해 페이오프"
+  },
+  "CARD.STAMPEDE": {
+   "grade": "B",
+   "ctx": "공격다수덱서 A, 무빌드 C",
+   "why": "2코 매턴 무작위공격 자동발사 파워, 공격多 덱서 EV18"
+  },
+  "CARD.STOKE": {
+   "grade": "C",
+   "ctx": "소멸/성장덱서 B",
+   "why": "1코 손패전체 소멸→강화카드 회수, 무작위+손패 의존 가변"
+  },
+  "CARD.STOMP": {
+   "grade": "B",
+   "ctx": "광역덱서 A",
+   "why": "3코 전체12딜+공격당 비용감소, AOE+에너지환원 콤보"
+  },
+  "CARD.STONE_ARMOR": {
+   "grade": "B",
+   "ctx": "성장/방어덱서 A",
+   "why": "1코 판금4 영구방어 스케일, 장기전 누적 가치"
+  },
+  "CARD.STRIKE_IRONCLAD": {
+   "grade": "D",
+   "ctx": "스타터, 타격덱서만 C",
+   "why": "1코 6딜 베이스라인 하한, 압축 0순위 함정카드"
+  },
+  "CARD.SWORD_BOOMERANG": {
+   "grade": "B",
+   "ctx": "멀티히트/힘덱서 A",
+   "why": "1코 3딜×3=9딜, 멀티히트로 힘/취약 시너지 EV14"
+  },
+  "CARD.TANK": {
+   "grade": "D",
+   "ctx": "솔로서 자해, 멀티 탱커특화",
+   "why": "1코 자신 피해2배는 솔로 치명적, 아군 보호는 멀티 전용"
+  },
+  "CARD.TAUNT": {
+   "grade": "B",
+   "ctx": "방어/취약덱서 A",
+   "why": "1코 7블록+취약1, 방어와 디버프 겸비 무난 가치"
+  },
+  "CARD.TEAR_ASUNDER": {
+   "grade": "B",
+   "ctx": "자해덱서 A, 무자해 C",
+   "why": "2코 5딜×자해횟수, 자해스택 누적시 폭발 EV18"
+  },
+  "CARD.THRASH": {
+   "grade": "B",
+   "ctx": "소멸덱서 A",
+   "why": "1코 4×2=8딜+손패공격 소멸흡수 스케일, 소멸연료 EV14"
+  },
+  "CARD.THUNDERCLAP": {
+   "grade": "A",
+   "ctx": "광역/취약 범용",
+   "why": "1코 전체4딜+취약1, AOE에 디버프까지 효율 우수"
+  },
+  "CARD.TREMBLE": {
+   "grade": "B",
+   "ctx": "취약덱서 A, 압축덱서 가치",
+   "why": "1코 취약3+소멸, 취약 producer 무난 압축형"
+  },
+  "CARD.TRUE_GRIT": {
+   "grade": "B",
+   "ctx": "방어/소멸덱서 A",
+   "why": "1코 7블록+카드소멸, 방어+덱압축+소멸연료 EV10"
+  },
+  "CARD.TWIN_STRIKE": {
+   "grade": "B",
+   "ctx": "힘덱서 A",
+   "why": "1코 5×2=10딜, 멀티히트로 힘 스케일 우수 EV10"
+  },
+  "CARD.UNMOVABLE": {
+   "grade": "A",
+   "ctx": "방어덱 코어 S",
+   "why": "2코 매턴 첫 블록 2배 영구, 방어엔진 강력 증폭 EV25"
+  },
+  "CARD.UNRELENTING": {
+   "grade": "B",
+   "ctx": "고딜공격/콤보덱서 A",
+   "why": "2코 12딜+다음공격 0코, 고딜카드 콤보 enabler EV14"
+  },
+  "CARD.UPPERCUT": {
+   "grade": "A",
+   "ctx": "취약/약화 범용",
+   "why": "2코 13딜+약화1+취약1, 딜과 더블디버프 겸비 우수"
+  },
+  "CARD.VICIOUS": {
+   "grade": "B",
+   "ctx": "취약/드로우덱서 A, 무취약 D",
+   "why": "1코 취약부여시 드로우 트리거, 취약多 덱서 순환 EV16"
+  },
+  "CARD.WHIRLWIND": {
+   "grade": "B",
+   "ctx": "광역/에너지램프덱서 A",
+   "why": "0코 X번 전체5딜, 에너지 풍부시 폭발 AOE EV18"
+  },
+  "CARD.ABRASIVE": {
+   "grade": "B",
+   "ctx": "교활/성장 빌드 시너지",
+   "why": "3코 파워: 민첩+1·가시4·교활 — 단발 효율 낮으나 다축 성장 누적, 엔진 의존"
+  },
+  "CARD.ACCELERANT": {
+   "grade": "A",
+   "ctx": "독 빌드서 S, 무독 D",
+   "why": "중독 1회 추가발동 = 독 데미지 사실상 2배 증폭, 독엔진 키스톤"
+  },
+  "CARD.ACCURACY": {
+   "grade": "B",
+   "ctx": "단도 빌드 전용 keystone",
+   "why": "단도 영구 +4 증폭, 단도 다수 생성 시 강력하나 단도 없으면 무가치"
+  },
+  "CARD.ACROBATICS": {
+   "grade": "B",
+   "ctx": "드로우/교활 연료",
+   "why": "1코 net+2 드로우+버리기, 교활 소비 시너지 양호"
+  },
+  "CARD.ADRENALINE": {
+   "grade": "A",
+   "ctx": "압축덱서 S",
+   "why": "0코 무손실 +1에너지·드로우2·소멸, 순이득 압축 핵심"
+  },
+  "CARD.AFTERIMAGE": {
+   "grade": "B",
+   "ctx": "방어/카드연쇄 빌드",
+   "why": "1코 카드당 블록1, 멀티플레이 다수 사용 시 누적 스케일"
+  },
+  "CARD.ANTICIPATE": {
+   "grade": "C",
+   "ctx": "성장 빌드 보조",
+   "why": "0코 일시 민첩2(블록 +2/공격 무관), 일시 버프라 단발 약함"
+  },
+  "CARD.ASSASSINATE": {
+   "grade": "A",
+   "ctx": "압축/취약 빌드",
+   "why": "0코 선천 10딜+취약1+소멸, 무손실 초반 강타+압축 적합"
+  },
+  "CARD.BACKFLIP": {
+   "grade": "B",
+   "ctx": "방어/드로우",
+   "why": "1코 블록5+드로우2, 방어+사이클 균형 양호한 굿스터프"
+  },
+  "CARD.BACKSTAB": {
+   "grade": "B",
+   "ctx": "압축덱",
+   "why": "0코 선천 11딜 소멸, 초반 무손실 강타 효율 우수"
+  },
+  "CARD.BLADE_DANCE": {
+   "grade": "B",
+   "ctx": "단도 빌드서 A, 무엔진 C",
+   "why": "1코 단도3장 생성+소멸, 단도 페이오프 의존 연료"
+  },
+  "CARD.BLADE_OF_INK": {
+   "grade": "B",
+   "ctx": "단도 빌드 연료",
+   "why": "1코 강화단도2장(비소멸), 지속 단도 공급원"
+  },
+  "CARD.BLUR": {
+   "grade": "B",
+   "ctx": "방어 빌드",
+   "why": "1코 블록5+다음턴 유지, 블록 캐리오버로 실효 증폭"
+  },
+  "CARD.BOUNCING_FLASK": {
+   "grade": "A",
+   "ctx": "독 빌드 keystone",
+   "why": "2코 중독9(3×3) 무작위, 독엔진 강력 공급, EV22"
+  },
+  "CARD.BUBBLE_BUBBLE": {
+   "grade": "B",
+   "ctx": "독 빌드 전용",
+   "why": "1코 조건부 중독9, 독 선부여 필요한 컨슈머 EV22"
+  },
+  "CARD.BULLET_TIME": {
+   "grade": "B",
+   "ctx": "콤보 빌드서 폭발, 단독 C",
+   "why": "3코 손패 전체 무료화이나 드로우 봉쇄, 콤보 의존"
+  },
+  "CARD.BURST": {
+   "grade": "B",
+   "ctx": "고가치 스킬 빌드",
+   "why": "1코 다음 스킬 1회 추가발동, 파워/강스킬과 콤보 시 강력"
+  },
+  "CARD.CALCULATED_GAMBLE": {
+   "grade": "A",
+   "ctx": "드로우/압축덱",
+   "why": "0코 손패 전량 재드로우+소멸, 무손실 핸드 리필 핵심"
+  },
+  "CARD.CLOAK_AND_DAGGER": {
+   "grade": "B",
+   "ctx": "방어/단도",
+   "why": "1코 블록6+단도1, 블록 효율 우수+단도 보너스"
+  },
+  "CARD.CORROSIVE_WAVE": {
+   "grade": "B",
+   "ctx": "독+드로우+광역 빌드",
+   "why": "1코 드로우당 전체 중독2, 드로우 엔진과 결합 시 광역 스케일"
+  },
+  "CARD.DAGGER_SPRAY": {
+   "grade": "B",
+   "ctx": "광역 빌드",
+   "why": "1코 전체 8딜(4×2), 광역 청소 양호한 효율"
+  },
+  "CARD.DAGGER_THROW": {
+   "grade": "B",
+   "ctx": "드로우/교활",
+   "why": "1코 9딜+드로우/버리기, 딜+사이클 굿스터프"
+  },
+  "CARD.DASH": {
+   "grade": "B",
+   "ctx": "방어 빌드",
+   "why": "2코 블록10+10딜, 균형 잡힌 양면 효율 적정"
+  },
+  "CARD.DEADLY_POISON": {
+   "grade": "B",
+   "ctx": "독 빌드 기본 연료",
+   "why": "1코 중독5, 독엔진 저렴한 누적 공급원"
+  },
+  "CARD.DEFEND_SILENT": {
+   "grade": "D",
+   "ctx": "스타터",
+   "why": "1코 블록5 = 기본 효율 미달, 압축 대상"
+  },
+  "CARD.DEFLECT": {
+   "grade": "C",
+   "ctx": "방어/압축덱",
+   "why": "0코 블록4, 무손실이나 절대치 낮음"
+  },
+  "CARD.DODGE_AND_ROLL": {
+   "grade": "B",
+   "ctx": "방어 빌드",
+   "why": "1코 블록4+다음턴4 = 총8 블록, 1코 기준 양호"
+  },
+  "CARD.ECHOING_SLASH": {
+   "grade": "B",
+   "ctx": "광역 빌드",
+   "why": "1코 전체10딜+처치 시 반복, 다수전 폭발 잠재력"
+  },
+  "CARD.ENVENOM": {
+   "grade": "A",
+   "ctx": "독 빌드 keystone",
+   "why": "2코 파워: 미차단 공격마다 중독1, 다타 공격과 결합 시 독 폭증"
+  },
+  "CARD.ESCAPE_PLAN": {
+   "grade": "B",
+   "ctx": "방어/드로우/압축",
+   "why": "0코 드로우1+조건부 블록3, 무손실 사이클"
+  },
+  "CARD.EXPERTISE": {
+   "grade": "B",
+   "ctx": "드로우 빌드",
+   "why": "1코 손패 6장까지 보충, 빈손일수록 강한 드로우 엔진"
+  },
+  "CARD.EXPOSE": {
+   "grade": "B",
+   "ctx": "취약/방어 빌드",
+   "why": "0코 인공물+블록 제거+취약2+소멸, 무손실 보스/엘리트 셋업"
+  },
+  "CARD.FAN_OF_KNIVES": {
+   "grade": "A",
+   "ctx": "단도+광역 빌드 keystone",
+   "why": "2코 파워: 단도 전체타격화+단도4 생성, 단도 광역 전환 핵심"
+  },
+  "CARD.FINISHER": {
+   "grade": "B",
+   "ctx": "공격 다수 턴서 강함",
+   "why": "1코 공격 1장당 6딜, 콤보 의존 스케일러"
+  },
+  "CARD.FLANKING": {
+   "grade": "B",
+   "ctx": "멀티/대형 공격 빌드",
+   "why": "2코 대상 받는 피해 2배(타플레이어), 큰 공격과 결합 시 강력"
+  },
+  "CARD.FLECHETTES": {
+   "grade": "B",
+   "ctx": "스킬 다수 손패 빌드",
+   "why": "1코 손패 스킬당 5딜, 스킬 위주 핸드서 고딜"
+  },
+  "CARD.FLICK_FLACK": {
+   "grade": "B",
+   "ctx": "광역/교활",
+   "why": "1코 전체6딜+교활, 광역 효율+교활 누적"
+  },
+  "CARD.FOLLOW_THROUGH": {
+   "grade": "B",
+   "ctx": "드로우 빌드 보조",
+   "why": "1코 7딜+조건부 추가타(14), 손패 풍부 시 1코 14딜"
+  },
+  "CARD.FOOTWORK": {
+   "grade": "B",
+   "ctx": "성장 빌드",
+   "why": "1코 영구 민첩2, 블록 영구 증폭 — 방어 스케일 키스톤"
+  },
+  "CARD.GRAND_FINALE": {
+   "grade": "C",
+   "ctx": "극단 압축덱서만 A",
+   "why": "0코 전체60딜이나 덱 비움 조건 까다로움, 보통 함정"
+  },
+  "CARD.HAND_TRICK": {
+   "grade": "C",
+   "ctx": "교활 빌드 보조",
+   "why": "1코 블록7+일시 교활 부여, 효율 평범+조건적"
+  },
+  "CARD.HAZE": {
+   "grade": "B",
+   "ctx": "독+광역 빌드",
+   "why": "3코 전체 중독4+교활, 광역 독 셋업이나 코스트 무거움"
+  },
+  "CARD.HIDDEN_DAGGERS": {
+   "grade": "B",
+   "ctx": "단도/교활 빌드",
+   "why": "0코 버리기2+강화단도2 생성, 무손실 단도+버리기 연료"
+  },
+  "CARD.INFINITE_BLADES": {
+   "grade": "A",
+   "ctx": "단도 빌드 keystone",
+   "why": "1코 파워: 매턴 단도1 무한 공급, 단도엔진 핵심 동력"
+  },
+  "CARD.KNIFE_TRAP": {
+   "grade": "B",
+   "ctx": "단도 소멸 누적 빌드",
+   "why": "2코 소멸 단도 전량 강화발동, 단도 다수 소멸 시 폭발"
+  },
+  "CARD.LEADING_STRIKE": {
+   "grade": "B",
+   "ctx": "단도 빌드",
+   "why": "1코 3딜+단도2, 타격류 단도 공급원"
+  },
+  "CARD.LEG_SWEEP": {
+   "grade": "A",
+   "ctx": "방어/약화",
+   "why": "2코 블록11+약화2, 우수한 방어+공격억제 효율"
+  },
+  "CARD.MALAISE": {
+   "grade": "B",
+   "ctx": "압축/디버프 빌드",
+   "why": "0코 X 힘감소+약화+소멸, 에너지 충분 시 강한 적 무력화"
+  },
+  "CARD.MASTER_PLANNER": {
+   "grade": "B",
+   "ctx": "교활 빌드 keystone",
+   "why": "2코 파워: 스킬 사용 시 교활 누적, 교활 페이오프 엔진 동력"
+  },
+  "CARD.MEMENTO_MORI": {
+   "grade": "B",
+   "ctx": "버리기 빌드",
+   "why": "1코 9딜+이번턴 버린 카드당 4딜, 버리기 콤보 시 고딜"
+  },
+  "CARD.MIRAGE": {
+   "grade": "B",
+   "ctx": "독 빌드 방어 전환",
+   "why": "1코 전체 중독합만큼 블록+소멸, 독 다중 시 대량 블록"
+  },
+  "CARD.MURDER": {
+   "grade": "B",
+   "ctx": "성장 빌드 keystone",
+   "why": "3코 뽑은 카드당 영구+1딜, 드로우 누적으로 후반 거대 딜"
+  },
+  "CARD.NEUTRALIZE": {
+   "grade": "B",
+   "ctx": "무엔진서도 범용",
+   "why": "0코 3딜+약화1, 무손실 약화 셋업 우수"
+  },
+  "CARD.NIGHTMARE": {
+   "grade": "A",
+   "ctx": "강카드 복제 콤보",
+   "why": "3코 고가치 카드 3복사+소멸, 파워/강타 복제 폭발 잠재력"
+  },
+  "CARD.NOXIOUS_FUMES": {
+   "grade": "A",
+   "ctx": "독+광역 빌드 keystone",
+   "why": "1코 파워: 매턴 전체 중독2 무한 누적, 독엔진 최상위 동력 EV25"
+  },
+  "CARD.OUTBREAK": {
+   "grade": "A",
+   "ctx": "독 빌드 payoff",
+   "why": "1코 파워: 중독 3회마다 전체11딜, 독엔진과 결합 시 광역 폭발"
+  },
+  "CARD.PHANTOM_BLADES": {
+   "grade": "A",
+   "ctx": "단도/성장 빌드",
+   "why": "1코 파워: 단도 보존+첫단도 영구+9딜, 단도 위력 대폭 증폭"
+  },
+  "CARD.PIERCING_WAIL": {
+   "grade": "B",
+   "ctx": "광역/압축",
+   "why": "1코 전체 일시 힘-6+소멸, 다수 공격적 적 무력화 우수"
+  },
+  "CARD.PINPOINT": {
+   "grade": "B",
+   "ctx": "스킬 다수 빌드",
+   "why": "3코 15딜+스킬당 비용감소, 콤보 시 실효 코스트 회수"
+  },
+  "CARD.POISONED_STAB": {
+   "grade": "B",
+   "ctx": "독 빌드",
+   "why": "1코 6딜+중독3, 딜+독 누적 균형 좋은 연료"
+  },
+  "CARD.POUNCE": {
+   "grade": "C",
+   "ctx": "스킬 연계",
+   "why": "2코 12딜+다음 스킬 무료, 12딜은 2코 기준 평범+조건적"
+  },
+  "CARD.PRECISE_CUT": {
+   "grade": "B",
+   "ctx": "빈손/압축 빌드",
+   "why": "0코 13딜(손패당 -2), 적은 손패서 무손실 고딜"
+  },
+  "CARD.PREDATOR": {
+   "grade": "A",
+   "ctx": "드로우 빌드",
+   "why": "2코 15딜+다음턴 드로우2, 우수한 딜+사이클 EV18"
+  },
+  "CARD.PREPARED": {
+   "grade": "C",
+   "ctx": "교활/드로우 연료",
+   "why": "0코 드로우1/버리기1 무손실 사이클, 절대 가치 낮음 EV8"
+  },
+  "CARD.REFLEX": {
+   "grade": "C",
+   "ctx": "교활 빌드 연료",
+   "why": "3코 드로우2+교활은 코스트 과중, 교활 누적 외 비효율"
+  },
+  "CARD.RICOCHET": {
+   "grade": "B",
+   "ctx": "교활 빌드",
+   "why": "2코 무작위 12딜(3×4)+교활, 다타 시너지+교활 누적"
+  },
+  "CARD.SERPENT_FORM": {
+   "grade": "B",
+   "ctx": "성장/카드연쇄 빌드",
+   "why": "3코 파워: 카드당 무작위4딜, 다카드 턴서 누적 딜 스케일"
+  },
+  "CARD.SHADOWMELD": {
+   "grade": "A",
+   "ctx": "방어 빌드 keystone",
+   "why": "1코 이번턴 블록 2배, 대형 블록과 결합 시 방어 폭증"
+  },
+  "CARD.SHADOW_STEP": {
+   "grade": "B",
+   "ctx": "교활/대형공격 콤보",
+   "why": "1코 손패 버림+다음턴 공격 2배, 셋업 콤보 잠재력"
+  },
+  "CARD.SKEWER": {
+   "grade": "B",
+   "ctx": "에너지 다수 빌드",
+   "why": "0코 8×X딜, 에너지 풍부 시 단발 대량딜 EV14"
+  },
+  "CARD.SLICE": {
+   "grade": "C",
+   "ctx": "무손실 0코 공격",
+   "why": "0코 6딜, 무손실이나 절대치 낮은 잡공격"
+  },
+  "CARD.SNAKEBITE": {
+   "grade": "B",
+   "ctx": "독/압축 빌드",
+   "why": "2코 보존+중독7, 보존으로 셋업 유연하나 코스트 무거움"
+  },
+  "CARD.SNEAKY": {
+   "grade": "B",
+   "ctx": "성장/방어/교활",
+   "why": "2코 파워: 공격마다 블록1+교활, 다타 빌드서 블록 누적"
+  },
+  "CARD.SPEEDSTER": {
+   "grade": "A",
+   "ctx": "드로우+광역 빌드",
+   "why": "2코 파워: 드로우당 전체2딜, 드로우엔진과 결합 시 광역 누적 EV18"
+  },
+  "CARD.STORM_OF_STEEL": {
+   "grade": "B",
+   "ctx": "교활/단도 빌드",
+   "why": "1코 손패 버림만큼 강화단도, 손패 많을수록 단도 폭발"
+  },
+  "CARD.STRANGLE": {
+   "grade": "B",
+   "ctx": "다카드 턴서 강함",
+   "why": "1코 8딜+카드당 체력2 상실, 다카드 턴 누적 딜"
+  },
+  "CARD.STRIKE_SILENT": {
+   "grade": "D",
+   "ctx": "스타터",
+   "why": "1코 6딜 = 기본 효율 미달, 압축 대상"
+  },
+  "CARD.SUCKER_PUNCH": {
+   "grade": "B",
+   "ctx": "범용",
+   "why": "1코 8딜+약화1, 딜+디버프 효율 양호"
+  },
+  "CARD.SUPPRESS": {
+   "grade": "A",
+   "ctx": "범용 강카드",
+   "why": "0코 선천 11딜+약화3, 무손실 고딜+강한 디버프"
+  },
+  "CARD.SURVIVOR": {
+   "grade": "B",
+   "ctx": "방어/교활",
+   "why": "1코 블록8+버리기1, 블록 효율 우수+교활/버리기 연료"
+  },
+  "CARD.TACTICIAN": {
+   "grade": "C",
+   "ctx": "교활 빌드 보조",
+   "why": "3코 +1에너지+교활은 코스트 비효율, 교활 누적 외 약함"
+  },
+  "CARD.THE_HUNT": {
+   "grade": "B",
+   "ctx": "압축/카드획득",
+   "why": "1코 10딜+치명 시 카드보상+소멸, 무손실급 딜+덱 강화"
+  },
+  "CARD.TOOLS_OF_THE_TRADE": {
+   "grade": "B",
+   "ctx": "교활 빌드",
+   "why": "1코 파워: 매턴 드로우/버리기, 사이클+교활 연료 지속 공급"
+  },
+  "CARD.TRACKING": {
+   "grade": "B",
+   "ctx": "약화 빌드 payoff",
+   "why": "2코 파워: 약화 적 받는 공격 2배, 약화 다수 시 딜 증폭"
+  },
+  "CARD.UNTOUCHABLE": {
+   "grade": "C",
+   "ctx": "방어/교활",
+   "why": "2코 블록6+교활, 2코 기준 블록 효율 미흡"
+  },
+  "CARD.UP_MY_SLEEVE": {
+   "grade": "A",
+   "ctx": "단도 빌드 keystone",
+   "why": "2코 단도3+자기 비용감소(재사용 저렴), 단도엔진 반복 공급"
+  },
+  "CARD.WELL_LAID_PLANS": {
+   "grade": "B",
+   "ctx": "압축/콤보 빌드",
+   "why": "1코 파워: 매턴 1장 보존, 핸드 캐리오버로 콤보 안정화"
+  },
+  "CARD.WRAITH_FORM": {
+   "grade": "A",
+   "ctx": "방어 피니셔",
+   "why": "3코 불가침2(2턴 무피해)+민첩 점감, 강력 생존기이나 후폭풍"
+  },
+  "CARD.ADAPTIVE_STRIKE": {
+   "grade": "B",
+   "ctx": "휘발성/공격타입 시너지서 A",
+   "why": "2코 18딜+0코 복사본 추가는 효율 양호하나 2코 단발 기준 평균치"
+  },
+  "CARD.ALL_FOR_ONE": {
+   "grade": "B",
+   "ctx": "0코 공격 다수 덱서 A, 무엔진 C",
+   "why": "2코 10딜은 약하나 버린 0코 카드 회수 가치는 0코덱 의존 조건부"
+  },
+  "CARD.BALL_LIGHTNING": {
+   "grade": "B",
+   "ctx": "구체 빌드 연료 A",
+   "why": "1코 7딜+전기영창, EV12; 구체엔진 기초 연료"
+  },
+  "CARD.BARRAGE": {
+   "grade": "B",
+   "ctx": "구체 다수 보유시 A, 초반 C",
+   "why": "구체 1개당 5딜 페이오프, EV12; 구체 스택 의존 스케일"
+  },
+  "CARD.BEAM_CELL": {
+   "grade": "B",
+   "ctx": "취약 빌드서 A",
+   "why": "0코 3딜+취약1, 무손실 취약 프로듀서로 가산"
+  },
+  "CARD.BIASED_COGNITION": {
+   "grade": "A",
+   "ctx": "성장 빌드 코어 S, 단발전 C",
+   "why": "1코 밀집4 즉시 부여 EV16, 매턴 -1 감점이나 초기 스파이크 강력"
+  },
+  "CARD.BOOST_AWAY": {
+   "grade": "C",
+   "ctx": "0코 공격 회수/방어 덱 B",
+   "why": "0코 6블록은 무난하나 어지러움 상태이상 자해 감점"
+  },
+  "CARD.BOOT_SEQUENCE": {
+   "grade": "B",
+   "ctx": "압축/소멸덱 A",
+   "why": "0코 선천성 10블록+소멸, 무손실 1턴차 방어로 효율 우수"
+  },
+  "CARD.BUFFER": {
+   "grade": "B",
+   "ctx": "고타격 보스전 A",
+   "why": "2코 단발 HP손실 1회 방지, 위협적 일격 방어 유용하나 1회성"
+  },
+  "CARD.BULK_UP": {
+   "grade": "B",
+   "ctx": "비구체 성장 빌드 A, 구체덱 C",
+   "why": "슬롯-1 대가로 힘2/민첩2 영구, EV18; 구체엔진과 상충"
+  },
+  "CARD.CAPACITOR": {
+   "grade": "A",
+   "ctx": "구체 빌드 코어 S",
+   "why": "1코 슬롯+2 영구 확장 EV12, 구체엔진 필수 인에이블러"
+  },
+  "CARD.CHAOS": {
+   "grade": "B",
+   "ctx": "구체 빌드 연료 A",
+   "why": "1코 무작위 구체 영창, 색 무작위라 안정성 낮으나 슬롯 채움"
+  },
+  "CARD.CHARGE_BATTERY": {
+   "grade": "B",
+   "ctx": "방어 빌드 A",
+   "why": "1코 7블록+다음턴 에너지1, 블록 효율 양호+템포 이득"
+  },
+  "CARD.CHILL": {
+   "grade": "B",
+   "ctx": "냉기/압축덱 A",
+   "why": "0코 적당 냉기영창+소멸, AoE 셋업이나 효과는 방어 셋업 의존"
+  },
+  "CARD.CLAW": {
+   "grade": "B",
+   "ctx": "후벼파기 다중 성장덱 A, 단독 D",
+   "why": "0코 3딜+전 클로 영구+2, EV10; 복수 누적시 스케일"
+  },
+  "CARD.COLD_SNAP": {
+   "grade": "B",
+   "ctx": "구체 빌드 A",
+   "why": "1코 6딜+냉기영창, 딜+방어셋업 결합 무난"
+  },
+  "CARD.COMPACT": {
+   "grade": "C",
+   "ctx": "상태이상 생성덱 B, 무생성 D",
+   "why": "1코 6블록+상태이상→연료 변환, 상태이상 없으면 단순 6블록"
+  },
+  "CARD.COMPILE_DRIVER": {
+   "grade": "A",
+   "ctx": "구체 다양성 드로우 빌드 S",
+   "why": "1코 7딜+구체종류당 드로우 EV14, 드로우+딜 동시 효율 우수"
+  },
+  "CARD.CONSUMING_SHADOW": {
+   "grade": "A",
+   "ctx": "어둠 구체 빌드 S",
+   "why": "2코 암흑2 영창+매턴 발현 EV16, 어둠엔진 강한 페이오프"
+  },
+  "CARD.COOLANT": {
+   "grade": "A",
+   "ctx": "구체 다양성 방어 빌드 S",
+   "why": "1코 매턴 구체종류당 블록2 EV14, 영구 방어 스케일 우수"
+  },
+  "CARD.COOLHEADED": {
+   "grade": "A",
+   "ctx": "구체/드로우 빌드 S",
+   "why": "1코 냉기영창+드로우1, 손실없는 사이클+구체 연료 표준 우수"
+  },
+  "CARD.CREATIVE_AI": {
+   "grade": "B",
+   "ctx": "파워/성장 빌드 A, 고코스트 부담",
+   "why": "3코 매턴 무작위 파워 생성, 장기전 스케일이나 즉발 가치 낮음"
+  },
+  "CARD.DARKNESS": {
+   "grade": "A",
+   "ctx": "어둠 구체 빌드 S",
+   "why": "1코 암흑영창+전 암흑 지속2회 발동 EV16, 어둠엔진 증폭 코어"
+  },
+  "CARD.DEFEND_DEFECT": {
+   "grade": "C",
+   "ctx": "스타터",
+   "why": "1코 5블록 기본 스타터, 효율 베이스라인 미달"
+  },
+  "CARD.DEFRAGMENT": {
+   "grade": "B",
+   "ctx": "성장 빌드 A",
+   "why": "1코 영구 밀집+1 단발, 누적 가치는 좋으나 즉발 미미"
+  },
+  "CARD.DOUBLE_ENERGY": {
+   "grade": "B",
+   "ctx": "고코스트 핸드/압축덱 A",
+   "why": "1코 에너지 2배+소멸, 콤보턴 폭발이나 적은 에너지선 무가치"
+  },
+  "CARD.DUALCAST": {
+   "grade": "A",
+   "ctx": "구체 빌드 코어 S",
+   "why": "1코 우측 구체 2회 발현 EV14, 구체 페이오프 기본 엔진"
+  },
+  "CARD.ECHO_FORM": {
+   "grade": "A",
+   "ctx": "파워/콤보 빌드 S, 휘발성 감점",
+   "why": "3코 매턴 첫카드 추가발동 EV18, 강력하나 휘발성으로 1회성"
+  },
+  "CARD.ENERGY_SURGE": {
+   "grade": "B",
+   "ctx": "압축/소멸덱 A",
+   "why": "1코 +2에너지(순+1)+소멸, 콤보 셋업 무난"
+  },
+  "CARD.FERAL": {
+   "grade": "B",
+   "ctx": "0코 공격 다수덱 A, 무0코 D",
+   "why": "2코 파워, 매턴 첫 0코 공격 회수; 0코 공격 의존 조건부"
+  },
+  "CARD.FIGHT_THROUGH": {
+   "grade": "B",
+   "ctx": "방어 빌드 A",
+   "why": "1코 13블록은 S급 효율이나 부상2 자해 감점으로 B"
+  },
+  "CARD.FLAK_CANNON": {
+   "grade": "B",
+   "ctx": "상태이상 생성덱 A, 무생성 D",
+   "why": "2코 상태이상당 8딜 EV14, 상태이상 공급 필요한 조건부 폭발"
+  },
+  "CARD.FOCUSED_STRIKE": {
+   "grade": "B",
+   "ctx": "성장 빌드 A",
+   "why": "1코 9딜+이번턴 밀집1(일시), 딜 효율 B+일시버프 소량 가산"
+  },
+  "CARD.FTL": {
+   "grade": "B",
+   "ctx": "드로우 빌드 A",
+   "why": "0코 5딜+조건부 드로우, 무손실 공격으로 가치 양호"
+  },
+  "CARD.FUSION": {
+   "grade": "C",
+   "ctx": "플라즈마 구체 빌드 B",
+   "why": "2코 플라즈마 1영창은 비효율, 플라즈마 가치 위계 중하"
+  },
+  "CARD.GENETIC_ALGORITHM": {
+   "grade": "B",
+   "ctx": "방어/소멸덱 A",
+   "why": "1코 블록1+영구+3 소멸, 장기전 누적 스케일이나 초기 약함"
+  },
+  "CARD.GLACIER": {
+   "grade": "B",
+   "ctx": "냉기 방어 빌드 A",
+   "why": "2코 6블록+냉기2영창, 방어+구체 결합 무난"
+  },
+  "CARD.GLASSWORK": {
+   "grade": "B",
+   "ctx": "유리 방어 빌드 A",
+   "why": "1코 5블록+유리영창, 블록 약하나 구체셋업 가산"
+  },
+  "CARD.GO_FOR_THE_EYES": {
+   "grade": "C",
+   "ctx": "약화 활용덱 B",
+   "why": "0코 3딜+조건부 약화1, 조건부+범용성으로 과대평가 금지"
+  },
+  "CARD.GUNK_UP": {
+   "grade": "B",
+   "ctx": "상태이상 페이오프덱 A",
+   "why": "1코 4×3=12딜 EV12, 멀티히트 우수하나 점액 자해 감점"
+  },
+  "CARD.HAILSTORM": {
+   "grade": "B",
+   "ctx": "냉기 광역 빌드 A",
+   "why": "1코 파워, 냉기 보유시 매턴 전체 6딜; 냉기 유지 조건부 AoE"
+  },
+  "CARD.HELIX_DRILL": {
+   "grade": "B",
+   "ctx": "소멸/고에너지 콤보 A",
+   "why": "0코 소모 에너지당 3딜 EV10, 에너지 소모량 의존 조건부"
+  },
+  "CARD.HOLOGRAM": {
+   "grade": "B",
+   "ctx": "방어/소멸/압축덱 A",
+   "why": "0코 3블록+버린덱 회수+소멸 EV14, 무손실 회수 유틸 우수"
+  },
+  "CARD.HOTFIX": {
+   "grade": "B",
+   "ctx": "성장 빌드 A",
+   "why": "0코 이번턴 밀집2(일시)+소멸, 무손실 일시 스파이크"
+  },
+  "CARD.HYPERBEAM": {
+   "grade": "A",
+   "ctx": "광역 빌드 S, 성장덱 D",
+   "why": "2코 전체 26딜 EV24, 강력 AoE이나 밀집-3 자해로 성장엔진 충돌"
+  },
+  "CARD.ICE_LANCE": {
+   "grade": "A",
+   "ctx": "냉기 구체 빌드 S",
+   "why": "3코 19딜+냉기3영창 EV28, 딜+대량 구체 셋업 고효율"
+  },
+  "CARD.IGNITION": {
+   "grade": "C",
+   "ctx": "플라즈마/소멸덱 B",
+   "why": "1코 플라즈마1 영창+소멸, 단발 셋업으로 가치 제한적"
+  },
+  "CARD.ITERATION": {
+   "grade": "B",
+   "ctx": "상태이상/드로우 압축덱 A, 무상태이상 D",
+   "why": "1코 매턴 첫 상태이상 드로우시 +2장, 상태이상 공급 조건부"
+  },
+  "CARD.LEAP": {
+   "grade": "B",
+   "ctx": "방어 빌드 A",
+   "why": "1코 9블록은 B급 효율, 손실없는 표준 방어"
+  },
+  "CARD.LIGHTNING_ROD": {
+   "grade": "B",
+   "ctx": "번개 방어 빌드 A",
+   "why": "1코 4블록+2턴 전기영창, 블록 약하나 지속 구체셋업 가산"
+  },
+  "CARD.LOOP": {
+   "grade": "A",
+   "ctx": "구체 빌드 코어 S",
+   "why": "1코 매턴 우측 구체 지속2회 발동 EV14, 영구 구체엔진 증폭"
+  },
+  "CARD.MACHINE_LEARNING": {
+   "grade": "A",
+   "ctx": "드로우 빌드 S",
+   "why": "1코 매턴 영구 +1드로우, 카드 우위 영구 스케일 강력"
+  },
+  "CARD.METEOR_STRIKE": {
+   "grade": "A",
+   "ctx": "플라즈마/고에너지 구체 빌드 S",
+   "why": "5코 24딜+플라즈마3영창, 고코스트 폭발이나 5코 부담"
+  },
+  "CARD.MODDED": {
+   "grade": "A",
+   "ctx": "구체/드로우/성장 빌드 S",
+   "why": "0코 슬롯+1+드로우1(비용증가), 무손실 다목적 인에이블러"
+  },
+  "CARD.MOMENTUM_STRIKE": {
+   "grade": "B",
+   "ctx": "0코 공격 활용덱 A",
+   "why": "1코 10딜+자기 0코화, 효율 A급+재사용시 0코 가치"
+  },
+  "CARD.MULTI_CAST": {
+   "grade": "A",
+   "ctx": "구체 빌드 S, 저에너지 C",
+   "why": "0코 우측 구체 X+1회 발현, 에너지 투입형 대량 페이오프"
+  },
+  "CARD.NULL": {
+   "grade": "B",
+   "ctx": "어둠 구체/약화 빌드 A",
+   "why": "2코 10딜+약화2+암흑영창, 다목적이나 코스트당 딜 평범"
+  },
+  "CARD.OVERCLOCK": {
+   "grade": "B",
+   "ctx": "드로우 빌드 A",
+   "why": "0코 UNLIMITED 2드로우, 무한 사이클 우수하나 화상 자해 감점"
+  },
+  "CARD.QUADCAST": {
+   "grade": "A",
+   "ctx": "구체 빌드 코어 S",
+   "why": "1코 우측 구체 4회 발현, 단일 구체 대량 페이오프 고효율"
+  },
+  "CARD.RAINBOW": {
+   "grade": "A",
+   "ctx": "구체 다양성 빌드 S",
+   "why": "2코 전기/냉기/암흑 각1+소멸, 구체 다양성 즉시 셋업 우수"
+  },
+  "CARD.REBOOT": {
+   "grade": "B",
+   "ctx": "드로우/압축덱 A",
+   "why": "0코 UNLIMITED 전체 셔플+4드로우+소멸, 무손실 핸드 리필"
+  },
+  "CARD.REFRACT": {
+   "grade": "A",
+   "ctx": "유리/번개 구체 빌드 S",
+   "why": "3코 9×2=18딜+유리2영창 EV18, 딜+구체셋업 결합 양호"
+  },
+  "CARD.ROCKET_PUNCH": {
+   "grade": "B",
+   "ctx": "상태이상 생성덱 A",
+   "why": "2코 13딜+드로우1, 상태이상 생성시 0코화 콤보 잠재력"
+  },
+  "CARD.SCAVENGE": {
+   "grade": "B",
+   "ctx": "소멸/압축덱 A",
+   "why": "1코 카드 소멸+다음턴 +2에너지 EV16, 덱 압축+자원 우수"
+  },
+  "CARD.SCRAPE": {
+   "grade": "A",
+   "ctx": "교활/드로우 빌드 S, 무0코 C",
+   "why": "1코 7딜+4드로우(비0코 버림) EV14, 0코덱서 강력 사이클"
+  },
+  "CARD.SHADOW_SHIELD": {
+   "grade": "A",
+   "ctx": "어둠 방어 빌드 S",
+   "why": "2코 11블록+암흑영창, 방어 효율 우수+구체 가산"
+  },
+  "CARD.SHATTER": {
+   "grade": "A",
+   "ctx": "구체 광역 빌드 S",
+   "why": "1코 전체 11딜+전 구체 발현, 1코 AoE+대량 페이오프 고효율"
+  },
+  "CARD.SIGNAL_BOOST": {
+   "grade": "B",
+   "ctx": "파워 빌드 A",
+   "why": "1코 다음 파워 추가발동+소멸 EV16, 파워 더블링이나 1회성"
+  },
+  "CARD.SKIM": {
+   "grade": "B",
+   "ctx": "드로우 빌드 A",
+   "why": "1코 3드로우, 순수 카드 우위 표준 드로우"
+  },
+  "CARD.SMOKESTACK": {
+   "grade": "C",
+   "ctx": "상태이상 생성덱 B, 무생성 D",
+   "why": "1코 파워, 상태이상 생성시 전체 5딜; 생성수단 없으면 무가치"
+  },
+  "CARD.SPINNER": {
+   "grade": "A",
+   "ctx": "유리 구체 빌드 S",
+   "why": "1코 유리영창+매턴 유리영창, 영구 구체 생성 엔진"
+  },
+  "CARD.STORM": {
+   "grade": "A",
+   "ctx": "번개/파워 빌드 S",
+   "why": "1코 파워 사용당 전기영창 EV18, 파워엔진과 강한 시너지"
+  },
+  "CARD.STRIKE_DEFECT": {
+   "grade": "C",
+   "ctx": "스타터",
+   "why": "1코 6딜 기본 스타터, 효율 베이스라인 하한"
+  },
+  "CARD.SUBROUTINE": {
+   "grade": "B",
+   "ctx": "파워 빌드 A, 무파워 D",
+   "why": "1코 파워 사용당 에너지1, 파워 다수 의존 조건부 자원엔진"
+  },
+  "CARD.SUNDER": {
+   "grade": "A",
+   "ctx": "단일 보스/처치덱 S",
+   "why": "3코 24딜 EV26, 고딜+처치시 +3에너지 환급 우수"
+  },
+  "CARD.SUPERCRITICAL": {
+   "grade": "A",
+   "ctx": "콤보/압축덱 S",
+   "why": "0코 +4에너지+소멸, 순4 에너지 폭발로 폭발턴 가능"
+  },
+  "CARD.SWEEPING_BEAM": {
+   "grade": "A",
+   "ctx": "광역/드로우 빌드 S",
+   "why": "1코 전체 6딜+드로우1, 무손실 AoE+사이클 고효율"
+  },
+  "CARD.SYNCHRONIZE": {
+   "grade": "B",
+   "ctx": "구체 다양성 성장덱 A",
+   "why": "1코 구체종류당 밀집2(일시)+소멸, 구체 다양성 의존 일시 스파이크"
+  },
+  "CARD.SYNTHESIS": {
+   "grade": "B",
+   "ctx": "파워 빌드 A",
+   "why": "2코 12딜+다음 파워 0코화, 딜+파워 템포 무난"
+  },
+  "CARD.TEMPEST": {
+   "grade": "A",
+   "ctx": "번개 구체 빌드 S, 저에너지 C",
+   "why": "0코 전기 X+1영창, 에너지 투입형 대량 구체 생성"
+  },
+  "CARD.TESLA_COIL": {
+   "grade": "B",
+   "ctx": "번개 구체 빌드 A",
+   "why": "0코 3딜+전 전기 발동 EV12, 번개엔진 페이오프이나 전기 의존"
+  },
+  "CARD.THUNDER": {
+   "grade": "A",
+   "ctx": "번개 구체 빌드 S",
+   "why": "1코 파워, 전기 발현당 6딜; 번개엔진 강한 페이오프 증폭"
+  },
+  "CARD.TRASH_TO_TREASURE": {
+   "grade": "C",
+   "ctx": "상태이상 생성 구체덱 B, 무생성 D",
+   "why": "1코 상태이상 생성당 무작위 구체, 생성수단 의존 조건부"
+  },
+  "CARD.TURBO": {
+   "grade": "B",
+   "ctx": "에너지 활용덱 A",
+   "why": "0코 +2에너지(순2)+공허 자해, 폭발턴 자원이나 공허 감점"
+  },
+  "CARD.UPROAR": {
+   "grade": "B",
+   "ctx": "공격 다수덱 A",
+   "why": "2코 5×2=10딜+무작위 공격 사용 EV14, 추가 카드 발동 변동성"
+  },
+  "CARD.VOLTAIC": {
+   "grade": "A",
+   "ctx": "번개 구체 빌드 S, 초반 D",
+   "why": "3코 누적 전기수만큼 영창+소멸, 후반 폭발이나 전기 누적 필요"
+  },
+  "CARD.WHITE_NOISE": {
+   "grade": "B",
+   "ctx": "파워/압축덱 A",
+   "why": "1코 무작위 파워 무료사용+소멸, 무작위성 변동 유틸"
+  },
+  "CARD.ZAP": {
+   "grade": "B",
+   "ctx": "번개 구체 빌드 A",
+   "why": "1코 전기1 영창 기본 구체 연료, 단독 가치는 낮으나 엔진 기초"
+  },
+  "CARD.ALIGNMENT": {
+   "grade": "B",
+   "ctx": "별 비용 3 소모로 에너지 1, 별 빌드서 가치",
+   "why": "0코 에너지 생성이나 star_cost 3 비용, EV12 무손실 에너지 변환"
+  },
+  "CARD.ARSENAL": {
+   "grade": "A",
+   "ctx": "성장 엔진서 S, 무엔진 C",
+   "why": "카드 생성마다 영구 힘+1 스케일 파워, EV14 성장 keystone"
+  },
+  "CARD.ASTRAL_PULSE": {
+   "grade": "B",
+   "ctx": "광역/별 빌드서 A",
+   "why": "별3코 전체 14딜 무료공격, AOE 천장 우수하나 star 소모"
+  },
+  "CARD.BEAT_INTO_SHAPE": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "1코 5딜+단조5 조건부 추가단조, 제작 keystone EV14"
+  },
+  "CARD.BEGONE": {
+   "grade": "C",
+   "ctx": "드로우/하수인 빌드서 B",
+   "why": "손패 1장을 하수인타격+로 변환, 무엔진서 효과 낮음"
+  },
+  "CARD.BIG_BANG": {
+   "grade": "A",
+   "ctx": "별/제작/드로우/소멸 다엔진 연료",
+   "why": "0코 무손실 드로우+에너지+별+단조5 소멸, 압축덱 윤활"
+  },
+  "CARD.BLACK_HOLE": {
+   "grade": "A",
+   "ctx": "별 빌드서 S, 무엔진 D",
+   "why": "별 획득/소모마다 전체 3딜, EV18 별 엔진 payoff 파워"
+  },
+  "CARD.BOMBARDMENT": {
+   "grade": "B",
+   "ctx": "소멸/압축덱서 A",
+   "why": "3코 18딜 자동 재사용 소멸, 압축덱서 반복 딜"
+  },
+  "CARD.BULWARK": {
+   "grade": "B",
+   "ctx": "제작/방어 빌드서 A",
+   "why": "2코 13블록+단조10, 제작 연료 겸 방어"
+  },
+  "CARD.BUNDLE_OF_JOY": {
+   "grade": "C",
+   "ctx": "생성/소멸 빌드서 B",
+   "why": "1코 무작위 무색 3장 소멸, 생성카운트 트리거나 무작위성"
+  },
+  "CARD.CELESTIAL_MIGHT": {
+   "grade": "B",
+   "ctx": "",
+   "why": "2코 6×3=18딜 멀티히트, 비례 효율 B 무엔진 굿스터프"
+  },
+  "CARD.CHARGE": {
+   "grade": "C",
+   "ctx": "골골이/생성 빌드서 B",
+   "why": "1코 덱 2장을 하수인투하+로 변환, 무엔진 효용 낮음"
+  },
+  "CARD.CHILD_OF_THE_STARS": {
+   "grade": "B",
+   "ctx": "별 빌드서 A, 무엔진 D",
+   "why": "별 소모당 블록2 payoff 파워, EV12 별 엔진 의존"
+  },
+  "CARD.CLOAK_OF_STARS": {
+   "grade": "B",
+   "ctx": "별/방어 빌드서 B",
+   "why": "0코 7블록 star1 비용, 무손실 블록이나 star 소모"
+  },
+  "CARD.COLLISION_COURSE": {
+   "grade": "C",
+   "ctx": "",
+   "why": "0코 11딜 무료공격이나 잔해(상태카드) 손패 오염 자해"
+  },
+  "CARD.COMET": {
+   "grade": "A",
+   "ctx": "취약 빌드서 A",
+   "why": "0코 33딜+약3취3, star5 비용이나 무료공격 폭딜+디버프"
+  },
+  "CARD.CONQUEROR": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "1코 단조3+군주칼날 피해 2배, EV16 LORDS_BLADE 증폭"
+  },
+  "CARD.CONVERGENCE": {
+   "grade": "B",
+   "ctx": "별 빌드서 B",
+   "why": "1코 다음턴 에너지+별+손패보존, 별 엔진 자원/윤활"
+  },
+  "CARD.COSMIC_INDIFFERENCE": {
+   "grade": "C",
+   "ctx": "방어 빌드서 B",
+   "why": "1코 6블록+버린덱 카드회수, 블록량 1코 기준 미달"
+  },
+  "CARD.CRASH_LANDING": {
+   "grade": "B",
+   "ctx": "광역 빌드서 A",
+   "why": "1코 전체 21딜 우수하나 손패 잔해 가득 채우는 큰 자해"
+  },
+  "CARD.CRESCENT_SPEAR": {
+   "grade": "B",
+   "ctx": "별 빌드서 A, 무엔진 C",
+   "why": "1코 6딜+star보유당 +2 스케일, 별 빌드서 큰 딜 잠재"
+  },
+  "CARD.CRUSH_UNDER": {
+   "grade": "B",
+   "ctx": "광역 빌드서 B",
+   "why": "1코 전체 7딜+전체 힘-1(이번턴), AOE+약화 효용"
+  },
+  "CARD.DECISIONS_DECISIONS": {
+   "grade": "A",
+   "ctx": "드로우/소멸 빌드서 S",
+   "why": "0코 3드로우+스킬 3회반복 소멸, 콤보 폭발 EV14"
+  },
+  "CARD.DEFEND_REGENT": {
+   "grade": "C",
+   "ctx": "스타터",
+   "why": "1코 5블록 스타터, 기본 효율 C 압축 대상"
+  },
+  "CARD.DEVASTATE": {
+   "grade": "B",
+   "ctx": "",
+   "why": "1코 30딜 고효율이나 star4 비용 부담, 효율 자체 S급"
+  },
+  "CARD.DYING_STAR": {
+   "grade": "A",
+   "ctx": "별/광역/휘발성 빌드서 A",
+   "why": "1코 전체 9딜+전체 힘-9 강력 디버프, EV22 휘발성 단발"
+  },
+  "CARD.FALLING_STAR": {
+   "grade": "B",
+   "ctx": "별/취약 빌드서 B",
+   "why": "0코 8딜+약1취1 star2, 스타터급 무료 디버프 공격"
+  },
+  "CARD.FOREGONE_CONCLUSION": {
+   "grade": "C",
+   "ctx": "",
+   "why": "1코 다음턴 덱서 2장 손으로, 셀렉트 유틸 무엔진 평범"
+  },
+  "CARD.FURNACE": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "1코 매턴 단조4 파워, 제작 엔진 지속 연료"
+  },
+  "CARD.GAMMA_BLAST": {
+   "grade": "A",
+   "ctx": "취약 빌드서 A",
+   "why": "0코 13딜+약2취2 star3, 무료공격 디버프 효율 우수"
+  },
+  "CARD.GATHER_LIGHT": {
+   "grade": "B",
+   "ctx": "별/방어 빌드서 B",
+   "why": "1코 8블록+별1, 블록 B급+별 생성 겸용"
+  },
+  "CARD.GENESIS": {
+   "grade": "A",
+   "ctx": "별 빌드서 S",
+   "why": "2코 매턴 별2 파워, EV16 별 엔진 핵심 생성기"
+  },
+  "CARD.GLIMMER": {
+   "grade": "B",
+   "ctx": "드로우/압축덱서 A",
+   "why": "1코 3드로우+덱탑 배치, 강력한 사이클 카드"
+  },
+  "CARD.GLITTERSTREAM": {
+   "grade": "B",
+   "ctx": "방어 빌드서 B",
+   "why": "2코 11+다음턴5=16블록, 2코 비례 블록 B급"
+  },
+  "CARD.GLOW": {
+   "grade": "B",
+   "ctx": "별/드로우 빌드서 B",
+   "why": "1코 별1+드로우1+다음턴 드로우1, EV8 사이클+별"
+  },
+  "CARD.GUARDS": {
+   "grade": "C",
+   "ctx": "골골이/생성 빌드서 B",
+   "why": "2코 손패를 하수인희생+로 다수변환 소멸, 엔진 의존"
+  },
+  "CARD.GUIDING_STAR": {
+   "grade": "A",
+   "ctx": "별/드로우 빌드서 A",
+   "why": "1코 12딜+2드로우+별1, 딜+사이클 올라운드 우수"
+  },
+  "CARD.HAMMER_TIME": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "2코 단조시 전 아군 단조 증폭 파워, EV16 제작 amp"
+  },
+  "CARD.HEAVENLY_DRILL": {
+   "grade": "A",
+   "ctx": "",
+   "why": "0코 X×8딜, X≥4시 2배 폭발 멀티히트, EV24 에너지 변환"
+  },
+  "CARD.HEGEMONY": {
+   "grade": "B",
+   "ctx": "",
+   "why": "2코 15딜+다음턴 에너지2(실질 환급), 무엔진 굿스터프"
+  },
+  "CARD.HEIRLOOM_HAMMER": {
+   "grade": "B",
+   "ctx": "무색복사 시너지",
+   "why": "2코 20딜+무색카드 복사, 딜 효율 양호+카드복제 유틸"
+  },
+  "CARD.HIDDEN_CACHE": {
+   "grade": "B",
+   "ctx": "별 빌드서 B",
+   "why": "1코 별1+다음턴 별3, 총 별4 생성 별 엔진 연료"
+  },
+  "CARD.I_AM_INVINCIBLE": {
+   "grade": "B",
+   "ctx": "방어 빌드서 B",
+   "why": "1코 10블록+덱탑시 자동재사용, A급 블록 잠재 반복"
+  },
+  "CARD.KINGLY_KICK": {
+   "grade": "B",
+   "ctx": "드로우 빌드서 A",
+   "why": "4코 27딜+뽑을때마다 비용감소, EV22 드로우 빌드서 저코화"
+  },
+  "CARD.KINGLY_PUNCH": {
+   "grade": "B",
+   "ctx": "성장/드로우 빌드서 A",
+   "why": "1코 8딜+뽑을때마다 영구+4, EV14 드로우 빌드 스케일"
+  },
+  "CARD.KNOCKOUT_BLOW": {
+   "grade": "B",
+   "ctx": "별 빌드서 B",
+   "why": "3코 30딜+처치시 별5, 3코 효율 양호+조건부 별"
+  },
+  "CARD.KNOW_THY_PLACE": {
+   "grade": "B",
+   "ctx": "취약/소멸 빌드서 B",
+   "why": "0코 약1취1 소멸, 무손실 디버프 셋업 압축덱서 유용"
+  },
+  "CARD.LARGESSE": {
+   "grade": "C",
+   "ctx": "성장/멀티플레이 빌드서 B",
+   "why": "0코 다른 플레이어에 강화무색 제공, 솔로 가치 낮음 무작위"
+  },
+  "CARD.LUNAR_BLAST": {
+   "grade": "B",
+   "ctx": "스킬덱서 A, 무엔진 D",
+   "why": "0코 사용 스킬당 4딜, EV14 스킬 다용 콤보 의존"
+  },
+  "CARD.MAKE_IT_SO": {
+   "grade": "C",
+   "ctx": "스킬덱서 B",
+   "why": "0코 6딜+스킬3장시 손으로 회수, 무엔진 저딜 조건부"
+  },
+  "CARD.MANIFEST_AUTHORITY": {
+   "grade": "B",
+   "ctx": "성장/방어 빌드서 B",
+   "why": "1코 7블록+강화무색 생성, 블록+생성카운트 연료"
+  },
+  "CARD.METEOR_SHOWER": {
+   "grade": "S",
+   "ctx": "광역/취약 빌드서 S",
+   "why": "0코 전체 14딜+전체 약2취2, star2뿐 무료공격 최상급 AOE"
+  },
+  "CARD.MONARCHS_GAZE": {
+   "grade": "C",
+   "ctx": "",
+   "why": "3코 공격마다 대상 힘-1(이번턴) 파워, 비용 대비 효과 약함"
+  },
+  "CARD.MONOLOGUE": {
+   "grade": "B",
+   "ctx": "콤보덱서 B",
+   "why": "0코 이번턴 카드사용당 힘+1, 다장카드 턴서 일시 폭딜"
+  },
+  "CARD.NEUTRON_AEGIS": {
+   "grade": "B",
+   "ctx": "성장/방어 빌드서 B",
+   "why": "1코 판금8 영구방어 스케일이나 star5 큰 비용"
+  },
+  "CARD.ORBIT": {
+   "grade": "C",
+   "ctx": "소멸/고에너지 덱서 B",
+   "why": "2코 에너지4 소모당 에너지1 환급 파워, 회수율 낮고 느림"
+  },
+  "CARD.PALE_BLUE_DOT": {
+   "grade": "C",
+   "ctx": "드로우 빌드서 B",
+   "why": "1코 5장이상 사용시 다음턴 드로우1 파워, 조건부 약효과"
+  },
+  "CARD.PARRY": {
+   "grade": "B",
+   "ctx": "제작/방어 빌드서 A, 무엔진 D",
+   "why": "1코 군주칼날 사용마다 블록10 payoff, 칼날 빌드 의존"
+  },
+  "CARD.PARTICLE_WALL": {
+   "grade": "B",
+   "ctx": "방어 빌드서 B",
+   "why": "0코 9블록+자기회수 star2, 매턴 재사용 가능 무손실"
+  },
+  "CARD.PATTER": {
+   "grade": "B",
+   "ctx": "성장/별/방어 빌드서 A",
+   "why": "1코 9블록+활력2, 블록+활력 영구딜 스케일 우수"
+  },
+  "CARD.PHOTON_CUT": {
+   "grade": "B",
+   "ctx": "드로우/압축덱서 A",
+   "why": "1코 10딜+드로우1+덱탑배치, 딜+사이클 무손실"
+  },
+  "CARD.PILLAR_OF_CREATION": {
+   "grade": "A",
+   "ctx": "방어/생성 빌드서 S",
+   "why": "1코 카드생성마다 블록3 파워, EV24 생성 빌드 방어 keystone"
+  },
+  "CARD.PROPHESIZE": {
+   "grade": "B",
+   "ctx": "드로우 빌드서 A",
+   "why": "2코 6드로우 강력 사이클이나 무딜 순수 드로우"
+  },
+  "CARD.QUASAR": {
+   "grade": "B",
+   "ctx": "성장/생성 빌드서 A",
+   "why": "0코 강화무색 3중1 선택, EV12 생성카운트+선택권"
+  },
+  "CARD.RADIATE": {
+   "grade": "B",
+   "ctx": "별 빌드서 A, 무엔진 D",
+   "why": "0코 획득별당 전체 3딜, EV10 별 폭발턴 AOE payoff"
+  },
+  "CARD.REFINE_BLADE": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "1코 단조9+다음턴 에너지1, 제작 연료+에너지 환급"
+  },
+  "CARD.REFLECT": {
+   "grade": "B",
+   "ctx": "방어 빌드서 B",
+   "why": "1코 17블록+반사, star3이나 A급 블록량+반사딜"
+  },
+  "CARD.RESONANCE": {
+   "grade": "B",
+   "ctx": "성장/광역 빌드서 B",
+   "why": "1코 힘+1(영구)+전체 힘-1, EV8 영구 스케일+디버프"
+  },
+  "CARD.ROYALTIES": {
+   "grade": "C",
+   "ctx": "",
+   "why": "1코 전투종료시 골드30 파워, 전투력 0 경제 전용"
+  },
+  "CARD.ROYAL_GAMBLE": {
+   "grade": "B",
+   "ctx": "별/소멸 빌드서 A",
+   "why": "0코 별9 대량생성 소멸, star5이나 별 엔진 폭발 점화"
+  },
+  "CARD.SEEKING_EDGE": {
+   "grade": "B",
+   "ctx": "제작/광역 빌드서 A",
+   "why": "1코 단조7+군주칼날 전체대상화, 칼날 AOE 전환 파워"
+  },
+  "CARD.SEVEN_STARS": {
+   "grade": "A",
+   "ctx": "별/광역 빌드서 S",
+   "why": "2코 전체 7×7=49딜, EV32 멀티히트 AOE 최상급(star7)"
+  },
+  "CARD.SHINING_STRIKE": {
+   "grade": "B",
+   "ctx": "별 빌드서 A",
+   "why": "1코 8딜+별2+덱탑자기배치, 반복 가능 별 생성기"
+  },
+  "CARD.SOLAR_STRIKE": {
+   "grade": "B",
+   "ctx": "별 빌드서 B",
+   "why": "1코 9딜+별1, B급 딜+별 생성 무손실 스타터급"
+  },
+  "CARD.SPECTRUM_SHIFT": {
+   "grade": "B",
+   "ctx": "성장/생성 빌드서 A",
+   "why": "2코 매턴 무색카드 생성 파워, 생성카운트 지속 연료"
+  },
+  "CARD.SPOILS_OF_BATTLE": {
+   "grade": "B",
+   "ctx": "제작/드로우 빌드서 A",
+   "why": "1코 단조5+2드로우, 제작 연료+사이클 효율 우수"
+  },
+  "CARD.STARDUST": {
+   "grade": "B",
+   "ctx": "별 빌드서 A",
+   "why": "0코 무작위 5×X딜(별소모), EV12 별 소비 무료딜 산발"
+  },
+  "CARD.STRIKE_REGENT": {
+   "grade": "C",
+   "ctx": "스타터",
+   "why": "1코 6딜 스타터, 효율 C 압축 대상"
+  },
+  "CARD.SUMMON_FORTH": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "1코 단조8+군주칼날 손으로, 칼날 접근+제작 연료"
+  },
+  "CARD.SUPERMASSIVE": {
+   "grade": "B",
+   "ctx": "성장/생성 빌드서 A",
+   "why": "1코 5딜+생성카드당 +3 스케일, EV14 생성 빌드 폭딜"
+  },
+  "CARD.SWORD_SAGE": {
+   "grade": "B",
+   "ctx": "제작/칼날 빌드서 A, 무엔진 D",
+   "why": "2코 군주칼날 추가타격 파워, 칼날 빌드 핵심 증폭"
+  },
+  "CARD.TERRAFORMING": {
+   "grade": "B",
+   "ctx": "성장 빌드서 A",
+   "why": "1코 활력6 영구 공격버프 스케일, 성장 엔진 연료"
+  },
+  "CARD.THE_SEALED_THRONE": {
+   "grade": "A",
+   "ctx": "별 빌드서 S",
+   "why": "1코 카드사용마다 별1 파워, EV14 별 엔진 강력 생성기(고대)"
+  },
+  "CARD.THE_SMITH": {
+   "grade": "A",
+   "ctx": "제작 빌드서 S",
+   "why": "1코 단조30 폭발 생성, star4이나 제작 keystone 대량연료"
+  },
+  "CARD.TYRANNY": {
+   "grade": "A",
+   "ctx": "독/소멸 빌드서 S",
+   "why": "1코 매턴 드로우+소멸 파워, EV14 압축덱 엔진 핵심"
+  },
+  "CARD.VENERATE": {
+   "grade": "B",
+   "ctx": "별 빌드서 A",
+   "why": "1코 별2 스타터급 생성, EV14 별 엔진 기본 연료"
+  },
+  "CARD.VOID_FORM": {
+   "grade": "A",
+   "ctx": "성장/휘발성 빌드서 S",
+   "why": "3코 매턴 첫 2장 무료사용 파워, EV28 강력 에너지 엔진(휘발성)"
+  },
+  "CARD.WROUGHT_IN_WAR": {
+   "grade": "B",
+   "ctx": "제작 빌드서 A",
+   "why": "1코 7딜+단조7, 제작 연료 겸 B급 공격 효율"
+  },
+  "CARD.AFTERLIFE": {
+   "grade": "B",
+   "ctx": "골골이/소멸 엔진서 A, 무엔진 C",
+   "why": "1코 소환6은 미니언 엔진 핵심 연료지만 단독 효과는 약함"
+  },
+  "CARD.BANSHEES_CRY": {
+   "grade": "B",
+   "ctx": "휘발성 빌드서 A, 무엔진 D",
+   "why": "9코 AOE33은 비효율(ev30)이나 휘발성 누적으로 비용 급감하면 강력"
+  },
+  "CARD.BLIGHT_STRIKE": {
+   "grade": "B",
+   "ctx": "종말 빌드 keystone 연료",
+   "why": "1코 8딜=B 효율에 가한 피해만큼 종말 부여로 종말엔진 우수"
+  },
+  "CARD.BODYGUARD": {
+   "grade": "C",
+   "ctx": "골골이 빌드 기본 연료",
+   "why": "1코 소환5 베이직, 미니언 엔진 외 가치 낮음"
+  },
+  "CARD.BONE_SHARDS": {
+   "grade": "B",
+   "ctx": "골골이 빌드서 A, 무골골이 D",
+   "why": "1코 AOE9+방어9는 우수하나 골골이 소비·사망 조건부"
+  },
+  "CARD.BORROWED_TIME": {
+   "grade": "C",
+   "ctx": "콤보 폭발턴 전용",
+   "why": "1코 순 +3에너지지만 카드비용+1 자해로 범용성 낮음"
+  },
+  "CARD.BURY": {
+   "grade": "B",
+   "ctx": "",
+   "why": "4코 52딜(ev26)=코당13 효율적이나 4코 단일딜은 핸드 유연성 떨어짐"
+  },
+  "CARD.CALCIFY": {
+   "grade": "C",
+   "ctx": "골골이 성장 빌드 전용",
+   "why": "1코 파워, 골골이 공격 영구+4지만 골골이 의존 단발 증폭"
+  },
+  "CARD.CALL_OF_THE_VOID": {
+   "grade": "B",
+   "ctx": "휘발성/생성 빌드서 A",
+   "why": "1코 파워로 매턴 휘발성 카드 생성, 휘발성엔진 영구 연료"
+  },
+  "CARD.CAPTURE_SPIRIT": {
+   "grade": "B",
+   "ctx": "영혼 빌드 keystone 연료",
+   "why": "1코 영혼3장 생성+3딜, 영혼엔진 주력 생산자"
+  },
+  "CARD.CLEANSE": {
+   "grade": "B",
+   "ctx": "소멸/골골이 빌드서 A, 무엔진 C",
+   "why": "1코 소환3+덱압축 소멸, 두 엔진 동시 연료(ev10)"
+  },
+  "CARD.COUNTDOWN": {
+   "grade": "B",
+   "ctx": "종말 빌드서 A",
+   "why": "1코 파워 매턴 무작위 종말6, 종말 누적엔진 영구 연료"
+  },
+  "CARD.DANSE_MACABRE": {
+   "grade": "B",
+   "ctx": "방어 빌드서 A, 고코덱 의존",
+   "why": "1코 파워 2코+카드당 방어4, 고코덱서 매턴 다량 방어 스케일"
+  },
+  "CARD.DEATHBRINGER": {
+   "grade": "B",
+   "ctx": "종말/광역 빌드서 A",
+   "why": "2코 전체 종말21+약화1(ev22), AOE 종말 강력 연료"
+  },
+  "CARD.DEATHS_DOOR": {
+   "grade": "B",
+   "ctx": "종말 빌드서 A, 무종말 C",
+   "why": "1코 방어6(조건시 18, ev12), 종말 부여시 코당18 폭발"
+  },
+  "CARD.DEATH_MARCH": {
+   "grade": "B",
+   "ctx": "성장/드로우 빌드서 A",
+   "why": "1코 8딜+드로우당3(ev14), 드로우덱서 큰 스케일"
+  },
+  "CARD.DEBILITATE": {
+   "grade": "A",
+   "ctx": "취약 빌드 keystone",
+   "why": "1코 10딜+취약/약화 2배 증폭(ev18), 디버프엔진 핵심 증폭기"
+  },
+  "CARD.DEFEND_NECROBINDER": {
+   "grade": "C",
+   "ctx": "스타터",
+   "why": "1코 방어5=C 베이스, 스타터 보충용"
+  },
+  "CARD.DEFILE": {
+   "grade": "B",
+   "ctx": "휘발성 빌드서 A",
+   "why": "1코 휘발성 13딜=코당13 S급 수치, 휘발성 트리거 연료(소멸은 휘발성엔진서 이점)"
+  },
+  "CARD.DEFY": {
+   "grade": "B",
+   "ctx": "방어/휘발성 빌드서 A",
+   "why": "1코 방어6+약화1+휘발성 생성, 멀티엔진 연료에 효율 양호"
+  },
+  "CARD.DELAY": {
+   "grade": "C",
+   "ctx": "방어 빌드",
+   "why": "2코 방어11+다음턴1에너지, 11/2코는 B미만 효율"
+  },
+  "CARD.DEMESNE": {
+   "grade": "A",
+   "ctx": "드로우/휘발성 빌드 keystone",
+   "why": "3코 휘발성 파워지만 매턴 +1에너지+1드로우 영구, 강력 엔진 가속"
+  },
+  "CARD.DEVOUR_LIFE": {
+   "grade": "B",
+   "ctx": "영혼+골골이 빌드서 A",
+   "why": "1코 파워 영혼사용시 소환1, 영혼엔진과 골골이 연결 연료"
+  },
+  "CARD.DIRGE": {
+   "grade": "A",
+   "ctx": "영혼/골골이/소멸 멀티엔진 keystone",
+   "why": "0코 X소환3+영혼+X장+소멸, 자원변환 핵심 다엔진 연료"
+  },
+  "CARD.DRAIN_POWER": {
+   "grade": "C",
+   "ctx": "성장 빌드",
+   "why": "1코 10딜+버린덱 강화2, 강화는 즉발가치 낮고 무작위 조건부"
+  },
+  "CARD.DREDGE": {
+   "grade": "B",
+   "ctx": "소멸/압축덱서 A",
+   "why": "0코 버린덱서 3장 회수+소멸, 회수엔진 강력 무손실"
+  },
+  "CARD.EIDOLON": {
+   "grade": "B",
+   "ctx": "소멸 빌드 keystone, 무엔진 D",
+   "why": "2코 손패 전부 소멸 조건부 불가침1(ev14), 소멸엔진 핵심이나 자해성 핸드손실"
+  },
+  "CARD.END_OF_DAYS": {
+   "grade": "A",
+   "ctx": "종말/광역 빌드 keystone",
+   "why": "3코 전체 종말29+처형(ev18), AOE 종말+즉살 강력 피니셔"
+  },
+  "CARD.ENFEEBLING_TOUCH": {
+   "grade": "C",
+   "ctx": "휘발성 빌드서 B",
+   "why": "1코 휘발성 이번턴 힘-8, 단발 디버프로 가치 한정"
+  },
+  "CARD.ERADICATE": {
+   "grade": "B",
+   "ctx": "압축덱/콤보서 A",
+   "why": "0코 보존 11×X, 에너지 폭발턴서 큰 멀티히트 스케일"
+  },
+  "CARD.FEAR": {
+   "grade": "B",
+   "ctx": "취약/휘발성 빌드서 A",
+   "why": "1코 휘발성 7딜+취약1, 취약생산+휘발성 멀티엔진 연료"
+  },
+  "CARD.FETCH": {
+   "grade": "B",
+   "ctx": "골골이/드로우 빌드서 A",
+   "why": "0코 골골이3딜+조건부 드로우, 무손실 사이클 연료"
+  },
+  "CARD.FLATTEN": {
+   "grade": "B",
+   "ctx": "골골이 빌드서 A",
+   "why": "2코(조건시0코) 골골이12딜, 골골이 공격후 무료화로 효율 좋음"
+  },
+  "CARD.FORBIDDEN_GRIMOIRE": {
+   "grade": "C",
+   "ctx": "압축덱 의도시 B",
+   "why": "2코 영구 파워 전투후 덱 1장제거, 즉발 전투력 없는 메타 압축"
+  },
+  "CARD.FRIENDSHIP": {
+   "grade": "A",
+   "ctx": "성장/에너지 빌드 keystone",
+   "why": "1코 힘-2에 매턴 +1에너지 영구(ev16), 영구 에너지 가속 강력"
+  },
+  "CARD.GLIMPSE_BEYOND": {
+   "grade": "B",
+   "ctx": "영혼/소멸 빌드서 A",
+   "why": "1코 영혼3장(전원)+소멸, 영혼엔진 대량 연료에 압축"
+  },
+  "CARD.GRAVEBLAST": {
+   "grade": "B",
+   "ctx": "소멸/압축덱서 A",
+   "why": "1코 4딜+회수+소멸, 회수엔진 사이클+압축 연료"
+  },
+  "CARD.GRAVE_WARDEN": {
+   "grade": "B",
+   "ctx": "방어/영혼 빌드서 A",
+   "why": "1코 방어8+영혼1, 방어 B효율에 영혼 생산 부가"
+  },
+  "CARD.HANG": {
+   "grade": "B",
+   "ctx": "성장 빌드서 A, 단발 C",
+   "why": "1코 10딜+동명카드 피해2배(ev14), 다수 보유시 누적 증폭"
+  },
+  "CARD.HAUNT": {
+   "grade": "B",
+   "ctx": "영혼 빌드 keystone",
+   "why": "1코 파워 영혼사용시 무작위 6딜, 영혼엔진 데미지 변환 핵심"
+  },
+  "CARD.HIGH_FIVE": {
+   "grade": "B",
+   "ctx": "골골이/광역/취약 빌드서 A",
+   "why": "2코 골골이 AOE11+취약2, 멀티엔진 효율적 연료"
+  },
+  "CARD.INVOKE": {
+   "grade": "B",
+   "ctx": "골골이 빌드서 A",
+   "why": "1코 다음턴 소환2+2에너지, 골골이+에너지 지연 연료"
+  },
+  "CARD.LEGION_OF_BONE": {
+   "grade": "A",
+   "ctx": "골골이/소멸 빌드 keystone",
+   "why": "2코 전원 소환6+소멸, 미니언엔진 대량 폭발 연료"
+  },
+  "CARD.LETHALITY": {
+   "grade": "B",
+   "ctx": "성장/휘발성 빌드서 A",
+   "why": "1코 휘발성 파워 매턴 첫공격+50%, 큰딜덱서 영구 증폭"
+  },
+  "CARD.MELANCHOLY": {
+   "grade": "C",
+   "ctx": "방어/골골이 사망덱서 B",
+   "why": "3코 방어13(사망마다 -1코), 무엔진 13/3코 비효율"
+  },
+  "CARD.MISERY": {
+   "grade": "B",
+   "ctx": "광역/디버프 전파 빌드서 A",
+   "why": "0코 7딜+모든 디버프 전파, 디버프덱서 AOE 무손실 강력"
+  },
+  "CARD.NECRO_MASTERY": {
+   "grade": "A",
+   "ctx": "골골이/광역 빌드 keystone",
+   "why": "2코 소환5+골골이 피해 AOE반사 파워, 미니언엔진 영구 AOE엔진"
+  },
+  "CARD.NEGATIVE_PULSE": {
+   "grade": "B",
+   "ctx": "종말/방어/광역 빌드서 A",
+   "why": "1코 방어5+전체 종말7, 멀티엔진 효율적 연료"
+  },
+  "CARD.NEUROSURGE": {
+   "grade": "A",
+   "ctx": "드로우/콤보 빌드 keystone",
+   "why": "0코 +3에너지+2드로우, 강력한 무료 자원폭발(매턴 자해 종말3 미미)"
+  },
+  "CARD.NO_ESCAPE": {
+   "grade": "B",
+   "ctx": "종말 빌드서 A, 무종말 C",
+   "why": "1코 종말10+누적당 추가, 종말스택 폭발 증폭"
+  },
+  "CARD.OBLIVION": {
+   "grade": "A",
+   "ctx": "종말/콤보 빌드 keystone",
+   "why": "0코 이번턴 카드당 종말3(ev14), 다카드턴서 폭발적 종말 누적"
+  },
+  "CARD.PAGESTORM": {
+   "grade": "B",
+   "ctx": "드로우/휘발성 빌드서 A",
+   "why": "1코 파워 휘발성 드로우시 추가드로우(ev14), 휘발성덱 사이클 가속"
+  },
+  "CARD.PARSE": {
+   "grade": "B",
+   "ctx": "드로우/휘발성 빌드서 A",
+   "why": "1코 휘발성 3장 드로우, 순카드이득+휘발성 트리거 무손실"
+  },
+  "CARD.POKE": {
+   "grade": "C",
+   "ctx": "골골이 빌드서 B",
+   "why": "0코 골골이6딜, 골골이 트리거/무손실엔진 연료지만 단독 약함"
+  },
+  "CARD.PROTECTOR": {
+   "grade": "B",
+   "ctx": "성장/골골이 빌드서 A",
+   "why": "1코 골골이10딜+최대체력 스케일(ev14), 골골이 성장시 강력"
+  },
+  "CARD.PULL_AGGRO": {
+   "grade": "C",
+   "ctx": "골골이/방어 빌드서 B",
+   "why": "2코 소환4+방어7, 멀티연료지만 코스트 대비 평범"
+  },
+  "CARD.PULL_FROM_BELOW": {
+   "grade": "B",
+   "ctx": "휘발성 빌드 keystone",
+   "why": "1코 휘발성당 5딜(ev12), 휘발성 누적시 큰 피니셔 페이오프"
+  },
+  "CARD.PUTREFY": {
+   "grade": "B",
+   "ctx": "취약/소멸 빌드서 A",
+   "why": "1코 약화2+취약2+소멸, 디버프 일괄+압축 효율적"
+  },
+  "CARD.RATTLE": {
+   "grade": "B",
+   "ctx": "골골이 빌드서 A",
+   "why": "1코 골골이7딜×공격횟수(ev12), 골골이 다공격덱서 폭발"
+  },
+  "CARD.REANIMATE": {
+   "grade": "A",
+   "ctx": "골골이/소멸 빌드 keystone",
+   "why": "3코 소환20+소멸, 미니언엔진 최대 폭발 연료"
+  },
+  "CARD.REAP": {
+   "grade": "B",
+   "ctx": "압축덱서 A",
+   "why": "3코 보존 27딜=코당9, 보존으로 콤보턴 보장 가치"
+  },
+  "CARD.REAPER_FORM": {
+   "grade": "A",
+   "ctx": "종말 빌드 keystone",
+   "why": "3코 파워 공격피해만큼 종말 부여(ev16), 공격덱서 종말 자동누적 엔진"
+  },
+  "CARD.REAVE": {
+   "grade": "B",
+   "ctx": "영혼 빌드서 A",
+   "why": "1코 9딜=B효율+영혼+1장, 데미지에 영혼연료 부가"
+  },
+  "CARD.RIGHT_HAND_HAND": {
+   "grade": "B",
+   "ctx": "골골이/고코덱서 A",
+   "why": "0코 골골이4딜+고코사용시 회수, 무손실 반복 골골이 트리거"
+  },
+  "CARD.SACRIFICE": {
+   "grade": "B",
+   "ctx": "골골이/방어 빌드서 A",
+   "why": "1코 보존 골골이 최대체력2배 방어, 골골이 성장시 대량 방어"
+  },
+  "CARD.SCOURGE": {
+   "grade": "A",
+   "ctx": "종말/드로우 빌드서 A",
+   "why": "1코 종말13+드로우1, 종말생산+무손실 사이클 우수"
+  },
+  "CARD.SCULPTING_STRIKE": {
+   "grade": "B",
+   "ctx": "휘발성 빌드서 A",
+   "why": "1코 9딜(ev12)+휘발성 부여, 데미지B에 휘발성 생산 부가"
+  },
+  "CARD.SEANCE": {
+   "grade": "B",
+   "ctx": "영혼/휘발성 빌드서 A",
+   "why": "1코 휘발성 영혼1 변환, 영혼+휘발성 트리거 연료"
+  },
+  "CARD.SENTRY_MODE": {
+   "grade": "B",
+   "ctx": "성장/방어/생성 빌드서 A",
+   "why": "2코 파워 매턴 훑어보기 생성, 영구 카드생성 엔진 연료"
+  },
+  "CARD.SEVERANCE": {
+   "grade": "B",
+   "ctx": "영혼 빌드서 A",
+   "why": "2코 13딜(ev16)+영혼3곳 추가, 데미지+대량 영혼 생산"
+  },
+  "CARD.SHARED_FATE": {
+   "grade": "C",
+   "ctx": "소멸 압축덱서 B",
+   "why": "0코 양쪽 힘-2+소멸, 적 약화는 미미하고 자해 힘감소"
+  },
+  "CARD.SHROUD": {
+   "grade": "B",
+   "ctx": "종말/방어 빌드서 A, 무종말 D",
+   "why": "1코 파워 종말부여시 방어2, 종말덱서 무료 방어 변환"
+  },
+  "CARD.SIC_EM": {
+   "grade": "B",
+   "ctx": "골골이 빌드 keystone",
+   "why": "1코 골골이5딜+골골이 공격당 소환2, 미니언엔진 자가증식 연료"
+  },
+  "CARD.SLEIGHT_OF_FLESH": {
+   "grade": "A",
+   "ctx": "디버프 빌드 keystone",
+   "why": "2코 파워 디버프 부여마다 9딜(ev16), 디버프 다발덱서 폭발적 데미지"
+  },
+  "CARD.SNAP": {
+   "grade": "B",
+   "ctx": "골골이/압축덱서 A",
+   "why": "1코 골골이7딜+보존 부여, 골골이딜+콤보 셋업"
+  },
+  "CARD.SOUL_STORM": {
+   "grade": "B",
+   "ctx": "영혼/소멸 빌드 keystone",
+   "why": "1코 9딜+소멸영혼당2(ev14), 소멸영혼 누적시 큰 스케일"
+  },
+  "CARD.SOW": {
+   "grade": "B",
+   "ctx": "광역/압축덱서 A",
+   "why": "1코 보존 전체8딜, AOE에 보존으로 멀티전투 유용"
+  },
+  "CARD.SPIRIT_OF_ASH": {
+   "grade": "B",
+   "ctx": "방어/휘발성 빌드 keystone",
+   "why": "1코 파워 휘발성사용시 방어4, 휘발성덱 영구 방어엔진"
+  },
+  "CARD.SPUR": {
+   "grade": "B",
+   "ctx": "골골이/압축덱서 A",
+   "why": "1코 보존 소환3+골골이 회복5, 골골이 유지+연료"
+  },
+  "CARD.SQUEEZE": {
+   "grade": "A",
+   "ctx": "골골이 빌드 keystone",
+   "why": "3코 골골이25딜+골골이공격카드당5(ev22), 골골이덱서 대형 피니셔"
+  },
+  "CARD.STRIKE_NECROBINDER": {
+   "grade": "D",
+   "ctx": "스타터",
+   "why": "1코 6딜=C하한, 압축 1순위 제거 대상"
+  },
+  "CARD.THE_SCYTHE": {
+   "grade": "A",
+   "ctx": "성장/소멸/압축덱 keystone",
+   "why": "2코 13딜+영구+3+소멸, 회수형 영구성장 강력 스케일러"
+  },
+  "CARD.TIMES_UP": {
+   "grade": "B",
+   "ctx": "종말 빌드 keystone, 무종말 D",
+   "why": "2코 종말만큼 피해+소멸, 종말 누적시 대형 피니셔"
+  },
+  "CARD.TRANSFIGURE": {
+   "grade": "C",
+   "ctx": "콤보/압축덱서 B",
+   "why": "1코 재사용+1 부여+비용+1+소멸, 셋업 가치 한정적"
+  },
+  "CARD.UNDEATH": {
+   "grade": "B",
+   "ctx": "방어 빌드서 A",
+   "why": "0코 방어7+복사본 생성, 무한 방어 사이클 0코 효율 우수"
+  },
+  "CARD.UNLEASH": {
+   "grade": "B",
+   "ctx": "성장/골골이 빌드서 A",
+   "why": "1코 골골이6딜+현재체력 스케일, 골골이 성장시 큰 베이직 딜러"
+  },
+  "CARD.VEILPIERCER": {
+   "grade": "B",
+   "ctx": "휘발성 빌드서 A",
+   "why": "1코 10딜=A효율+다음 휘발성 0코, 데미지+휘발성 가속"
+  },
+  "CARD.WISP": {
+   "grade": "B",
+   "ctx": "소멸/압축덱 keystone",
+   "why": "0코 +1에너지+소멸, 무손실 에너지+압축 무료 연료"
+  },
+  "CARD.ALCHEMIZE": {
+   "grade": "B",
+   "ctx": "포션 빌드/유물 시너지서 A",
+   "why": "1코 무작위 포션 생성+소멸, 압축덱 연료. 즉발 전투력은 낮으나 포션 자원 가치"
+  },
+  "CARD.ANOINTED": {
+   "grade": "C",
+   "ctx": "희귀 다수 덱 한정",
+   "why": "뽑을더미 희귀카드 전부 회수+소멸, 효과가 덱 구성 의존적이고 즉발 가치 낮음"
+  },
+  "CARD.APOTHEOSIS": {
+   "grade": "A",
+   "ctx": "성장/강화 빌드서 S",
+   "why": "2코 전덱 강화+선천성+소멸, EV30 단발 폭발+영구 가치, 강한 압축 키스톤"
+  },
+  "CARD.APPARITION": {
+   "grade": "A",
+   "ctx": "생존/휘발성 빌드서 S",
+   "why": "1코 불가침(한 턴 피해 무효)+휘발성+소멸, 보스 생존 강력하나 단발"
+  },
+  "CARD.ASCENDERS_BANE": {
+   "grade": "D",
+   "ctx": "제거 1순위",
+   "why": "사용불가 영구 저주, 손 슬롯 점유 순수 디메리트"
+  },
+  "CARD.AUTOMATION": {
+   "grade": "C",
+   "ctx": "고드로우 덱 한정 B",
+   "why": "1코 파워, 10장 드로우당 1에너지—발동 빈도 낮아 회수 더딤"
+  },
+  "CARD.BAD_LUCK": {
+   "grade": "D",
+   "ctx": "자해 빌드 악용 외 제거",
+   "why": "사용불가 영구 저주, 턴종료 손에 있으면 13 피해 순수 디메리트"
+  },
+  "CARD.BEACON_OF_HOPE": {
+   "grade": "C",
+   "ctx": "멀티플레이/방어 빌드",
+   "why": "방어 획득 절반을 타 플레이어에게—솔로 가치 미미, EV14는 협동 전제"
+  },
+  "CARD.BEAT_DOWN": {
+   "grade": "B",
+   "ctx": "공격 다수 디스카드 덱서 A",
+   "why": "3코 버린더미 공격 3장 재사용, 덱 의존 폭발력 있으나 셋업 필요"
+  },
+  "CARD.BECKON": {
+   "grade": "D",
+   "ctx": "자해 빌드 외 제거",
+   "why": "상태카드, 손에 있으면 6 피해—슬롯 점유 디메리트"
+  },
+  "CARD.BELIEVE_IN_YOU": {
+   "grade": "D",
+   "ctx": "멀티플레이 전용",
+   "why": "0코 타 플레이어에 2에너지—솔로 무가치"
+  },
+  "CARD.BOLAS": {
+   "grade": "C",
+   "ctx": "공격 트리거/회수 덱서 B",
+   "why": "0코 피해3+다음턴 자기회수, 데미지 낮지만 무한 공격 트리거 연료"
+  },
+  "CARD.BRIGHTEST_FLAME": {
+   "grade": "A",
+   "ctx": "드로우 빌드서 S, 무한반복",
+   "why": "0코 2에너지+2드로우, 최대체력1만 소모—실질 무손실 자원순환 키스톤"
+  },
+  "CARD.BURN": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "상태카드 사용불가, 손에 있으면 2 피해 디메리트"
+  },
+  "CARD.BYRDONIS_EGG": {
+   "grade": "C",
+   "ctx": "퀘스트 카드, 평가 외",
+   "why": "사용불가 퀘스트—휴식지 부화 이벤트 트리거, 전투 가치 없음"
+  },
+  "CARD.BYRD_SWOOP": {
+   "grade": "B",
+   "ctx": "이벤트 0코 공격",
+   "why": "0코 피해14, 0코 기준 매우 높은 단일 데미지(무손실 가치)"
+  },
+  "CARD.CALAMITY": {
+   "grade": "C",
+   "ctx": "공격 다수 덱서 B",
+   "why": "3코 파워, 공격 사용마다 무작위 공격 회수—3코 회수 더디고 무작위"
+  },
+  "CARD.CALTROPS": {
+   "grade": "C",
+   "ctx": "가시/다타격 피격 덱서 B",
+   "why": "1코 파워 피격당 가시3, 적 공격 빈도 의존이고 누적 약함"
+  },
+  "CARD.CATASTROPHE": {
+   "grade": "C",
+   "ctx": "압축덱서 B",
+   "why": "2코 뽑을더미 무작위 2장 사용, 무작위라 신뢰성 낮음"
+  },
+  "CARD.CLASH": {
+   "grade": "C",
+   "ctx": "공격 전용 덱서 B",
+   "why": "0코 피해14지만 손 전부 공격 조건—제약 큼"
+  },
+  "CARD.CLUMSY": {
+   "grade": "D",
+   "ctx": "휘발성 자정화는 됨",
+   "why": "사용불가 저주, 휘발성이라 한 턴만 점유—순수 디메리트지만 자가소멸"
+  },
+  "CARD.COORDINATE": {
+   "grade": "D",
+   "ctx": "멀티플레이 전용",
+   "why": "1코 타 플레이어 힘5(이번턴)—솔로 무가치"
+  },
+  "CARD.CURSE_OF_THE_BELL": {
+   "grade": "D",
+   "ctx": "제거 불가 저주",
+   "why": "사용불가 영구, 슬롯 점유 디메리트"
+  },
+  "CARD.DARK_SHACKLES": {
+   "grade": "B",
+   "ctx": "보스전 한정 A",
+   "why": "0코 적 힘9 감소(이번턴)+소멸, EV24 보스 공격 완화에 강력하나 일회성"
+  },
+  "CARD.DAZED": {
+   "grade": "D",
+   "ctx": "휘발성 자정화",
+   "why": "사용불가 상태, 휘발성 자가소멸이나 그 턴 슬롯 점유 디메리트"
+  },
+  "CARD.DEBRIS": {
+   "grade": "D",
+   "ctx": "소멸 빌드서 연료 C",
+   "why": "상태카드, 효과는 소멸뿐—슬롯 점유, 소멸 시너지만"
+  },
+  "CARD.DEBT": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "사용불가 저주, 손에 있으면 골드10 손실 디메리트"
+  },
+  "CARD.DECAY": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "사용불가 저주, 손에 있으면 2 피해 디메리트"
+  },
+  "CARD.DEPRECATED_CARD": {
+   "grade": "C",
+   "ctx": "자가제거 상태",
+   "why": "0코 1드로우+자기제거+소멸—실질 자가정화 사이클, 디메리트 적음"
+  },
+  "CARD.DISCOVERY": {
+   "grade": "B",
+   "ctx": "압축/유연성 덱서 A",
+   "why": "1코 카드3중1 선택+무비용 사용+소멸, EV12 유연한 자원이나 무작위"
+  },
+  "CARD.DISINTEGRATION": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "상태카드 턴종료 무조건 6 피해—손 안 줄여도 발동 강한 디메리트"
+  },
+  "CARD.DISTRACTION": {
+   "grade": "C",
+   "ctx": "스킬 의존 덱서 B",
+   "why": "1코 무작위 스킬 회수+무비용+소멸, 무작위 스킬이라 신뢰성 낮음"
+  },
+  "CARD.DOUBT": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "사용불가 저주, 손에 있으면 약화1 누적 디메리트"
+  },
+  "CARD.DRAMATIC_ENTRANCE": {
+   "grade": "B",
+   "ctx": "광역 빌드서 A",
+   "why": "0코 전체11+선천성+소멸, 0코 광역 데미지 높음(선천성 첫턴 보장)"
+  },
+  "CARD.DUAL_WIELD": {
+   "grade": "B",
+   "ctx": "파워/강공격 덱서 A",
+   "why": "1코 공격/파워 복사, EV14 강한 파워 복제 시 폭발하나 대상 의존"
+  },
+  "CARD.ENLIGHTENMENT": {
+   "grade": "B",
+   "ctx": "고코스트 손패 덱서 A",
+   "why": "0코 이번전투 손패 비용1 고정+소멸, EV18 고코 카드 많을 때 폭발"
+  },
+  "CARD.ENTHRALLED": {
+   "grade": "D",
+   "ctx": "제거 대상 저주",
+   "why": "2코 우선사용 강제 저주, 영구—턴마다 2에너지 낭비 디메리트"
+  },
+  "CARD.ENTRENCH": {
+   "grade": "B",
+   "ctx": "고방어 빌드서 A",
+   "why": "2코 방어 2배, EV18 방어 스택 클수록 폭발하나 선행 블록 필요"
+  },
+  "CARD.ENTROPY": {
+   "grade": "C",
+   "ctx": "변형/무작위 빌드",
+   "why": "1코 파워 턴시작 손패1 변형, 무작위라 가치 불안정"
+  },
+  "CARD.EQUILIBRIUM": {
+   "grade": "B",
+   "ctx": "방어/보존 콤보 덱서 A",
+   "why": "2코 방어13+손패 보존, 2코 비례 양호하고 보존 시너지"
+  },
+  "CARD.ETERNAL_ARMOR": {
+   "grade": "B",
+   "ctx": "성장/방어 빌드서 A",
+   "why": "3코 판금9(영구 턴마다 방어9), EV22 스케일 강하나 3코 초기 더딤"
+  },
+  "CARD.EXTERMINATE": {
+   "grade": "B",
+   "ctx": "광역+힘/다타격 덱서 A",
+   "why": "1코 전체 3x4(12), EV12 1코 광역 양호, 힘 증폭 시 폭발"
+  },
+  "CARD.FASTEN": {
+   "grade": "C",
+   "ctx": "방어 빌드서 B",
+   "why": "1코 파워 수비 방어+5, EV10 방어카드 다수 필요하고 누적 느림"
+  },
+  "CARD.FEEDING_FRENZY": {
+   "grade": "A",
+   "ctx": "성장/공격 빌드서 S",
+   "why": "0코 이번턴 힘5, EV18 0코 큰 임시 힘—다타격/광역과 폭발 시너지"
+  },
+  "CARD.FINESSE": {
+   "grade": "B",
+   "ctx": "드로우/방어 무한반복",
+   "why": "0코 방어4+1드로우+무한, 무손실 사이클로 덱 윤활"
+  },
+  "CARD.FISTICUFFS": {
+   "grade": "B",
+   "ctx": "방어/힘 빌드서 A",
+   "why": "1코 피해7+동량 방어, EV14 1코 공방겸비로 효율 우수"
+  },
+  "CARD.FLASH_OF_STEEL": {
+   "grade": "B",
+   "ctx": "드로우/0코 사이클서 A",
+   "why": "0코 피해5+1드로우+무한, 무손실 데미지+순환"
+  },
+  "CARD.FOLLY": {
+   "grade": "D",
+   "ctx": "휘발성 자정화",
+   "why": "사용불가 저주, 선천성이라 첫턴 강제 들어옴—휘발성 자가소멸이나 디메리트"
+  },
+  "CARD.FRANTIC_ESCAPE": {
+   "grade": "D",
+   "ctx": "보스 도주 이벤트 전용",
+   "why": "상태카드 도주+비용증가, 전투 가치 없는 이벤트 메커니즘"
+  },
+  "CARD.FUEL": {
+   "grade": "B",
+   "ctx": "드로우/소멸 토큰",
+   "why": "0코 1에너지+1드로우+소멸—실질 무손실 자원순환 연료"
+  },
+  "CARD.GANG_UP": {
+   "grade": "D",
+   "ctx": "멀티플레이 전용",
+   "why": "1코 피해5+타플레이어 공격횟수당 +5—솔로 5뎀, 협동 전제"
+  },
+  "CARD.GIANT_ROCK": {
+   "grade": "A",
+   "ctx": "토큰 1코 공격",
+   "why": "1코 피해16, 1코 13+ 기준 S급 수치(토큰이라 맥락 제한)"
+  },
+  "CARD.GOLD_AXE": {
+   "grade": "C",
+   "ctx": "고사용 덱 후반 B",
+   "why": "1코 사용카드수만큼 피해, EV8 초반 약하고 누적 의존 스케일"
+  },
+  "CARD.GREED": {
+   "grade": "D",
+   "ctx": "제거 대상 저주",
+   "why": "사용불가 영구 저주, 슬롯 점유 디메리트"
+  },
+  "CARD.GUILTY": {
+   "grade": "D",
+   "ctx": "5전투 후 자가소멸",
+   "why": "사용불가 저주, 5전투 후 제거되나 그동안 슬롯 점유 디메리트"
+  },
+  "CARD.HAND_OF_GREED": {
+   "grade": "A",
+   "ctx": "치명타 덱서 골드 보너스",
+   "why": "2코 피해20, 2코 기준 효율 우수+치명타 시 골드20 부가"
+  },
+  "CARD.HELLO_WORLD": {
+   "grade": "B",
+   "ctx": "생성/성장 빌드서 A",
+   "why": "1코 파워 턴시작 무작위 일반카드, EV12 지속 카드이득이나 무작위"
+  },
+  "CARD.HIDDEN_GEM": {
+   "grade": "B",
+   "ctx": "강카드 재사용 덱서 A",
+   "why": "1코 무작위 카드 재사용2 부여, EV18 강카드 적중 시 폭발하나 무작위"
+  },
+  "CARD.HUDDLE_UP": {
+   "grade": "C",
+   "ctx": "드로우/멀티서 B",
+   "why": "1코 전원 2드로우+소멸, 솔로는 2드로우 셋업—무손실은 아님"
+  },
+  "CARD.IMPATIENCE": {
+   "grade": "B",
+   "ctx": "드로우 빌드서 A",
+   "why": "0코 공격 없으면 2드로우, 조건부지만 0코 2드로우 효율 좋음"
+  },
+  "CARD.INFECTION": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "사용불가 상태, 손에 있으면 3 피해 디메리트"
+  },
+  "CARD.INJURY": {
+   "grade": "D",
+   "ctx": "제거 대상",
+   "why": "사용불가 저주, 슬롯 점유 순수 디메리트"
+  },
+  "CARD.INTERCEPT": {
+   "grade": "D",
+   "ctx": "멀티플레이 전용",
+   "why": "1코 방어9+타플레이어 공격 어그로—솔로는 그냥 1코 방어9(낮음)"
+  },
+  "CARD.JACKPOT": {
+   "grade": "A",
+   "ctx": "생성 빌드서 S",
+   "why": "3코 피해25+0코 강화카드 3장, EV28 데미지+자원 동시 폭발"
+  },
+  "CARD.JACK_OF_ALL_TRADES": {
+   "grade": "C",
+   "ctx": "무색/유연 덱서 B",
+   "why": "0코 무작위 무색카드+소멸, 0코 무손실이나 무작위 가치 불안정"
+  },
+  "CARD.KNOCKDOWN": {
+   "grade": "C",
+   "ctx": "멀티 집중공격서 A",
+   "why": "3코 피해10+타플레이어 피해 3배—솔로는 3코 10뎀 비효율"
+  },
+  "CARD.LANTERN_KEY": {
+   "grade": "C",
+   "ctx": "퀘스트 카드, 평가 외",
+   "why": "사용불가 퀘스트, 다음막 이벤트 해금—전투 가치 없음"
+  },
+  "CARD.LIFT": {
+   "grade": "D",
+   "ctx": "멀티플레이 전용",
+   "why": "1코 타플레이어 방어11—솔로 무가치"
+  },
+  "CARD.LUMINESCE": {
+   "grade": "B",
+   "ctx": "소멸/에너지 토큰",
+   "why": "0코 보존+2에너지+소멸, 순 +2에너지 자원 토큰(무손실)"
+  },
+  "CARD.MAD_SCIENCE": {
+   "grade": "B",
+   "ctx": "무작위 효과, EV24",
+   "why": "1코 EV24로 천장은 높으나 랜덤 효과/타입이라 분산 큼, 평균적 가성비는 B"
+  },
+  "CARD.MASTER_OF_STRATEGY": {
+   "grade": "A",
+   "ctx": "드로우/압축덱서 A",
+   "why": "0코 3장 드로우+소멸=무손실 사이클러, 압축덱 핵심 연료"
+  },
+  "CARD.MAUL": {
+   "grade": "C",
+   "ctx": "할퀴기 스택 빌드 한정",
+   "why": "1코 5x2=10 데미지 평범, 스택 시너지 없으면 C"
+  },
+  "CARD.MAYHEM": {
+   "grade": "B",
+   "ctx": "고비용 덱서 강함, 잡덱서 위험",
+   "why": "2코 파워, 매턴 맨위 카드 무료 발동(EV14)=고코스트 덱서 큰 이득이나 저질카드 위험"
+  },
+  "CARD.METAMORPHOSIS": {
+   "grade": "C",
+   "ctx": "소멸/압축덱",
+   "why": "2코로 무작위 공격 3장 무료, 일회성 버스트 딜이나 카드질 운+소멸"
+  },
+  "CARD.MIMIC": {
+   "grade": "C",
+   "ctx": "멀티플레이 동기화 카드",
+   "why": "다른 플레이어 방어도 의존 조건부, 솔로 맥락서 가치 불안정 EV14"
+  },
+  "CARD.MIND_BLAST": {
+   "grade": "C",
+   "ctx": "덱 두꺼울 때만",
+   "why": "선천성, 덱장수 비례 데미지=초반엔 큰 버스트 가능하나 압축덱서 약화 EV10"
+  },
+  "CARD.MIND_ROT": {
+   "grade": "D",
+   "ctx": "상태카드",
+   "why": "매턴 드로우 -1 디버프, 순수 함정 상태카드"
+  },
+  "CARD.MINION_DIVE_BOMB": {
+   "grade": "B",
+   "ctx": "토큰, 소멸덱",
+   "why": "0코 13딜+소멸=무손실 고효율 토큰, 생성원 의존이나 단발 가치 높음"
+  },
+  "CARD.MINION_SACRIFICE": {
+   "grade": "B",
+   "ctx": "토큰, 방어/소멸덱",
+   "why": "0코 9블록+소멸=무손실 방어, 토큰으로 우수"
+  },
+  "CARD.MINION_STRIKE": {
+   "grade": "B",
+   "ctx": "토큰, 드로우/소멸덱",
+   "why": "0코 6딜+드로우+소멸=무손실 캔트립딜, 토큰으로 양호"
+  },
+  "CARD.NEOWS_FURY": {
+   "grade": "B",
+   "ctx": "소멸/압축덱",
+   "why": "1코 10딜+버린카드 2장 회수+소멸, 카드이득+딜로 효율 양호"
+  },
+  "CARD.NORMALITY": {
+   "grade": "D",
+   "ctx": "저주",
+   "why": "사용불가 저주, 카드 3장 제한 페널티"
+  },
+  "CARD.NOSTALGIA": {
+   "grade": "B",
+   "ctx": "콤보/압축덱서 강함",
+   "why": "1코 파워, 매턴 첫 공/스킬 맨위 복귀=핵심카드 반복, 작은덱서 A급 가능"
+  },
+  "CARD.OMNISLICE": {
+   "grade": "B",
+   "ctx": "광역 빌드",
+   "why": "0코 8딜+전체에 동일딜=무손실 AOE, 다수전서 매우 강함"
+  },
+  "CARD.OUTMANEUVER": {
+   "grade": "C",
+   "ctx": "무손실 에너지 이연",
+   "why": "1코로 다음턴 2에너지=실질 순이득 1, 무손실이나 평범"
+  },
+  "CARD.PANACHE": {
+   "grade": "B",
+   "ctx": "광역/다카드덱서 강함",
+   "why": "0코 파워, 5장마다 전체 10딜(EV18)=고회전덱서 스케일, 무손실"
+  },
+  "CARD.PANIC_BUTTON": {
+   "grade": "B",
+   "ctx": "방어/소멸덱",
+   "why": "0코 30블록+소멸이나 2턴 블록불가 페널티, 단발 위기탈출로 양호"
+  },
+  "CARD.PECK": {
+   "grade": "D",
+   "ctx": "강화 전제",
+   "why": "1코 2x3=6딜=베이스라인 C 하단, EV8로 약함"
+  },
+  "CARD.POOR_SLEEP": {
+   "grade": "D",
+   "ctx": "저주",
+   "why": "사용불가+보존=손패 영구 점유 저주"
+  },
+  "CARD.PREP_TIME": {
+   "grade": "B",
+   "ctx": "성장 빌드",
+   "why": "1코 파워, 매턴 활력4(EV14)=스케일링 딜 엔진, 장기전서 강함"
+  },
+  "CARD.PRODUCTION": {
+   "grade": "B",
+   "ctx": "소멸/압축덱",
+   "why": "0코 2에너지+소멸=무손실 순이득1 에너지, 사이클 연료로 양호"
+  },
+  "CARD.PROLONG": {
+   "grade": "C",
+   "ctx": "방어 빌드 한정",
+   "why": "0코로 다음턴 현재블록 복제, 블록 선행 필요 조건부"
+  },
+  "CARD.PROWESS": {
+   "grade": "B",
+   "ctx": "성장 빌드",
+   "why": "1코 힘1+민첩1 파워(EV10), 다회 공/방덱서 스케일"
+  },
+  "CARD.PURITY": {
+   "grade": "B",
+   "ctx": "소멸/압축덱서 강함",
+   "why": "0코 손패 3장 소멸+보존=덱압축/저질카드 제거 핵심, 무엔진선 C"
+  },
+  "CARD.RALLY": {
+   "grade": "C",
+   "ctx": "멀티플레이 방어",
+   "why": "2코 전원 12블록, 솔로선 12블록=비효율, 멀티서만 가치"
+  },
+  "CARD.REBOUND": {
+   "grade": "B",
+   "ctx": "콤보덱",
+   "why": "1코 9딜+다음카드 맨위 복귀=콤보 셋업, 9딜 B 베이스라인"
+  },
+  "CARD.REGRET": {
+   "grade": "D",
+   "ctx": "저주",
+   "why": "사용불가, 손패장수만큼 HP손실 저주"
+  },
+  "CARD.RELAX": {
+   "grade": "A",
+   "ctx": "방어/소멸덱",
+   "why": "3코 15블록+다음턴 2드로우+2에너지+소멸(EV28), 블록+자원 복합 고가치"
+  },
+  "CARD.REND": {
+   "grade": "A",
+   "ctx": "디버프덱서 S, 무디버프 B",
+   "why": "2코 15딜+디버프종류당 5딜(EV18), 취약/약화덱서 폭딜"
+  },
+  "CARD.RESTLESSNESS": {
+   "grade": "C",
+   "ctx": "빈손 조건부",
+   "why": "0코 보존, 손패 0 조건 충족시 2드로우+에너지=조건부 강력하나 발동 까다로움"
+  },
+  "CARD.RIP_AND_TEAR": {
+   "grade": "C",
+   "ctx": "단일대상 비효율",
+   "why": "1코 7x2=14딜이나 무작위 타겟=단일전 분산, EV10"
+  },
+  "CARD.ROLLING_BOULDER": {
+   "grade": "A",
+   "ctx": "성장 빌드/장기전",
+   "why": "3코 파워, 매턴 전체딜 5씩 증가 누적(EV35), 장기전 스노볼"
+  },
+  "CARD.SALVO": {
+   "grade": "B",
+   "ctx": "콤보/보존덱",
+   "why": "1코 12딜+손패 보존=딜+카드유지, 12딜 자체로 A급 효율 근접"
+  },
+  "CARD.SCRAWL": {
+   "grade": "B",
+   "ctx": "드로우/소멸덱",
+   "why": "1코 손가득 드로우+소멸(EV16)=대량 카드충전, 콤보 셋업 강함"
+  },
+  "CARD.SECRET_TECHNIQUE": {
+   "grade": "B",
+   "ctx": "콤보/압축덱",
+   "why": "0코 스킬 서치+소멸=무손실 핵심스킬 회수, 빌드 일관성"
+  },
+  "CARD.SECRET_WEAPON": {
+   "grade": "B",
+   "ctx": "콤보/압축덱",
+   "why": "0코 공격 서치+소멸=무손실 피니셔 회수, 빌드 일관성"
+  },
+  "CARD.SEEKER_STRIKE": {
+   "grade": "B",
+   "ctx": "선택 셀렉트 부가",
+   "why": "1코 9딜+3중1 서치=딜+카드선택, 9딜 B에 유틸 가산"
+  },
+  "CARD.SHAME": {
+   "grade": "D",
+   "ctx": "저주",
+   "why": "사용불가, 손에 남으면 손상 획득 저주"
+  },
+  "CARD.SHIV": {
+   "grade": "C",
+   "ctx": "단도 빌드서 B",
+   "why": "0코 4딜+소멸=무손실이나 절대치 낮음, 단도 페이오프 있어야 가치"
+  },
+  "CARD.SHOCKWAVE": {
+   "grade": "B",
+   "ctx": "취약/광역덱서 A",
+   "why": "2코 전체 약화3+취약3+소멸=강력 셋업, 디버프덱 키스톤급"
+  },
+  "CARD.SLIMED": {
+   "grade": "C",
+   "ctx": "상태카드",
+   "why": "1코 1드로우+소멸=비용지불하는 정화, 무손실 아님 최소완화 상태"
+  },
+  "CARD.SLOTH": {
+   "grade": "D",
+   "ctx": "상태카드",
+   "why": "카드 3장 제한 디버프 상태카드"
+  },
+  "CARD.SOOT": {
+   "grade": "D",
+   "ctx": "상태카드",
+   "why": "사용불가 순수 데드카드"
+  },
+  "CARD.SOUL": {
+   "grade": "B",
+   "ctx": "영혼/드로우/소멸덱",
+   "why": "0코 2드로우+소멸=무손실 캔트립, 영혼 생성 페이오프 가산"
+  },
+  "CARD.SOVEREIGN_BLADE": {
+   "grade": "B",
+   "ctx": "보존/압축덱",
+   "why": "2코 보존 10딜(EV14), 보존으로 안정적이나 코스트 대비 딜 평범"
+  },
+  "CARD.SPLASH": {
+   "grade": "B",
+   "ctx": "성장/유틸",
+   "why": "1코 강화공격 무료획득 3중1(EV14)=고가치 카드 무료사용, 유연"
+  },
+  "CARD.SPOILS_MAP": {
+   "grade": "C",
+   "ctx": "골드 퀘스트",
+   "why": "사용불가지만 600골드 추가 표시=경제 이득, 함정 아닌 보상카드"
+  },
+  "CARD.SPORE_MIND": {
+   "grade": "C",
+   "ctx": "소멸덱서 완화",
+   "why": "저주지만 1코 소멸 가능=소멸덱서 쉽게 제거, 일반선 부담"
+  },
+  "CARD.SQUASH": {
+   "grade": "B",
+   "ctx": "취약 빌드",
+   "why": "1코 10딜+취약2=딜+디버프 복합, 10딜 자체 A급+취약 가산"
+  },
+  "CARD.STACK": {
+   "grade": "B",
+   "ctx": "디스카드/방어덱서 강함",
+   "why": "1코 버린카드수 만큼 블록(EV14), 디스카드 엔진서 대량블록"
+  },
+  "CARD.STRATAGEM": {
+   "grade": "B",
+   "ctx": "콤보/압축덱",
+   "why": "1코 파워, 셔플마다 카드 서치(EV12)=지속 손패선택, 작은덱서 가치"
+  },
+  "CARD.SWEEPING_GAZE": {
+   "grade": "B",
+   "ctx": "골골이/광역/휘발성덱",
+   "why": "0코 골골이 무작위 10딜+휘발성+소멸, 골골이 빌드 연료"
+  },
+  "CARD.TAG_TEAM": {
+   "grade": "C",
+   "ctx": "멀티플레이 카드",
+   "why": "2코 11딜+다른플레이어 공격 추가발동, 솔로선 11딜=2코 비효율"
+  },
+  "CARD.THE_BOMB": {
+   "grade": "B",
+   "ctx": "광역 빌드",
+   "why": "2코로 3턴후 전체 40딜(EV16)=지연 대형AOE, 다수전서 강하나 즉발성 없음"
+  },
+  "CARD.THE_GAMBIT": {
+   "grade": "B",
+   "ctx": "방어 빌드, 도박성",
+   "why": "0코 50블록(EV24)이나 비막은 공격피해 즉사=고위험 무손실, 완전방어 필요"
+  },
+  "CARD.THINKING_AHEAD": {
+   "grade": "B",
+   "ctx": "드로우/콤보/압축덱",
+   "why": "0코 2드로우+1장 맨위배치+소멸=무손실 사이클+셋업, 우수"
+  },
+  "CARD.THRUMMING_HATCHET": {
+   "grade": "B",
+   "ctx": "무한딜 사이클",
+   "why": "1코 11딜+다음턴 손복귀=매턴 11딜 재사용, A급 효율 근접"
+  },
+  "CARD.TORIC_TOUGHNESS": {
+   "grade": "C",
+   "ctx": "방어 빌드",
+   "why": "2코 5+5+5=15블록 분산, 즉발 블록 적어 2코 대비 비효율"
+  },
+  "CARD.TOXIC": {
+   "grade": "C",
+   "ctx": "독/소멸덱서 완화",
+   "why": "상태카드, 손에 남으면 5피해, 소멸로 제거가능하나 손해 카드"
+  },
+  "CARD.ULTIMATE_DEFEND": {
+   "grade": "B",
+   "ctx": "방어 빌드",
+   "why": "1코 11블록=A 베이스라인(10-12), 견실한 방어"
+  },
+  "CARD.ULTIMATE_STRIKE": {
+   "grade": "A",
+   "ctx": "범용 딜",
+   "why": "1코 14딜=S 베이스라인 근접, 부가효과 없는 순수 고효율 딜"
+  },
+  "CARD.VOID": {
+   "grade": "D",
+   "ctx": "상태카드",
+   "why": "사용불가+휘발성+뽑을때 에너지 손실, 함정 상태카드"
+  },
+  "CARD.VOLLEY": {
+   "grade": "B",
+   "ctx": "고에너지 X코덱",
+   "why": "0코 무작위 10x X(EV14), 에너지 비례 폭딜이나 무작위 타겟 분산"
+  },
+  "CARD.WASTE_AWAY": {
+   "grade": "D",
+   "ctx": "상태카드",
+   "why": "매턴 에너지 -1 디버프 상태카드"
+  },
+  "CARD.WHISTLE": {
+   "grade": "A",
+   "ctx": "소멸덱/피니셔",
+   "why": "3코 33딜+기절+소멸(EV24)=대형 단발딜+제어, 보스/엘리트 피니셔"
+  },
+  "CARD.WISH": {
+   "grade": "B",
+   "ctx": "콤보/압축덱",
+   "why": "0코 임의카드 서치+소멸=무손실 만능 튜터(EV14), 빌드일관성"
+  },
+  "CARD.WOUND": {
+   "grade": "D",
+   "ctx": "상태카드",
+   "why": "사용불가 순수 데드카드"
+  },
+  "CARD.WRITHE": {
+   "grade": "D",
+   "ctx": "저주",
+   "why": "사용불가+선천성=시작손패 점유 저주"
+  }
+ },
+ "relics": {
+  "Akabeko": {
+   "grade": "B",
+   "ctx": "멀티히트/공격 다수 덱 A",
+   "why": "첫 공격 +8 데미지(활력), 전투 첫 카드 1회 한정이라 단발 가치"
+  },
+  "AlchemicalCoffer": {
+   "grade": "B",
+   "ctx": "포션 시너지 덱 A",
+   "why": "포션 슬롯+4 영구 확장, 즉시 포션 4개 자원 — 통제 가능 유틸"
+  },
+  "AmethystAubergine": {
+   "grade": "C",
+   "ctx": "",
+   "why": "전투당 +15 골드는 경제 보정에 그침, 전투력 무관"
+  },
+  "Ampule": {
+   "grade": "D",
+   "ctx": "데이터 갭",
+   "why": "desc 비어있음 — 효과 미확인, 평가 불가로 최하 처리"
+  },
+  "Anchor": {
+   "grade": "A",
+   "ctx": "초반 방어 절실 시 S",
+   "why": "전투 시작 방어 10 무조건 — 첫 턴 생존성 크게 향상하는 스노볼 보정"
+  },
+  "AncientSecondPersonaRelic": {
+   "grade": "D",
+   "ctx": "데이터 갭",
+   "why": "desc 비어있음 — 효과 미확인"
+  },
+  "ArcaneScroll": {
+   "grade": "B",
+   "ctx": "",
+   "why": "즉시 무작위 희귀 1장 — 덱 파워 1회 부스트지만 무작위라 운 의존"
+  },
+  "ArchaicTooth": {
+   "grade": "C",
+   "ctx": "고대 카드 빌드 의존",
+   "why": "시작 카드를 고대 형태로 변화 — 효과 불명확/운 의존, 빌드 한정"
+  },
+  "ArtOfWar": {
+   "grade": "B",
+   "ctx": "논어택/스킬-파워 덱 A",
+   "why": "공격 미사용 턴 다음 턴 +1에너지 — 통제 가능하나 공격 자제 조건 빈도 제약"
+  },
+  "Astrolabe": {
+   "grade": "B",
+   "ctx": "",
+   "why": "카드 3장 변화+강화 즉시 — 덱 정제 강력하나 무작위 변화 운 요소"
+  },
+  "BagOfMarbles": {
+   "grade": "A",
+   "ctx": "취약 페이오프 덱 S",
+   "why": "전투 시작 전체 취약1 무조건 — 첫 턴 +50% 딜 증폭, 광역 안정"
+  },
+  "BagOfPreparation": {
+   "grade": "A",
+   "ctx": "",
+   "why": "전투 시작 +2드로우 무조건 — 첫 턴 선택지/속도 범용 강화"
+  },
+  "BeatingRemnant": {
+   "grade": "C",
+   "ctx": "고HP손실 자해덱 B",
+   "why": "턴당 HP손실 20캡 — 특정 폭발 피해만 방어, 일반 전투 효용 낮음"
+  },
+  "BeautifulBracelet": {
+   "grade": "B",
+   "ctx": "무거운 카드 덱 A",
+   "why": "카드 3장에 신속3 인챈트 영구 — 코스트 절감 통제 가능하나 대상 한정"
+  },
+  "Bellows": {
+   "grade": "B",
+   "ctx": "손패 유지/스케일 덱 A",
+   "why": "전투 시작 손패 전체 강화 무조건 — 시작 핸드 의존이라 변동성"
+  },
+  "BeltBuckle": {
+   "grade": "C",
+   "ctx": "포션 미보유 플레이/민첩 덱 B",
+   "why": "포션 없을 때만 민첩+2 — 조건이 포션 보유와 상충, 통제 어려움"
+  },
+  "BigHat": {
+   "grade": "B",
+   "ctx": "휘발성 페이오프 덱 A",
+   "why": "전투 시작 휘발 카드 2장 손으로 — 무작위·휘발이라 활용 제한"
+  },
+  "BigMushroom": {
+   "grade": "C",
+   "ctx": "소덱/저드로우 감수 시 B",
+   "why": "최대HP+20% 영구는 강하나 매전투 드로우-2 페널티가 상시 누수"
+  },
+  "BiiigHug": {
+   "grade": "B",
+   "ctx": "그을음 페이오프 시 A, 일반 C",
+   "why": "카드 4장 즉시 제거(덱 정제)는 강함, 그을음 추가는 양날"
+  },
+  "BingBong": {
+   "grade": "A",
+   "ctx": "강카드 픽 시 S, 잡카드 시 C",
+   "why": "추가 카드마다 복사본 1장 — 강한 카드 집중 시 덱 파워 스노볼"
+  },
+  "BlackBlood": {
+   "grade": "A",
+   "ctx": "네크로/자해 덱 S",
+   "why": "전투 종료 +12 회복 무조건 — 런 전체 HP 지속력 큰 보정"
+  },
+  "BlackStar": {
+   "grade": "A",
+   "ctx": "",
+   "why": "엘리트 유물 보상 +1 — 런당 유물 다수 추가, 강력한 스노볼"
+  },
+  "BlessedAntler": {
+   "grade": "B",
+   "ctx": "X코스트/에너지 덱 A",
+   "why": "매 턴 +1에너지 강력하나 어지러움 3장 덱 오염 상시 페널티"
+  },
+  "BloodSoakedRose": {
+   "grade": "B",
+   "ctx": "X코스트 덱 A",
+   "why": "매 턴 +1에너지 강력, 매료됨 저주 1장이 비용"
+  },
+  "BloodVial": {
+   "grade": "C",
+   "ctx": "",
+   "why": "전투 시작 +2 회복 무조건이나 수치 미미, 초반 미세 보정"
+  },
+  "BoneFlute": {
+   "grade": "B",
+   "ctx": "네크로/골골이 덱 A, 무Osty D",
+   "why": "골골이 공격당 방어+2 — Osty 소환 덱 한정, 무엔진 무효"
+  },
+  "BoneTea": {
+   "grade": "C",
+   "ctx": "1회성 소모",
+   "why": "다음 전투 1회만 손패 강화 — 단발 유틸, 보스전 세팅용"
+  },
+  "BookOfFiveRings": {
+   "grade": "B",
+   "ctx": "덱 확장 빌드 A",
+   "why": "카드 5장 추가마다 +20 회복 — 덱 키우는 빌드서 누적 강함"
+  },
+  "BookRepairKnife": {
+   "grade": "C",
+   "ctx": "종말/Doom 덱 B",
+   "why": "종말 처치당 +3 회복 — Doom 빌드 한정, 회복량 소폭"
+  },
+  "Bookmark": {
+   "grade": "B",
+   "ctx": "보존 덱 A, 무보존 C",
+   "why": "턴 종료 보존 카드 1장 -1코 — 보존 엔진 의존, 통제 가능"
+  },
+  "BoomingConch": {
+   "grade": "B",
+   "ctx": "",
+   "why": "엘리트 전투 시작 +2드로우 — 엘리트 한정이지만 중요 전투 보정"
+  },
+  "BoundPhylactery": {
+   "grade": "A",
+   "ctx": "네크로/스켈레톤 덱 S, 무엔진 C",
+   "why": "매 턴 소환1 무조건 — 미니언/스켈레톤 페이오프 엔진 코어"
+  },
+  "BowlerHat": {
+   "grade": "D",
+   "ctx": "",
+   "why": "골드 +1.25%는 미미한 경제 보정, 사실상 무효"
+  },
+  "Bread": {
+   "grade": "C",
+   "ctx": "장기전/X코스트 덱 B",
+   "why": "2턴 이후 +1에너지지만 첫 턴 -2에너지 페널티가 초반 전투 치명"
+  },
+  "BrilliantScarf": {
+   "grade": "A",
+   "ctx": "고코스트 카드 덱 S",
+   "why": "매 턴 5번째 카드 무료 — 통제 가능, 고비용 카드와 시너지 큰 에너지 이득"
+  },
+  "Brimstone": {
+   "grade": "B",
+   "ctx": "힘/멀티히트 덱 A",
+   "why": "매 턴 자힘+2 강력 스케일이나 적 전체 힘+1이 장기전 위험"
+  },
+  "BronzeScales": {
+   "grade": "B",
+   "ctx": "가시/반사 덱 A",
+   "why": "전투 시작 가시3 무조건 — 다단히트 적 상대 누적, 범용 소폭"
+  },
+  "BurningBlood": {
+   "grade": "A",
+   "ctx": "아이언클래드 스타터",
+   "why": "전투 종료 +6 회복 무조건 — 런 전체 HP 지속력 안정적 보정"
+  },
+  "BurningSticks": {
+   "grade": "B",
+   "ctx": "소멸 덱 A",
+   "why": "전투당 첫 스킬 소멸 시 복사본 회수 — 소멸 페이오프서 자원 절감"
+  },
+  "Byrdpip": {
+   "grade": "B",
+   "ctx": "동반자/섀 빌드 A",
+   "why": "급습 카드+전투 동반자 — 추가 전투력 제공, 빌드 의존"
+  },
+  "CallingBell": {
+   "grade": "A",
+   "ctx": "",
+   "why": "유물 3개 즉시 획득, 저주 1장 비용 — 순이득 압도적 스노볼"
+  },
+  "Candelabra": {
+   "grade": "B",
+   "ctx": "X코스트/장기전 덱 A",
+   "why": "2번째 턴 +2에너지 1회 — 통제 가능하나 단발 부스트"
+  },
+  "CaptainsWheel": {
+   "grade": "B",
+   "ctx": "방어 덱 A",
+   "why": "3번째 턴 방어18 1회 — 큰 블록이나 3턴 지연·단발이라 한정적"
+  },
+  "Cauldron": {
+   "grade": "B",
+   "ctx": "포션 덱 A",
+   "why": "무작위 포션 5개 즉시 — 큰 자원이나 1회성·무작위"
+  },
+  "CentennialPuzzle": {
+   "grade": "A",
+   "ctx": "드로우 덱 S",
+   "why": "전투당 첫 피격 시 +3드로우 — 거의 모든 전투서 발동, 강력 통제성"
+  },
+  "Chandelier": {
+   "grade": "B",
+   "ctx": "X코스트/장기전 덱 A",
+   "why": "3번째 턴 +3에너지 1회 — 큰 에너지지만 3턴 지연·단발"
+  },
+  "CharonsAshes": {
+   "grade": "B",
+   "ctx": "소멸 덱 A, 무엔진 C",
+   "why": "소멸당 전체 3딜 — 소멸 페이오프 광역 누적, 엔진 의존"
+  },
+  "ChemicalX": {
+   "grade": "B",
+   "ctx": "X코스트 덱 S, 무X D",
+   "why": "X비용 카드 효과+2 — X코스트 빌드 코어, 그 외 무효"
+  },
+  "ChoicesParadox": {
+   "grade": "B",
+   "ctx": "보존 덱 A",
+   "why": "전투 시작 5중1 카드+보존 — 통제 가능하나 무작위 선택지"
+  },
+  "ChosenCheese": {
+   "grade": "B",
+   "ctx": "",
+   "why": "전투 종료 최대HP+1 무조건 — 런 전체 누적 영구 스탯, 느린 스노볼"
+  },
+  "Circlet": {
+   "grade": "D",
+   "ctx": "",
+   "why": "유물 슬롯 채우기용 더미 유물, 효과 없음"
+  },
+  "Claws": {
+   "grade": "C",
+   "ctx": "할퀴기 페이오프 빌드 B",
+   "why": "카드 6장 할퀴기 변화 — 특정 빌드 외엔 덱 약화 위험"
+  },
+  "ClearMirrorCalmWater": {
+   "grade": "D",
+   "ctx": "데이터 갭",
+   "why": "desc 비어있음 — 효과 미확인"
+  },
+  "CloakClasp": {
+   "grade": "B",
+   "ctx": "보존/핸드유지 덱 A",
+   "why": "턴 종료 손패 장수당 방어1 — 보존 덱서 큰 블록, 일반은 소폭"
+  },
+  "CrackedCore": {
+   "grade": "A",
+   "ctx": "디펙트 스타터/구체 덱 S",
+   "why": "전투 시작 전기 영창 무조건 — 구체 엔진 시동, 디펙트 코어"
+  },
+  "Crossbow": {
+   "grade": "A",
+   "ctx": "공격 덱 S",
+   "why": "매 턴 무작위 공격 1장 무료 사용 — 사실상 매 턴 +에너지, 통제 높음"
+  },
+  "CursedPearl": {
+   "grade": "B",
+   "ctx": "",
+   "why": "+333 골드 즉시 강력하나 탐욕 저주가 영구 비용"
+  },
+  "DarkstonePeriapt": {
+   "grade": "B",
+   "ctx": "저주 빌드 A",
+   "why": "저주 획득당 최대HP+6 — 저주 채택 빌드서 강한 누적 보정"
+  },
+  "DataDisk": {
+   "grade": "A",
+   "ctx": "디펙트/구체 덱 S",
+   "why": "전투 시작 밀집1 무조건 — 모든 구체 증폭, 디펙트 스케일 코어"
+  },
+  "DaughterOfTheWind": {
+   "grade": "B",
+   "ctx": "공격 다수 덱 A",
+   "why": "공격 사용당 방어1 — 공격 빈도 비례, 자연스러운 누적 블록"
+  },
+  "DelicateFrond": {
+   "grade": "B",
+   "ctx": "포션 덱 A",
+   "why": "전투 시작 빈 포션 슬롯 채움 — 통제성 높으나 무작위 포션"
+  },
+  "DemonTongue": {
+   "grade": "B",
+   "ctx": "자해/HP손실 덱 A",
+   "why": "턴당 첫 HP손실 동량 회복 — 자해 덱서 손실 상쇄, 통제 가능"
+  },
+  "DeprecatedRelic": {
+   "grade": "D",
+   "ctx": "",
+   "why": "게임에 등장하지 않는 폐기 유물 — 효과 없음"
+  },
+  "DiamondDiadem": {
+   "grade": "B",
+   "ctx": "저카드 사용 덱 A",
+   "why": "턴당 2장 이하 사용 시 받는 피해 절반 — 강력하나 플레이 제약 큼"
+  },
+  "DihuiStarBlade": {
+   "grade": "D",
+   "ctx": "데이터 갭",
+   "why": "desc 비어있음 — 효과 미확인"
+  },
+  "DingyRug": {
+   "grade": "C",
+   "ctx": "무색 카드 빌드 B",
+   "why": "카드 보상에 무색 추가 — 선택지 확장이나 직접 전투력 무관"
+  },
+  "DistinguishedCape": {
+   "grade": "C",
+   "ctx": "영체화 빌드 B",
+   "why": "영체화 3장 추가 대신 최대HP-9 — 빌드 한정, HP 손실 비용"
+  },
+  "DivineDestiny": {
+   "grade": "A",
+   "ctx": "별 페이오프 덱 S, 무엔진 C",
+   "why": "전투 시작 별6 무조건 — 별 소비 엔진 강력 연료"
+  },
+  "DivineRight": {
+   "grade": "B",
+   "ctx": "별 페이오프 덱 A, 무엔진 C",
+   "why": "전투 시작 별3 무조건 — 별 엔진 연료, DivineDestiny 하위"
+  },
+  "DollysMirror": {
+   "grade": "A",
+   "ctx": "강카드 보유 시 S",
+   "why": "덱 카드 1장 즉시 복사 — 핵심 카드 2장화, 통제 가능 강력 부스트"
+  },
+  "DragonFruit": {
+   "grade": "C",
+   "ctx": "",
+   "why": "골드 획득당 최대HP+1 — 느린 누적, 경제 의존 소폭"
+  },
+  "DreamCatcher": {
+   "grade": "B",
+   "ctx": "덱 확장 빌드 A",
+   "why": "휴식마다 카드 추가 선택권 — 덱 빌딩 유연성, 카드풀 운 의존"
+  },
+  "Driftwood": {
+   "grade": "B",
+   "ctx": "",
+   "why": "카드 보상 리롤 1회 — 매 보상 픽 품질 향상, 범용 통제성"
+  },
+  "DustyTome": {
+   "grade": "C",
+   "ctx": "고대 카드 빌드 B",
+   "why": "고대 카드 1장 즉시 — 효과 불명확, 빌드 한정"
+  },
+  "Ectoplasm": {
+   "grade": "B",
+   "ctx": "X코스트/속공 덱 A",
+   "why": "매 턴 +1에너지 강력하나 골드 영구 차단이 경제 치명"
+  },
+  "ElectricShrymp": {
+   "grade": "B",
+   "ctx": "스킬/주입 덱 A",
+   "why": "스킬 1장에 주입 인챈트 — 통제 가능하나 단일 카드 강화"
+  },
+  "EmberTea": {
+   "grade": "C",
+   "ctx": "힘 덱 B",
+   "why": "다음 5전투만 힘+2 — 한시적 부스트, 영구 아님"
+  },
+  "EmotionChip": {
+   "grade": "A",
+   "ctx": "디펙트/구체 덱 S, 무엔진 C",
+   "why": "피격 후 턴 시작 전 구체 발동 — 구체 덱서 강력 패시브, 발동 잦음"
+  },
+  "EmptyCage": {
+   "grade": "A",
+   "ctx": "덱 슬리밍 핵심",
+   "why": "카드 2장 제거는 덱 농도를 크게 높이는 강력한 1회성 효과, 거의 모든 덱에 보편적 가치"
+  },
+  "EternalFeather": {
+   "grade": "C",
+   "ctx": "소덱 무가치, 빅덱 보조",
+   "why": "5장당 3 회복은 휴식당 소액 힐, 슬림덱에선 거의 무효라 조건부"
+  },
+  "FakeAnchor": {
+   "grade": "B",
+   "ctx": "act1 초반 강",
+   "why": "전투 시작 블록 4는 무조건 발동 방어 보정, 초반 스노볼 가치 있으나 후반 희석"
+  },
+  "FakeBloodVial": {
+   "grade": "C",
+   "ctx": "",
+   "why": "전투당 1 회복은 미미한 누적 힐, 무조건이나 수치가 너무 작음"
+  },
+  "FakeHappyFlower": {
+   "grade": "C",
+   "ctx": "긴 전투서만",
+   "why": "5턴마다 1에너지는 발동 주기가 길어 짧은 전투에선 거의 미발동"
+  },
+  "FakeLeesWaffle": {
+   "grade": "C",
+   "ctx": "",
+   "why": "획득 시 체력 10% 1회 회복, 즉발 소량 보정에 그침"
+  },
+  "FakeMango": {
+   "grade": "D",
+   "ctx": "",
+   "why": "최대 체력 +3은 거의 무의미한 수치"
+  },
+  "FakeMerchantsRug": {
+   "grade": "D",
+   "ctx": "함정",
+   "why": "효과 없음 명시, 슬롯만 차지"
+  },
+  "FakeOrichalcum": {
+   "grade": "C",
+   "ctx": "무블록 턴 한정",
+   "why": "블록 0일 때만 3 획득, 블록덱에선 거의 미발동하는 조건부 소액"
+  },
+  "FakeSneckoEye": {
+   "grade": "D",
+   "ctx": "순수 디버프",
+   "why": "전투 시작 혼란은 코스트 랜덤화로 통제 불가한 자해, 페이오프 없는 가짜"
+  },
+  "FakeStrikeDummy": {
+   "grade": "D",
+   "ctx": "타격덱 미미",
+   "why": "타격 카드 피해 +1은 수치가 작고 타격 다수 덱에서도 미미"
+  },
+  "FakeVenerableTeaSet": {
+   "grade": "C",
+   "ctx": "휴식 의존",
+   "why": "휴식 후 첫 전투 +1에너지는 1회성·간헐적, 통제 가능하나 빈도 낮음"
+  },
+  "FencingManual": {
+   "grade": "B",
+   "ctx": "단조 엔진 A, 무엔진 C",
+   "why": "전투 시작 단조 10은 강력하나 단조 페이오프 카드 의존, 아키타입 한정"
+  },
+  "FestivePopper": {
+   "grade": "A",
+   "ctx": "광역/엘리트 강",
+   "why": "전투 시작 전체 9 피해는 무조건 발동 선제 AOE, 잡몹·다수전 매우 효율적"
+  },
+  "Fiddle": {
+   "grade": "B",
+   "ctx": "리테인덱 시너지",
+   "why": "턴당 +2 드로우는 강력하나 턴 중 드로우 봉인 트레이드오프, 핸드플레이 제약"
+  },
+  "ForgottenSoul": {
+   "grade": "C",
+   "ctx": "소멸 엔진 B, 무엔진 D",
+   "why": "소멸당 1 피해는 수치 미미, 소멸 다발 덱에서만 누적 의미"
+  },
+  "FragrantMushroom": {
+   "grade": "B",
+   "ctx": "강화 시너지",
+   "why": "체력 15 손실 대가로 카드 2장 영구 강화, 통제 불가 대상이나 영구 가치 높음"
+  },
+  "FresnelLens": {
+   "grade": "B",
+   "ctx": "블록덱 한정",
+   "why": "이후 추가 블록카드에 기민 2 인챈트, 미래 카드 의존이라 획득 시점 늦으면 약함"
+  },
+  "FrozenEgg": {
+   "grade": "A",
+   "ctx": "파워덱 S",
+   "why": "이후 추가 파워 카드 자동 강화는 영구·무료 가치, 파워 다수 덱에서 매우 강력"
+  },
+  "FuneraryMask": {
+   "grade": "B",
+   "ctx": "영혼 소비 엔진서 A",
+   "why": "전투 시작 영혼 3장은 SOUL_CONSUMER 연료, 페이오프 없으면 손패 오염"
+  },
+  "FurCoat": {
+   "grade": "A",
+   "ctx": "엘리트/보스 스킵",
+   "why": "7회 전투 적 체력 1 처치는 엘리트·하드전 회피로 런 안정성 대폭 상승"
+  },
+  "GalacticDust": {
+   "grade": "B",
+   "ctx": "별 엔진 A, 무엔진 D",
+   "why": "별 10 소모당 블록 10은 별 생성 덱에서만 발동, 아키타입 의존"
+  },
+  "GamblingChip": {
+   "grade": "A",
+   "ctx": "디스카드 시너지 S",
+   "why": "전투 시작 손패 무료 멀리건은 통제 가능한 강력 핸드픽스, 거의 보편 유용"
+  },
+  "GamePiece": {
+   "grade": "B",
+   "ctx": "파워덱 A",
+   "why": "파워 사용당 1 드로우는 무손실 순환, 파워 다수 덱 한정 가치"
+  },
+  "GhostSeed": {
+   "grade": "C",
+   "ctx": "휘발성 시너지 한정",
+   "why": "타격·수비에 휘발성 부여는 1회 강버스트 후 카드 소멸, 덱 압축 양날"
+  },
+  "Girya": {
+   "grade": "B",
+   "ctx": "힘 스케일 A",
+   "why": "휴식 시 힘 최대 3 획득은 영구 힘 누적, 멀티히트·공격덱에서 스케일 가치"
+  },
+  "GlassEye": {
+   "grade": "B",
+   "ctx": "초반 덱 빌딩",
+   "why": "즉시 카드 5장(희귀 포함) 추가는 빠른 덱 구축, 단 선택권 없는 무작위로 오염 위험"
+  },
+  "Glitter": {
+   "grade": "B",
+   "ctx": "보상 강화",
+   "why": "이후 모든 카드 보상에 호화 인챈트는 누적 가치, 늦게 얻으면 약함"
+  },
+  "GnarledHammer": {
+   "grade": "B",
+   "ctx": "공격덱 A",
+   "why": "공격 카드 3장에 예리 3 인챈트는 영구 피해 증가, 1회성이나 핵심 공격에 집중하면 강력"
+  },
+  "GoldPlatedCables": {
+   "grade": "B",
+   "ctx": "구체덱 A",
+   "why": "우측 구체 지속효과 추가 발동은 디펙트 구체 가치 배가, 아키타입 한정"
+  },
+  "GoldenCompass": {
+   "grade": "C",
+   "ctx": "라우팅 유틸",
+   "why": "2막 외길 교체는 경로 통제 유틸, 가치는 상황·외길 내용 의존"
+  },
+  "GoldenPearl": {
+   "grade": "B",
+   "ctx": "초반 경제",
+   "why": "즉시 골드 150은 상점 구매력 큰 폭 상승, act1 스노볼 가치"
+  },
+  "Gorget": {
+   "grade": "B",
+   "ctx": "판금 엔진 A",
+   "why": "전투 시작 판금 4는 무조건 방어 스케일, 판금 시너지 덱에서 강함"
+  },
+  "GremlinHorn": {
+   "grade": "A",
+   "ctx": "AOE/다수전 S",
+   "why": "적 사망당 에너지+드로우는 다수전 폭발적 텀포, 무조건 발동 보편 강력"
+  },
+  "HandDrill": {
+   "grade": "B",
+   "ctx": "블록깨기/취약덱",
+   "why": "적 블록 파괴 시 취약 2는 조건부지만 취약 시너지·방패적 상대 강력"
+  },
+  "HappyFlower": {
+   "grade": "B",
+   "ctx": "긴 전투 A",
+   "why": "3턴마다 1에너지는 무조건 에너지 스케일, 보스·긴 전투서 누적 가치 양호"
+  },
+  "HeftyTablet": {
+   "grade": "C",
+   "ctx": "",
+   "why": "희귀 1장 추가는 좋으나 상처 저주 동반, 순이익 불확실한 트레이드오프"
+  },
+  "HelicalDart": {
+   "grade": "B",
+   "ctx": "단도/시브덱 A",
+   "why": "단도당 민첩 1은 시브 다발 덱에서 블록 스케일, 아키타입 의존"
+  },
+  "HistoryCourse": {
+   "grade": "A",
+   "ctx": "고비용 카드덱 S",
+   "why": "턴 시작 최근 공격/스킬 복사 사용은 무료 추가 가치, 강카드 반복으로 매우 강력"
+  },
+  "HornCleat": {
+   "grade": "B",
+   "ctx": "초반 방어",
+   "why": "2번째 턴 블록 14는 큰 수치이나 1회성·단일 턴 한정, 초반 보스전 보정"
+  },
+  "IceCream": {
+   "grade": "A",
+   "ctx": "X코스트/스케일덱 S",
+   "why": "에너지 이월은 자원 비축으로 폭발 턴 가능, 통제 가능한 강력 경제 유물"
+  },
+  "InfusedCore": {
+   "grade": "B",
+   "ctx": "디펙트 전기덱 A",
+   "why": "전투 시작 전기 3 영창은 구체 시동, 포커스·구체 덱 한정 가치"
+  },
+  "IntimidatingHelmet": {
+   "grade": "B",
+   "ctx": "고비용 카드덱 A",
+   "why": "2코+ 카드 사용당 블록 4는 무손실 방어, 고비용 카드 다수 덱서 강함"
+  },
+  "IronClub": {
+   "grade": "B",
+   "ctx": "다카드 플레이덱",
+   "why": "4장 사용당 1 드로우는 저비용 다수 플레이 덱에서 순환, 조건부 누적"
+  },
+  "IvoryTile": {
+   "grade": "C",
+   "ctx": "3코+ 카드 다수서만",
+   "why": "3코+ 카드 사용당 에너지 1은 고비용 카드 충분치 않으면 거의 미발동"
+  },
+  "JeweledMask": {
+   "grade": "A",
+   "ctx": "파워덱 S",
+   "why": "전투 시작 파워 무료 사용은 무조건 발동 강력 텀포, 파워 다수 덱서 폭발적"
+  },
+  "JewelryBox": {
+   "grade": "C",
+   "ctx": "신성 카드 가치 의존",
+   "why": "신성 1장 추가는 덱 증식, 카드 자체 가치에 종속"
+  },
+  "JossPaper": {
+   "grade": "C",
+   "ctx": "소멸 엔진 B",
+   "why": "5장 소멸당 1 드로우는 발동 임계 높아 소멸 다발 덱에서만 의미"
+  },
+  "JuzuBracelet": {
+   "grade": "A",
+   "ctx": "? 방 안전",
+   "why": "미지방 일반 전투 제거는 무료 휴식/이벤트 노드 확보로 런 HP·시간 절약 보편 강력"
+  },
+  "Kifuda": {
+   "grade": "B",
+   "ctx": "강화 시너지",
+   "why": "카드 3장 숙련 인챈트는 영구 강화, 1회성이나 핵심 카드 집중 시 가치"
+  },
+  "Kunai": {
+   "grade": "B",
+   "ctx": "공격 콤보덱 A",
+   "why": "턴당 공격 3장 시 민첩 1은 공격 다발 덱 블록 스케일, 조건 충족 빈도 의존"
+  },
+  "Kusarigama": {
+   "grade": "B",
+   "ctx": "공격 콤보덱 A",
+   "why": "턴당 공격 3장 시 무작위 6 피해는 공격 다발 덱 AOE 스케일, 조건 의존"
+  },
+  "Laevatain": {
+   "grade": "D",
+   "ctx": "데이터 누락",
+   "why": "설명·vars 비어 있어 효과 미확인, 평가 불가로 최저 안전 등급"
+  },
+  "Lantern": {
+   "grade": "A",
+   "ctx": "보편 에너지",
+   "why": "전투 시작 +1에너지는 무조건 발동 보편 텀포, 모든 덱에 강력"
+  },
+  "LargeCapsule": {
+   "grade": "A",
+   "ctx": "유물 2개 가치",
+   "why": "무작위 유물 2개 즉시 획득은 평균 가치 높음(타격·수비 추가 사소), 스노볼 강력"
+  },
+  "LastingCandy": {
+   "grade": "B",
+   "ctx": "파워덱 A",
+   "why": "2전투마다 보상에 파워 추가는 파워 덱 구축 가속, 아키타입 한정 누적"
+  },
+  "LavaLamp": {
+   "grade": "B",
+   "ctx": "무피해 클리어덱 A",
+   "why": "무피해 전투 시 보상 전체 강화는 조건부지만 방어 강한 덱서 큰 누적 가치"
+  },
+  "LavaRock": {
+   "grade": "B",
+   "ctx": "act1 한정",
+   "why": "1막 보스 유물 +2는 강력하나 1막 보스 전에 얻어야만 의미, 시점 극도 민감"
+  },
+  "LeadPaperweight": {
+   "grade": "C",
+   "ctx": "무색 카드 가치 의존",
+   "why": "무색 카드 2선1은 덱 증식, 선택지 카드 가치에 종속"
+  },
+  "LeafyPoultice": {
+   "grade": "C",
+   "ctx": "덱 슬리밍 보조",
+   "why": "타격·수비 변환은 덱 개선이나 최대 체력 12 손실 대가로 순이익 제한적"
+  },
+  "LeesWaffle": {
+   "grade": "A",
+   "ctx": "",
+   "why": "최대 체력 +7 및 전체 회복은 즉시 생존력 큰 폭 상승, 보편 강력"
+  },
+  "LetterOpener": {
+   "grade": "B",
+   "ctx": "스킬덱 A",
+   "why": "턴당 스킬 3장 시 전체 5 피해는 스킬 다발 덱 AOE 스케일, 조건 의존"
+  },
+  "LizardTail": {
+   "grade": "A",
+   "ctx": "보험",
+   "why": "치명 시 최대 체력 50% 부활은 런 종료 방지 강력 안전망, 1회성이나 가치 큼"
+  },
+  "LoomingFruit": {
+   "grade": "A",
+   "ctx": "",
+   "why": "최대 체력 +31은 대폭 생존력 상승, 무조건 즉발 고가치"
+  },
+  "LordsParasol": {
+   "grade": "B",
+   "ctx": "상점 1회 횡재",
+   "why": "상인 상품 전체 무료 획득은 강력하나 상점 방문·재고에 1회 의존"
+  },
+  "LostCoffer": {
+   "grade": "B",
+   "ctx": "즉발 가치",
+   "why": "카드 보상 1회+포션 1개 즉시 획득은 무손실 가치, 평이하게 양호"
+  },
+  "LostWisp": {
+   "grade": "A",
+   "ctx": "파워덱 S",
+   "why": "파워 사용당 전체 8 피해는 파워 다수 덱서 강력 AOE 페이오프, 무조건 발동"
+  },
+  "LuckyFysh": {
+   "grade": "C",
+   "ctx": "증식덱서만",
+   "why": "카드 추가당 골드 15는 카드 늘릴수록 덱 오염, 경제 이득과 상충"
+  },
+  "LunarPastry": {
+   "grade": "B",
+   "ctx": "별 엔진 A",
+   "why": "턴 종료마다 별 1은 무조건 별 생성, 별 페이오프 덱서 안정 연료"
+  },
+  "Mango": {
+   "grade": "A",
+   "ctx": "",
+   "why": "최대 체력 +14는 견고한 생존력 상승, 무조건 즉발 보편 가치"
+  },
+  "MassiveScroll": {
+   "grade": "C",
+   "ctx": "멀티 카드 가치 의존",
+   "why": "멀티플레이 카드 3선1은 단독 가치 불확실, 카드 자체에 종속"
+  },
+  "MawBank": {
+   "grade": "B",
+   "ctx": "초반 경제",
+   "why": "층당 골드 12 누적은 초반 큰 경제 가치이나 상점 소비 시 영구 정지"
+  },
+  "MealTicket": {
+   "grade": "B",
+   "ctx": "상점 의존",
+   "why": "상점 진입당 체력 15 회복은 무료 힐, 빈도 상점 방문 수에 의존"
+  },
+  "MeatCleaver": {
+   "grade": "B",
+   "ctx": "휴식 유틸",
+   "why": "휴식 요리 옵션은 추가 휴식 유틸 제공, 가치는 요리 효과 의존"
+  },
+  "MeatOnTheBone": {
+   "grade": "A",
+   "ctx": "공격적 플레이 시 S",
+   "why": "전투 종료 시 체력 50% 이하면 12 회복은 저HP 유지 시 매전투 강력 힐 스노볼"
+  },
+  "MembershipCard": {
+   "grade": "A",
+   "ctx": "상점 경제",
+   "why": "전 상품 50% 할인은 상점 구매력 2배, 골드 경제 대폭 강화 보편 가치"
+  },
+  "MercuryHourglass": {
+   "grade": "A",
+   "ctx": "AOE 스케일 S",
+   "why": "턴 시작 전체 3 피해는 무조건 누적 AOE, 긴 전투·다수전서 강력"
+  },
+  "Metronome": {
+   "grade": "B",
+   "ctx": "구체덱 A",
+   "why": "구체 7회 영창 시 전체 30 피해는 1회성 강버스트, 구체 다발 덱 한정"
+  },
+  "MiniRegent": {
+   "grade": "B",
+   "ctx": "Regent 별소모 엔진서 A, 무엔진 C",
+   "why": "턴당 첫 별소모마다 힘+1 영구누적, 별 코스트 캐릭터 한정이지만 스케일 우수"
+  },
+  "MiniatureCannon": {
+   "grade": "C",
+   "ctx": "강화 공격 다수 덱서 B",
+   "why": "강화 공격당 +3, 조건부(강화 필요)·후반 보정형, 전반 영향 제한"
+  },
+  "MiniatureTent": {
+   "grade": "B",
+   "ctx": "",
+   "why": "휴식 선택지 다중 선택=업그레이드+힐 동시 등 런 전반 누적 가치, 무조건"
+  },
+  "MoltenEgg": {
+   "grade": "A",
+   "ctx": "공격 위주 덱 S",
+   "why": "공격 카드 추가시 자동 강화, 덱 빌딩 내내 무료 업그레이드 누적=강한 스노볼"
+  },
+  "MrStruggles": {
+   "grade": "C",
+   "ctx": "긴 전투서 B",
+   "why": "턴수 비례 AoE지만 초반 미미(턴1=1딜), 누적 느림"
+  },
+  "MummifiedHand": {
+   "grade": "A",
+   "ctx": "파워 다수 덱 S, 파워 적으면 C",
+   "why": "파워 사용마다 무작위 카드 무료=사실상 에너지 환급, 파워 빌드 핵심"
+  },
+  "MusicBox": {
+   "grade": "A",
+   "ctx": "고타점 공격 덱 S",
+   "why": "턴마다 첫 공격 휘발복사=실질 공격 한 장 분 추가딜 무조건, 강력"
+  },
+  "MysticLighter": {
+   "grade": "C",
+   "ctx": "인챈트 공격 덱 B",
+   "why": "인챈트된 공격 +9는 크지만 인챈트 조건 의존, 빌드 한정"
+  },
+  "Nebulizer": {
+   "grade": "C",
+   "ctx": "효과 텍스트 누락",
+   "why": "desc 비어 효과 미확인, 분류 불가로 보수적 C"
+  },
+  "NeowsBones": {
+   "grade": "B",
+   "ctx": "저주 수용 가능시 A",
+   "why": "무작위 니오우 유물 2개 즉시 획득은 큰 이득이나 저주 1장 자해 동반"
+  },
+  "NeowsTalisman": {
+   "grade": "C",
+   "ctx": "",
+   "why": "타격·수비 각 1장 강화=1회성 소폭 이득, 스타터 의존"
+  },
+  "NeowsTorment": {
+   "grade": "D",
+   "ctx": "",
+   "why": "덱에 격분(자해성 카드) 추가=순수 디메리트, 함정"
+  },
+  "NewLeaf": {
+   "grade": "C",
+   "ctx": "",
+   "why": "카드 1장 변화(무작위)=1회성 운 의존, 기대 이득 작음"
+  },
+  "NinjaScroll": {
+   "grade": "A",
+   "ctx": "단도 시너지 덱 S",
+   "why": "전투마다 단도 3장 손패=즉발 자원+SHIV 시너지 트리거, 무조건 강함"
+  },
+  "Nunchaku": {
+   "grade": "C",
+   "ctx": "고회전 공격 덱 B",
+   "why": "공격 10장마다 +1에너지, 누적 느려 단일 전투 영향 미미"
+  },
+  "NutritiousOyster": {
+   "grade": "B",
+   "ctx": "act1 획득시 A",
+   "why": "최대체력 +11=런 전반 생존 마진, 무조건 영구"
+  },
+  "NutritiousSoup": {
+   "grade": "C",
+   "ctx": "타격 다수 덱 B",
+   "why": "모든 타격에 잉걸불 인챈트=일회성, 타격 적으면 무가치"
+  },
+  "OddlySmoothStone": {
+   "grade": "B",
+   "ctx": "블록 덱 A",
+   "why": "전투시작 민첩+1=무조건 매 전투 블록 증폭, 안정적"
+  },
+  "OldCoin": {
+   "grade": "B",
+   "ctx": "act1 A",
+   "why": "즉시 골드 300=상점 구매력 큰 스노볼, 시점 민감"
+  },
+  "OrangeDough": {
+   "grade": "B",
+   "ctx": "무색 시너지 덱 A",
+   "why": "전투시작 무작위 무색 2장 손패=즉발 자원이나 무작위 변별"
+  },
+  "Orichalcum": {
+   "grade": "B",
+   "ctx": "저블록 공격 덱 A",
+   "why": "방어 0일때 블록6=조건부지만 빈도 높음, 무료 방어"
+  },
+  "OrnamentalFan": {
+   "grade": "C",
+   "ctx": "멀티어택 덱 B",
+   "why": "턴당 공격3마다 블록4, 조건 충족 빈도 빌드 의존"
+  },
+  "Orrery": {
+   "grade": "A",
+   "ctx": "act1 S",
+   "why": "카드 보상 5회=덱 빌딩 대폭 가속, 강한 스노볼"
+  },
+  "PaelsBlood": {
+   "grade": "A",
+   "ctx": "",
+   "why": "매 턴 추가 드로우+1=무조건 영구 카드 이점, 최상급 범용 유물"
+  },
+  "PaelsClaw": {
+   "grade": "C",
+   "ctx": "수비 다수 덱 B",
+   "why": "모든 수비에 점착 인챈트=일회성, 수비 카드 의존"
+  },
+  "PaelsEye": {
+   "grade": "B",
+   "ctx": "리테인/노카드 빌드 A",
+   "why": "전투 첫 노플레이 턴종료시 추가 턴=강력하나 조건 통제 까다로움"
+  },
+  "PaelsFlesh": {
+   "grade": "B",
+   "ctx": "긴 전투/X코스트 A",
+   "why": "3턴째부터 매턴 +1에너지=후반 강력하나 단기전 무발동"
+  },
+  "PaelsGrowth": {
+   "grade": "C",
+   "ctx": "키카드 복제시 A",
+   "why": "카드1장 복제 인챈트=일회성, 대상 선택 가치는 높을 수 있음"
+  },
+  "PaelsHorn": {
+   "grade": "D",
+   "ctx": "",
+   "why": "덱에 안식 2장 추가=덱 희석 디메리트, 함정"
+  },
+  "PaelsLegion": {
+   "grade": "B",
+   "ctx": "블록 덱 A",
+   "why": "카드 블록 2배(2턴 쿨다운)=주기적 큰 방어 증폭"
+  },
+  "PaelsTears": {
+   "grade": "B",
+   "ctx": "에너지 잉여 덱 A",
+   "why": "턴종료 잉여1에너지시 다음턴 +2=실질 에너지 증폭, 통제 가능"
+  },
+  "PaelsTooth": {
+   "grade": "B",
+   "ctx": "덱 압축+키카드 강화 A",
+   "why": "카드5장 제거+전투마다 1장 강화복귀=압축과 점진강화 결합"
+  },
+  "PaelsWing": {
+   "grade": "B",
+   "ctx": "",
+   "why": "카드보상 희생 2회마다 유물1=장기 유물 파밍, 통제 가능"
+  },
+  "PandorasBox": {
+   "grade": "B",
+   "ctx": "스타터 다수 초반 A",
+   "why": "모든 타격·수비 변화=덱 질 도박적 상승, 운 의존이나 기대치 양호"
+  },
+  "Pantograph": {
+   "grade": "B",
+   "ctx": "",
+   "why": "보스전 시작 25 회복=보스 진입HP 보정, 핵심 시점 가치 높음"
+  },
+  "PaperKrane": {
+   "grade": "C",
+   "ctx": "약화 덱 B",
+   "why": "약화 감소 25→40%=약화 적용 빈도 의존, 방어 보조"
+  },
+  "PaperPhrog": {
+   "grade": "B",
+   "ctx": "취약 덱 A",
+   "why": "취약 피해 50→75% 증폭=취약 적용시 큰 딜 상승, 빌드 시너지"
+  },
+  "ParryingShield": {
+   "grade": "C",
+   "ctx": "블록 덱 B",
+   "why": "턴종료 블록10+시 6딜=조건부 소량 딜, 블록 빌드 보조"
+  },
+  "Pear": {
+   "grade": "B",
+   "ctx": "act1 A",
+   "why": "최대체력 +10 무조건 영구, 안정적 생존 마진"
+  },
+  "PenNib": {
+   "grade": "B",
+   "ctx": "단타 고딜 덱 A",
+   "why": "10번째 공격 2배=주기적 큰 버스트, 보스전 가치"
+  },
+  "Pendulum": {
+   "grade": "C",
+   "ctx": "",
+   "why": "3턴마다 드로우1=빈도 낮은 소폭 카드 이점"
+  },
+  "Permafrost": {
+   "grade": "B",
+   "ctx": "파워 덱 A",
+   "why": "전투 첫 파워시 블록7=무조건 가까운 무료 방어, 파워 트리거"
+  },
+  "PetrifiedToad": {
+   "grade": "C",
+   "ctx": "포션 시너지 덱 B",
+   "why": "전투마다 포션모양 돌 생성=가치 불확실(돌 효과 미상), 보조"
+  },
+  "PhialHolster": {
+   "grade": "B",
+   "ctx": "포션 빌드 A",
+   "why": "포션 슬롯+1+포션2개 즉시=자원 확장, 보스 피니셔 자원"
+  },
+  "PhilosophersStone": {
+   "grade": "B",
+   "ctx": "X코스트/고비용 덱 A",
+   "why": "매턴 +1에너지 강력하나 적 전원 힘+1 디메리트 동반"
+  },
+  "PhylacteryUnbound": {
+   "grade": "A",
+   "ctx": "소환/스켈레톤 덱 S",
+   "why": "전투시작 소환5+매턴2=미니언 엔진 폭발적 연료, 빌드 코어"
+  },
+  "Planisphere": {
+   "grade": "C",
+   "ctx": "",
+   "why": "? 방 진입시 5 회복=빈도 낮은 소폭 힐, 런 전반 보정"
+  },
+  "Pocketwatch": {
+   "grade": "B",
+   "ctx": "저카드 플레이 덱 A",
+   "why": "3장 이하 사용시 다음턴 +3드로우=조건 통제 가능한 큰 카드 이점"
+  },
+  "PollinousCore": {
+   "grade": "C",
+   "ctx": "",
+   "why": "4턴마다 +2드로우=빈도 낮음, 긴 전투 보조"
+  },
+  "Pomander": {
+   "grade": "C",
+   "ctx": "",
+   "why": "카드1장 강화=1회성 소폭 이득"
+  },
+  "PotionBelt": {
+   "grade": "B",
+   "ctx": "포션 빌드 A",
+   "why": "포션 슬롯+2=포션 보유력 확장, 보스전 자원 비축"
+  },
+  "PowerCell": {
+   "grade": "B",
+   "ctx": "0코 카드 덱 A",
+   "why": "전투시작 0코 카드 2장 손패=무료 즉발 자원, 0코 시너지"
+  },
+  "PrayerWheel": {
+   "grade": "B",
+   "ctx": "act1 A",
+   "why": "일반 적 카드 보상 추가=덱 빌딩 가속 스노볼"
+  },
+  "PrecariousShears": {
+   "grade": "C",
+   "ctx": "압축 우선시 B",
+   "why": "카드2장 제거 좋으나 체력16 손실 큰 대가, 시점 민감"
+  },
+  "PreciseScissors": {
+   "grade": "B",
+   "ctx": "act1 A",
+   "why": "카드1장 제거 무대가=무조건 덱 압축, 깔끔한 이득"
+  },
+  "Prescript": {
+   "grade": "C",
+   "ctx": "효과 텍스트 누락",
+   "why": "desc 비어 효과 미확인, 보수적 C"
+  },
+  "PreservedFog": {
+   "grade": "C",
+   "ctx": "압축 우선시 B",
+   "why": "카드3장 제거 강하나 어리석음(저주) 추가 디메리트 동반"
+  },
+  "PrismaticGem": {
+   "grade": "A",
+   "ctx": "고비용 덱 S",
+   "why": "매턴 +1에너지 무디메리트+타색 카드 풀=영구 에너지 유물 최상급"
+  },
+  "PumpkinCandle": {
+   "grade": "B",
+   "ctx": "act1-2 A, 3막 직전 C",
+   "why": "매턴 +1에너지지만 3막 시작시 소멸=한시적 강력 에너지"
+  },
+  "PunchDagger": {
+   "grade": "C",
+   "ctx": "공격 강화 덱 B",
+   "why": "공격1장 기세5 인챈트=일회성 소폭, 대상 의존"
+  },
+  "RadiantPearl": {
+   "grade": "C",
+   "ctx": "발광 시너지 덱 B",
+   "why": "전투시작 발광1장 손패=즉발 카드, 카드 효과 의존"
+  },
+  "RainbowRing": {
+   "grade": "B",
+   "ctx": "균형 덱 A",
+   "why": "턴마다 3유형 모두 사용시 힘+1민첩+1=영구 누적, 조건 충족 빈도 빌드 의존"
+  },
+  "RazorTooth": {
+   "grade": "A",
+   "ctx": "공격/스킬 위주 덱 S",
+   "why": "공격·스킬 사용마다 남은 전투 강화=전투 내 강력 스케일링"
+  },
+  "RedMask": {
+   "grade": "B",
+   "ctx": "약화 덱 A",
+   "why": "전투시작 적 전원 약화1=무조건 초반 방어 완화, 광역 디버프"
+  },
+  "RedSkull": {
+   "grade": "B",
+   "ctx": "저HP 자해 덱 A",
+   "why": "HP 50%이하시 힘+3=조건부지만 큰 딜, 저HP 빌드 시너지"
+  },
+  "RedStainedGossypium": {
+   "grade": "C",
+   "ctx": "효과 텍스트 누락",
+   "why": "desc 비어 효과 미확인, 보수적 C"
+  },
+  "RegalPillow": {
+   "grade": "B",
+   "ctx": "",
+   "why": "휴식시 추가 +15 회복=무조건 런 전반 생존 보정, 안정적"
+  },
+  "Regalite": {
+   "grade": "C",
+   "ctx": "카드 생성 덱 B",
+   "why": "카드 생성마다 블록2=생성 빈도 의존, 소폭 방어"
+  },
+  "ReptileTrinket": {
+   "grade": "C",
+   "ctx": "포션 빌드 B",
+   "why": "포션 사용시 이번턴 힘+3=일시 버프, 포션 소비 의존"
+  },
+  "RingOfTheDrake": {
+   "grade": "B",
+   "ctx": "",
+   "why": "첫 3턴 +2드로우=초반 강력한 카드 이점, 무조건"
+  },
+  "RingOfTheSnake": {
+   "grade": "A",
+   "ctx": "",
+   "why": "매 전투시작 +2드로우=무조건 영구 강력 핸드 우위, 최상급 범용"
+  },
+  "RingingTriangle": {
+   "grade": "B",
+   "ctx": "리테인 빌드 A",
+   "why": "첫 턴 손패 보존=초반 핸드 효율, 조건 무조건적"
+  },
+  "RippleBasin": {
+   "grade": "C",
+   "ctx": "논어택 방어 덱 B",
+   "why": "공격 미사용시 블록4=조건부, 공격 의존 덱서 무발동"
+  },
+  "RoyalPoison": {
+   "grade": "D",
+   "ctx": "",
+   "why": "전투시작 체력4 손실=순수 디메리트(다른 효과 없음), 함정"
+  },
+  "RoyalStamp": {
+   "grade": "C",
+   "ctx": "키카드 강화 덱 B",
+   "why": "공격/스킬1장 왕실인증 인챈트=일회성, 대상 가치 의존"
+  },
+  "RuinedHelmet": {
+   "grade": "B",
+   "ctx": "힘 덱 A",
+   "why": "전투 첫 힘 획득 2배=힘 빌드 스노볼 증폭, 힘 없으면 무용"
+  },
+  "RunicCapacitor": {
+   "grade": "A",
+   "ctx": "구체 덱 S, 무구체 D",
+   "why": "전투시작 구체 슬롯+3=오브 빌드 핵심 증폭, 캐릭터 한정"
+  },
+  "RunicPyramid": {
+   "grade": "A",
+   "ctx": "리테인/콤보 덱 S",
+   "why": "턴종료 손패 비폐기=핸드 비축 무조건 강력, 콤보 빌드 코어"
+  },
+  "Sai": {
+   "grade": "A",
+   "ctx": "무엔진 범용",
+   "why": "턴마다 무조건 방어도 7, 통제 불필요한 강력 상시 방어 엔진"
+  },
+  "SandCastle": {
+   "grade": "B",
+   "ctx": "덱 큰 후반 약화",
+   "why": "즉시 무작위 6장 강화는 강하나 타겟 불가·1회성, act1 획득 시 가치 최대"
+  },
+  "ScreamingFlagon": {
+   "grade": "B",
+   "ctx": "빈손/소진덱 S, 일반 C",
+   "why": "턴종료 손비움 조건부 AOE20, 손비우는 덱에선 강하나 조건 통제 어려움"
+  },
+  "ScrollBoxes": {
+   "grade": "C",
+   "ctx": "초반 골드 적을때만",
+   "why": "전 골드 상실 대가로 카드팩, 시점·픽 운 의존 도박"
+  },
+  "SeaGlass": {
+   "grade": "B",
+   "ctx": "멀티컬러 픽업",
+   "why": "타 캐릭 카드 15장서 자유 픽, 강카드 추가 가능하나 풀·픽 운 의존"
+  },
+  "SealOfGold": {
+   "grade": "C",
+   "ctx": "골드 풍부 후반",
+   "why": "골드5→에너지1 변환, 골드 인플레 전엔 비효율 거래"
+  },
+  "SealedSword": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음, 효과 불명으로 평가 불가 — 데이터 갭"
+  },
+  "SecondPersonaRelic": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음, 효과 불명 — 데이터 갭"
+  },
+  "SelfFormingClay": {
+   "grade": "B",
+   "ctx": "피격 잦은 덱",
+   "why": "피해 시 다음턴 방어도3, 무조건성 높으나 피격 후행·소량"
+  },
+  "SereTalon": {
+   "grade": "C",
+   "ctx": "염원 빌드만",
+   "why": "저주2+염원3, 저주 디메리트 대비 염원 활용 빌드서만 가치"
+  },
+  "Shovel": {
+   "grade": "C",
+   "ctx": "휴식 풍부 시",
+   "why": "휴식 발굴로 무작위 유물, 휴식·드롭 운 의존하고 휴식 기회비용 큼"
+  },
+  "Shuriken": {
+   "grade": "B",
+   "ctx": "공격 다타 덱 A",
+   "why": "턴당 공격3장마다 힘1, 멀티히트 공격덱서 누적 스케일 강함"
+  },
+  "SignetRing": {
+   "grade": "A",
+   "ctx": "초반 획득 시",
+   "why": "즉시 골드999, 초반 상점 풀가동으로 막대한 스노볼"
+  },
+  "SilverCrucible": {
+   "grade": "B",
+   "ctx": "초반 카드강화",
+   "why": "첫 3보상 강화판, 덱 질 상승 크나 보물1 비움 페널티+1회성"
+  },
+  "SlingOfCourage": {
+   "grade": "B",
+   "ctx": "힘덱·엘리트 다수",
+   "why": "엘리트전 시작 힘2, 빈도 낮으나 힘소비 빌드서 누적"
+  },
+  "SmallCapsule": {
+   "grade": "B",
+   "ctx": "무조건 가치",
+   "why": "무작위 유물1 즉시 획득, 운 의존하나 순공짜 유물"
+  },
+  "SmokesAndWires": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음 — 데이터 갭"
+  },
+  "SneckoEye": {
+   "grade": "A",
+   "ctx": "고코스트덱 S, 저코스트 B",
+   "why": "턴당 +2드로우 강력, 혼란 디메리트는 고코스트덱서 오히려 이득"
+  },
+  "SneckoSkull": {
+   "grade": "A",
+   "ctx": "중독덱 S, 무중독 D",
+   "why": "중독 부여마다 +1 증폭, 포이즌 빌드 핵심 앰프"
+  },
+  "Sozu": {
+   "grade": "C",
+   "ctx": "포션 무시 덱",
+   "why": "턴당 에너지1 강하나 포션 획득봉인이 실측 보스피니셔 누수와 충돌"
+  },
+  "SparklingRouge": {
+   "grade": "C",
+   "ctx": "힘/민첩 덱",
+   "why": "3턴째 1회 힘1민첩1, 소량·후행으로 보정 수준"
+  },
+  "SpikedGauntlets": {
+   "grade": "B",
+   "ctx": "파워 적은 덱 A",
+   "why": "턴당 에너지1, 파워 비용+1 페널티는 파워 적은 덱서 무시 가능"
+  },
+  "StoneCalendar": {
+   "grade": "B",
+   "ctx": "장기전·보스",
+   "why": "7턴 AOE52, 단기전 무용이나 긴 보스전서 큰 한방"
+  },
+  "StoneCracker": {
+   "grade": "B",
+   "ctx": "무조건 매전투",
+   "why": "매전투 카드2장 한시강화, 무조건성 좋으나 효과 소량·한시적"
+  },
+  "StoneHumidifier": {
+   "grade": "C",
+   "ctx": "휴식 다수 시",
+   "why": "휴식당 최대체력5, 휴식 기회비용·치유와 경쟁"
+  },
+  "Storybook": {
+   "grade": "C",
+   "ctx": "불꽃 카드 활용 시",
+   "why": "찬란한 불꽃 카드 추가, 덱 1장 늘리고 카드 가치 의존"
+  },
+  "Strawberry": {
+   "grade": "B",
+   "ctx": "무조건 영구",
+   "why": "즉시 최대체력7 영구, 작지만 무조건 생존 마진"
+  },
+  "StrikeDummy": {
+   "grade": "B",
+   "ctx": "타격 다수 덱 A",
+   "why": "타격 카드 피해+3, 스타터 타격 다수면 누적 가치 큼"
+  },
+  "SturdyClamp": {
+   "grade": "B",
+   "ctx": "방어 페이오프 덱",
+   "why": "방어도 최대10 턴간 유지, 블록 페이오프·배리어 빌드서 가치"
+  },
+  "SwordOfJade": {
+   "grade": "A",
+   "ctx": "힘덱 S",
+   "why": "매전투 시작 힘3, 강력한 즉발 공격 스케일·무조건"
+  },
+  "SwordOfStone": {
+   "grade": "B",
+   "ctx": "엘리트 다수 루트",
+   "why": "엘리트5 처치 후 강화, 조건 도달까지 평범하나 페이오프 큼"
+  },
+  "SymbioticVirus": {
+   "grade": "A",
+   "ctx": "디펙트 암흑덱 S",
+   "why": "매전투 암흑1 영창, 다크오브 빌드 무료 시드+앰프"
+  },
+  "TanxsWhistle": {
+   "grade": "C",
+   "ctx": "호각 카드 활용 시",
+   "why": "호각 불기 1장 추가, 카드 가치 의존하는 덱 추가"
+  },
+  "TeaOfDiscourtesy": {
+   "grade": "D",
+   "ctx": "거의 함정",
+   "why": "다음전투 어지러움2 셔플은 덱 오염, 치유1 미미해 디메리트 우세"
+  },
+  "TheAbacus": {
+   "grade": "B",
+   "ctx": "셔플 잦은 덱",
+   "why": "셔플마다 방어도6, 소덱·드로우 많은 덱서 자주 발동"
+  },
+  "TheBoot": {
+   "grade": "B",
+   "ctx": "다타 저피해 덱 A",
+   "why": "4이하 피해를 5로 상승, 멀티히트·시브덱서 큰 증폭"
+  },
+  "TheCourier": {
+   "grade": "B",
+   "ctx": "상점 의존 빌드",
+   "why": "품절없음+20%할인, 골드 풍부 시 상점 스노볼 강화"
+  },
+  "ThrowingAxe": {
+   "grade": "A",
+   "ctx": "고가치 카드 덱",
+   "why": "첫 카드 1회 추가발동, 강한 첫 카드와 결합 시 무료 가치"
+  },
+  "TianshaStarBladeArayashiki": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음 — 데이터 갭"
+  },
+  "TianshaStarBladeWound": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음 — 데이터 갭"
+  },
+  "Tingsha": {
+   "grade": "A",
+   "ctx": "디스카드 엔진 S, 무엔진 D",
+   "why": "버림당 피해3, 디스카드 엔진서 강한 AOE 페이오프"
+  },
+  "TinyMailbox": {
+   "grade": "B",
+   "ctx": "휴식 다수 시",
+   "why": "휴식당 포션2 생성, 포션 자원 풍부화하나 휴식·치유와 경쟁"
+  },
+  "ToastyMittens": {
+   "grade": "B",
+   "ctx": "소진/힘덱 A",
+   "why": "턴마다 맨위 소멸+힘1, 덱씨닝+힘 스케일 동시, 키카드 소멸 위험"
+  },
+  "Toolbox": {
+   "grade": "B",
+   "ctx": "무조건 매전투",
+   "why": "매전투 무색 카드 픽1, 안정적 자원·선택지 제공"
+  },
+  "TouchOfOrobas": {
+   "grade": "C",
+   "ctx": "시작유물 의존",
+   "why": "시작유물을 고대형태로 교체, 캐릭·시작유물에 따라 가치 편차 큼"
+  },
+  "ToughBandages": {
+   "grade": "A",
+   "ctx": "디스카드 엔진 S, 무엔진 D",
+   "why": "버림당 방어도3, 디스카드 빌드 핵심 방어 페이오프"
+  },
+  "ToxicEgg": {
+   "grade": "B",
+   "ctx": "스킬 다수 덱 A",
+   "why": "추가 스킬 자동강화, 스킬 위주 덱서 무료 질상승 누적"
+  },
+  "ToyBox": {
+   "grade": "B",
+   "ctx": "초반 한정 가치",
+   "why": "밀랍유물4 즉시 후 점감, 초반 임시 부스트로 강하나 일시적"
+  },
+  "TriBoomerang": {
+   "grade": "B",
+   "ctx": "공격덱 본능 시너지",
+   "why": "공격3장에 본능 인챈트, 강한 공격카드 선택 시 가치 큼"
+  },
+  "TungstenRod": {
+   "grade": "A",
+   "ctx": "자해/HP_LOSS 덱 S",
+   "why": "피해 무조건 1감소, 다타 피격·자해덱서 누적 생존 큼"
+  },
+  "TuningFork": {
+   "grade": "C",
+   "ctx": "스킬 폭주 덱",
+   "why": "스킬10장당 방어도7, 발동 빈도 낮아 페이오프 희소"
+  },
+  "TwistedFunnel": {
+   "grade": "A",
+   "ctx": "중독덱 S",
+   "why": "매전투 시작 적 전체 중독4, 포이즌 무료 시드 강력"
+  },
+  "UnceasingTop": {
+   "grade": "B",
+   "ctx": "빈손 콤보 덱",
+   "why": "손 비면 1드로우, 무한콤보·빈손 덱서 윤활유 역할"
+  },
+  "UndyingSigil": {
+   "grade": "C",
+   "ctx": "둠 빌드 한정",
+   "why": "종말 적 피해 50%감소는 좁은 조건, 둠 빌드 외 발동 희소"
+  },
+  "UnsettlingLamp": {
+   "grade": "B",
+   "ctx": "디버프 덱 A",
+   "why": "첫 디버프 카드 2배, 강한 단일 디버프와 결합 시 큰 증폭"
+  },
+  "Vajra": {
+   "grade": "B",
+   "ctx": "힘덱 A",
+   "why": "매전투 힘1, 작지만 무조건 공격 스케일 기여"
+  },
+  "Vambrace": {
+   "grade": "B",
+   "ctx": "고블록 카드 덱 A",
+   "why": "첫 방어 카드 2배, 큰 단일 블록카드와 결합 시 가치"
+  },
+  "Veil": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음 — 데이터 갭"
+  },
+  "VelvetChoker": {
+   "grade": "B",
+   "ctx": "저카드수 덱 A",
+   "why": "턴당 에너지1, 6장 제한은 대부분 무시 가능해 사실상 순이득"
+  },
+  "VenerableTeaSet": {
+   "grade": "B",
+   "ctx": "휴식 진입 시",
+   "why": "휴식 후 다음전투 +2에너지, 엘리트/보스 전 휴식 라우팅과 결합"
+  },
+  "VeryHotCocoa": {
+   "grade": "A",
+   "ctx": "폭발 오프닝 덱",
+   "why": "매전투 +4에너지는 거대한 첫턴 가속, 빠른 처치 강력"
+  },
+  "VexingPuzzlebox": {
+   "grade": "B",
+   "ctx": "무조건 매전투",
+   "why": "매전투 무료 카드1, 운 의존하나 무료 추가 행동"
+  },
+  "VitruvianMinion": {
+   "grade": "C",
+   "ctx": "하수인 빌드만",
+   "why": "하수인 카드 2배, 좁은 하수인 빌드 외 무용"
+  },
+  "WarHammer": {
+   "grade": "B",
+   "ctx": "엘리트 다수 루트",
+   "why": "엘리트 처치마다 4장 강화, 누적 덱질상승 크나 엘리트 빈도 의존"
+  },
+  "WarPaint": {
+   "grade": "B",
+   "ctx": "스킬 다수 덱",
+   "why": "즉시 스킬2장 강화, 1회성이나 초반 덱질 상승"
+  },
+  "Whetstone": {
+   "grade": "B",
+   "ctx": "공격 다수 덱",
+   "why": "즉시 공격2장 강화, 1회성이나 초반 가치"
+  },
+  "WhisperingEarring": {
+   "grade": "B",
+   "ctx": "바쿠 자동턴 변수",
+   "why": "턴당 에너지1 강하나 첫턴 바쿠 대리플레이 통제불가 변수"
+  },
+  "WhiteBeastStatue": {
+   "grade": "B",
+   "ctx": "포션 활용 시",
+   "why": "전투보상 항상 포션, 포션 피니셔 규율과 결합 시 안정 자원"
+  },
+  "WhiteStar": {
+   "grade": "B",
+   "ctx": "엘리트 다수 루트",
+   "why": "엘리트 희귀카드 추가 보상, 덱질 상승 기회 증가"
+  },
+  "WingCharm": {
+   "grade": "C",
+   "ctx": "신속 활용 시",
+   "why": "보상 카드 신속1 인챈트, 효과 소량·픽 의존"
+  },
+  "WingedBoots": {
+   "grade": "B",
+   "ctx": "라우팅 유연성",
+   "why": "경로 3회 무시, 엘리트/보스 회피·핵심노드 진입 통제력"
+  },
+  "WongoCustomerAppreciationBadge": {
+   "grade": "D",
+   "ctx": "무효과 함정",
+   "why": "명시적으로 아무 효과 없음 — 슬롯 낭비"
+  },
+  "WongosMysteryTicket": {
+   "grade": "B",
+   "ctx": "초반 획득 시",
+   "why": "5전투 후 유물3개, 지연되나 거대한 후반 페이오프"
+  },
+  "WoundClerid": {
+   "grade": "D",
+   "ctx": "효과 미상",
+   "why": "desc 비어있음 — 데이터 갭"
+  },
+  "YummyCookie": {
+   "grade": "B",
+   "ctx": "초반 카드강화",
+   "why": "즉시 4장 강화, 무작위·1회성이나 초반 덱질 상승 큼"
+  }
+ },
+ "potions": {
+  "Ashwater": {
+   "grade": "C",
+   "ctx": "덱 씨닝/소멸 페이오프 빌드서 B, 무엔진 함정",
+   "why": "손패 소멸은 전투 즉시이득 거의 없음 — 저주/상태이상 제거나 소멸 트리거 빌드 한정 유틸"
+  },
+  "AttackPotion": {
+   "grade": "A",
+   "ctx": "보스 피니셔로 A, 호딩 누수 주의",
+   "why": "무비용 공격카드 3중1 — 막내 보스 돌파 즉발 전투력, 실측 act1 첫클리어 돌파구"
+  },
+  "BeetleJuice": {
+   "grade": "A",
+   "ctx": "보스/엘리트 4턴 피해 -30%",
+   "why": "4턴 30% 피해감소는 큰 누적 생존 — 보스 대미지 레이스에서 강한 방어 천장"
+  },
+  "BlessingOfTheForge": {
+   "grade": "B",
+   "ctx": "손패 다수 비공격 강화 빌드서 A",
+   "why": "손패 전체 잔여전투 강화 — 핸드 크고 강화효과 큰 카드 많을수록 가치, 변동성 큼"
+  },
+  "BlockPotion": {
+   "grade": "B",
+   "ctx": "방어 부족 덱서 보스 1턴 버팀",
+   "why": "방어 12는 1코 카드급 1회성 — 무조건 안정적이나 천장 낮음"
+  },
+  "BloodPotion": {
+   "grade": "B",
+   "ctx": "막간 HP회복으로 안전, 즉발전투X",
+   "why": "최대HP 20% 회복 AnyTime — 보스전 직전 보정·풀런 생존 누수 메움"
+  },
+  "BoneBrew": {
+   "grade": "B",
+   "ctx": "Necrobinder 소환 엔진서 A, 타캐릭 무가치",
+   "why": "소환 15는 강력하나 소환 페이오프(스컬·디제) 의존 — 엔진 밖 무효"
+  },
+  "BottledPotential": {
+   "grade": "B",
+   "ctx": "덱 작고 강한 패서 A, 큰 덱서 C",
+   "why": "전 덱 셔플 후 5장 — 핵심카드 즉시 접근 확률↑이나 덱 클수록 희석"
+  },
+  "Clarity": {
+   "grade": "B",
+   "ctx": "드로우 부족 덱 4장 누적",
+   "why": "즉시1+3턴 추가드로우=총4장 누적 가치, 장기전 보스에서 우수"
+  },
+  "ColorlessPotion": {
+   "grade": "B",
+   "ctx": "무색 풀 변동성, 보스 유틸",
+   "why": "무비용 무색 3중1 — 유틸/방어 확보 유연하나 풀 무작위라 천장 낮음"
+  },
+  "CosmicConcoction": {
+   "grade": "A",
+   "ctx": "강화 무색 3장 무조건 확보",
+   "why": "강화 무색 3장은 큰 자원 폭발 — 선택권 없어도 3장 가치 합 높음"
+  },
+  "CunningPotion": {
+   "grade": "B",
+   "ctx": "Shiv/단도 엔진서 A",
+   "why": "강화 단도 3장 — 단도 페이오프 빌드면 대미지/콤보 폭발, 무엔진 평범"
+  },
+  "CureAll": {
+   "grade": "A",
+   "ctx": "에너지+드로우 범용 템포",
+   "why": "1에너지+2드로우는 순수 템포 이득, 어느 덱에나 무손실 가치"
+  },
+  "DeprecatedPotion": {
+   "grade": "D",
+   "ctx": "게임서 삭제됨",
+   "why": "효과 없는 폐기 항목"
+  },
+  "DexterityPotion": {
+   "grade": "B",
+   "ctx": "방어 다수 덱서 A, 무방어 C",
+   "why": "민첩 2는 전투 내 모든 방어카드 가산 — 방어 빈도 비례 가치"
+  },
+  "DistilledChaos": {
+   "grade": "B",
+   "ctx": "고가치 덱서 A, 자해카드 덱서 위험",
+   "why": "덱 상단 3장 자동 사용 — 무작위라 통제 불가, 좋은 덱일수록 가치"
+  },
+  "DropletOfPrecognition": {
+   "grade": "A",
+   "ctx": "핵심카드 확정 서치",
+   "why": "뽑을더미서 1장 손으로 — 키카드 확정 접근, 통제 가능한 강한 유틸"
+  },
+  "Duplicator": {
+   "grade": "A",
+   "ctx": "고비용 폭딜카드와 보스서 S급",
+   "why": "다음 카드 추가 발동 — 강한 카드와 결합 시 폭발, 보스 피니셔 가속"
+  },
+  "EnergyPotion": {
+   "grade": "A",
+   "ctx": "보스 콤보 턴 폭발",
+   "why": "2에너지 즉발 — 결정적 턴 추가 플레이, 범용 템포 강력"
+  },
+  "EntropicBrew": {
+   "grade": "A",
+   "ctx": "빈 슬롯 많을수록 가치",
+   "why": "빈 포션슬롯 전부 채움 — 자원 증식, 슬롯 비울수록 순수 이득"
+  },
+  "EssenceOfDarkness": {
+   "grade": "B",
+   "ctx": "Defect 암흑 엔진서 S, 타캐릭 무효",
+   "why": "전 구체슬롯 암흑 영창 — 디펙트 다크 빌드 폭발, 엔진 밖 무가치"
+  },
+  "ExplosiveAmpoule": {
+   "grade": "B",
+   "ctx": "다수 약체 적/엘리트 잡몹 청소",
+   "why": "전체 10피해 — 다수전 효율 좋으나 보스 단일전 가치 낮음"
+  },
+  "FairyInABottle": {
+   "grade": "A",
+   "ctx": "보스전 안전망, 자동발동",
+   "why": "죽음 방지+30% 회복 자동 — 보스 치명타 보험, 통제 불필요 생존"
+  },
+  "FirePotion": {
+   "grade": "A",
+   "ctx": "보스 피니셔 20딜",
+   "why": "무조건 20피해 — 보스 막타·엘리트 돌파, 호딩 말고 써야 가치"
+  },
+  "FlexPotion": {
+   "grade": "B",
+   "ctx": "폭딜 1턴 한정 힘+5",
+   "why": "힘5 1턴 — 단일 폭딜 턴 한정, Duplicator/다타격과 결합 시 가치↑"
+  },
+  "FocusPotion": {
+   "grade": "B",
+   "ctx": "Defect 구체 엔진서 A",
+   "why": "밀집2 영구 — 디펙트 구체 출력 영구 증폭, 엔진 밖 무효"
+  },
+  "Fortifier": {
+   "grade": "B",
+   "ctx": "방어 쌓은 턴 폭증, 무방어 C",
+   "why": "방어 3배 — 기존 방어 의존, 큰 방어 턴엔 강력하나 조건부"
+  },
+  "FoulPotion": {
+   "grade": "B",
+   "ctx": "상인 100골드 안정, 자해 주의",
+   "why": "전체 12피해(자해 포함) 또는 상점 100골드 — 골드 용도가 안정적 가치"
+  },
+  "FruitJuice": {
+   "grade": "A",
+   "ctx": "영구 최대HP+5, 상시 안전",
+   "why": "최대HP 영구 +5 — 런 전체 생존 누적, 안전한 상시 가치"
+  },
+  "FyshOil": {
+   "grade": "B",
+   "ctx": "힘1+민첩1 소폭 범용",
+   "why": "힘1 민첩1 영구 — 공방 양쪽 소폭 스케일, 수치 작아 천장 낮음"
+  },
+  "GamblersBrew": {
+   "grade": "B",
+   "ctx": "악수 정리/콤보 셋업",
+   "why": "원하는 만큼 버리고 재드로우 — 손패 리롤, 통제 가능하나 카드이득 0"
+  },
+  "GhostInAJar": {
+   "grade": "S",
+   "ctx": "보스 1턴 완전무적",
+   "why": "불가침1 — 한 턴 받는 피해 1로 격감, 보스 큰턴 완전 무력화 게임체인저"
+  },
+  "GigantificationPotion": {
+   "grade": "A",
+   "ctx": "고타수/단일 폭딜과 보스서 S",
+   "why": "다음 공격 3배 — 강한 공격카드와 결합 시 보스 막타 폭발"
+  },
+  "GlowwaterPotion": {
+   "grade": "B",
+   "ctx": "악수 폐기+대량 드로우, 변동성",
+   "why": "손패 소멸 후 10장 드로우 — 막힌 손 리셋, 덱 클수록 가치 불안정"
+  },
+  "HeartOfIron": {
+   "grade": "B",
+   "ctx": "Ironclad 판금 엔진서 A",
+   "why": "판금7 — 매턴 방어 누적, 아이언클래드 판금 빌드 강력하나 엔진 의존"
+  },
+  "KingsCourage": {
+   "grade": "B",
+   "ctx": "단조 엔진서 A, 타캐릭 무효",
+   "why": "단조15 — 단조 페이오프 캐릭 강력하나 엔진 밖 무가치"
+  },
+  "LiquidBronze": {
+   "grade": "C",
+   "ctx": "가시 빌드/다수 피격서 B",
+   "why": "가시3 — 적 피격 반사 작음, 다타수 적·가시 빌드 외 미미"
+  },
+  "LiquidMemories": {
+   "grade": "A",
+   "ctx": "버린 핵심카드 무비용 회수",
+   "why": "버린더미서 1장 무비용 회수 — 키카드 재사용, 디스카드 시너지 통제 강함"
+  },
+  "LuckyTonic": {
+   "grade": "A",
+   "ctx": "보스 첫 디버프 무효",
+   "why": "버퍼1 — 다음 디버프/HP손실 1회 차단, 보스 약화 셋업 무효화 생존"
+  },
+  "MazalethsGift": {
+   "grade": "A",
+   "ctx": "장기 보스전 힘 스노볼",
+   "why": "의식1 — 매턴 힘+1 영구 누적, 장기 보스전서 폭발적 스케일"
+  },
+  "OrobicAcid": {
+   "grade": "A",
+   "ctx": "무비용 공·스·파 3장 폭발",
+   "why": "공격/스킬/파워 각1 무비용 — 3장 자원 폭발, 보스 큰턴 다목적 강력"
+  },
+  "PoisonPotion": {
+   "grade": "B",
+   "ctx": "중독 엔진서 A",
+   "why": "중독6 — 중독 누적/페이오프 빌드 강력, 무엔진 단발 18딜 수준"
+  },
+  "PotOfGhouls": {
+   "grade": "B",
+   "ctx": "영혼 소비 엔진서 A",
+   "why": "영혼 2장 — 영혼 페이오프 빌드 가치, 무엔진 단발 약함"
+  },
+  "PotionOfBinding": {
+   "grade": "A",
+   "ctx": "전체 약화+취약, 보스 다수전",
+   "why": "전체 약화1+취약1 — 피해감소와 증폭 동시, 범용 방어+공격 유틸"
+  },
+  "PotionOfCapacity": {
+   "grade": "B",
+   "ctx": "Defect 구체 빌드서 A, 타캐릭 무효",
+   "why": "구체슬롯 +2 — 디펙트 구체 출력 영구 확장, 엔진 밖 무가치"
+  },
+  "PotionOfDoom": {
+   "grade": "A",
+   "ctx": "고HP 보스/엘리트 처형",
+   "why": "종말33 — 일정 후 HP 비례 큰 처형 피해, 고체력 적에 강한 피니셔"
+  },
+  "PotionShapedRock": {
+   "grade": "C",
+   "ctx": "토큰 피니셔 15딜",
+   "why": "15피해 토큰 — 즉발 딜 유틸이나 토큰이라 일반 획득 불가·천장 제한"
+  },
+  "PowderedDemise": {
+   "grade": "B",
+   "ctx": "장기전 지속딜",
+   "why": "적 턴종료 9 HP손실 — 방어 무시 지속딜, 긴 보스전 누적 가치"
+  },
+  "PowerPotion": {
+   "grade": "B",
+   "ctx": "파워 풀 변동성, 보스 스케일",
+   "why": "무비용 파워 3중1 — 영구 버프 확보 가능하나 풀 무작위"
+  },
+  "RadiantTincture": {
+   "grade": "A",
+   "ctx": "4에너지 총량 누적",
+   "why": "즉시1+3턴 추가1=총4에너지 — 장기 보스전 템포 폭발"
+  },
+  "RegenPotion": {
+   "grade": "B",
+   "ctx": "막간 아닌 전투 내 회복",
+   "why": "재생5 — 점진 회복, 생존 보정이나 즉발 전투력 없음"
+  },
+  "ShacklingPotion": {
+   "grade": "A",
+   "ctx": "공격 다수 보스 1턴 무력화",
+   "why": "전체 힘-7 1턴 — 큰 공격 의도 보스 1턴 봉쇄, 강한 방어 천장"
+  },
+  "ShipInABottle": {
+   "grade": "B",
+   "ctx": "2턴 분할 방어 20",
+   "why": "방어10+다음턴10 — 총 20 방어 분할, 안정적이나 천장 낮음"
+  },
+  "SkillPotion": {
+   "grade": "B",
+   "ctx": "스킬 풀 변동성, 방어 유틸",
+   "why": "무비용 스킬 3중1 — 방어/유틸 확보 유연하나 풀 무작위"
+  },
+  "SneckoOil": {
+   "grade": "B",
+   "ctx": "고비용 다수 덱서 폭발, 도박성",
+   "why": "7드로우+비용 무작위화 — 핸드 폭발이나 비용 운, 고가치 카드 많을수록"
+  },
+  "SoldiersStew": {
+   "grade": "B",
+   "ctx": "타격 다수 Ironclad서 A",
+   "why": "타격류 재사용+1 잔여전투 — 타격 베이스 덱 강력, 무타격 덱 무효"
+  },
+  "SpeedPotion": {
+   "grade": "B",
+   "ctx": "방어 폭발 1턴 한정",
+   "why": "민첩5 1턴 — 단일 방어 폭증 턴 한정, 방어카드 많은 큰턴에 가치"
+  },
+  "StableSerum": {
+   "grade": "B",
+   "ctx": "콤보 셋업/리테인 빌드",
+   "why": "손패 2턴 보존 — 핸드 셋업 통제, 즉발 이득 없는 셋업 유틸"
+  },
+  "StarPotion": {
+   "grade": "B",
+   "ctx": "Regent 별 엔진서 A, 타캐릭 무효",
+   "why": "별3 — 별 비용 카드 충전, 리젠트 빌드 가치, 엔진 밖 무효"
+  },
+  "StrengthPotion": {
+   "grade": "B",
+   "ctx": "다타수 공격 덱서 A",
+   "why": "힘2 영구 — 모든 공격 가산, 다타수일수록 가치 비례 누적"
+  },
+  "SwiftPotion": {
+   "grade": "A",
+   "ctx": "순수 3드로우 범용",
+   "why": "3장 드로우 — 어느 덱에나 무손실 카드 이득, 보스 큰턴 가속"
+  },
+  "TouchOfInsanity": {
+   "grade": "A",
+   "ctx": "고비용 키카드 잔여전투 무비용",
+   "why": "손패 1장 잔여전투 무비용 — 고코 핵심카드 매턴 공짜 사용, 강력 통제"
+  },
+  "VulnerablePotion": {
+   "grade": "A",
+   "ctx": "단일 폭딜 셋업, 보스",
+   "why": "취약3 — 받는 피해 50%↑ 3턴, 보스 폭딜 셋업 큰 증폭"
+  },
+  "WeakPotion": {
+   "grade": "B",
+   "ctx": "단일 보스 피해 경감",
+   "why": "약화3 — 적 피해 3턴 감소, 방어 보정이나 단일 대상이라 취약보다 약함"
+  }
+ }
+}
