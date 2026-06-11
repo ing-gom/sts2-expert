@@ -28,7 +28,7 @@ table { width: 100%; border-collapse: collapse; }
 th { text-align: left; color: var(--dim); font-weight: 600; font-size: 12px; padding: 6px 10px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); }
 td { padding: 7px 10px; border-bottom: 1px solid #232733; vertical-align: top; }
 tr.cardrow { cursor: pointer; }
-tr.cardrow:hover { background: var(--panel); }
+tr.cardrow:hover { background-color: var(--panel); }
 tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; line-height: 1.6; }
 .chip { display: inline-block; background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 1px 8px; margin: 1px 2px 1px 0; font-size: 11px; color: var(--dim); white-space: nowrap; }
 .id { color: #5d6475; font-size: 11px; }
@@ -42,6 +42,16 @@ tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; 
 .g-D { background: #3a2020; color: #e07a7a; } .g-none { background: #22252e; color: #555c6b; }
 .why { color: var(--dim); font-size: 12.5px; margin-top: 7px; line-height: 1.5; }
 .why b { font-weight: 700; }
+/* 등급색 그라데이션 배경 (행/카드 공용) — background-image라 hover의 background-color와 합성됨 */
+.gb-S { background-image: linear-gradient(90deg, rgba(232,194,102,0.18) 0%, transparent 58%); }
+.gb-A { background-image: linear-gradient(90deg, rgba(126,207,126,0.15) 0%, transparent 58%); }
+.gb-B { background-image: linear-gradient(90deg, rgba(109,179,242,0.13) 0%, transparent 58%); }
+.gb-C { background-image: linear-gradient(90deg, rgba(154,161,177,0.10) 0%, transparent 58%); }
+.gb-D { background-image: linear-gradient(90deg, rgba(224,122,122,0.16) 0%, transparent 58%); }
+.card.gb-S, .card.gb-A, .card.gb-B, .card.gb-C, .card.gb-D { border-left-width: 3px; }
+.card.gb-S { border-left-color: #e8c266; } .card.gb-A { border-left-color: #7ecf7e; }
+.card.gb-B { border-left-color: #6db3f2; } .card.gb-C { border-left-color: #9aa1b1; }
+.card.gb-D { border-left-color: #e07a7a; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 12px; }
 .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
 .card h3 { margin: 0 0 2px; font-size: 15px; color: var(--gold); }
@@ -89,7 +99,7 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
       <span class="count" id="card-count"></span>
     </div>
     <table>
-      <thead><tr><th>이름</th><th>등급</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>EV</th><th>축</th></tr></thead>
+      <thead><tr><th>등급</th><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>EV</th><th>축</th></tr></thead>
       <tbody id="card-body"></tbody>
     </table>
   </section>
@@ -186,6 +196,7 @@ const charKo = c => CHAR_KO[c] || c || '—';
 // ---- 등급 배지/근거 ----
 function gradeOf(cat, id) { return (DATA.grades && DATA.grades[cat] || {})[id]; }
 function gradeBadge(cat, id) { const g = gradeOf(cat, id); const gr = g && g.grade; return `<span class="g g-${gr || 'none'}">${gr || '—'}</span>`; }
+function gradeCls(cat, id) { const g = gradeOf(cat, id); return g && g.grade ? 'gb-' + g.grade : ''; }
 function whyBlock(cat, id) {
   const g = gradeOf(cat, id); if (!g) return '';
   const ctx = g.ctx ? ` <span class="id">· ${esc(g.ctx)}</span>` : '';
@@ -258,9 +269,9 @@ function renderCards() {
     const star = c.star_cost > 0 ? ` ★${c.star_cost}` : '';
     const axes = (c.axes || []).slice(0, 5).map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') +
       ((c.axes || []).length > 5 ? `<span class="chip">+${c.axes.length - 5}</span>` : '');
-    return `<tr class="cardrow" data-i="${i}">
-      <td><b>${esc(c.title)}</b><br><span class="id">${esc(c.id)}</span></td>
+    return `<tr class="cardrow ${gradeCls('cards', c.id)}" data-i="${i}">
       <td>${gradeBadge('cards', c.id)}</td>
+      <td><b>${esc(c.title)}</b><br><span class="id">${esc(c.id)}</span></td>
       <td>${esc(charKo(c.character))}</td><td>${cost}${star}</td>
       <td>${esc(c.type)}</td><td>${esc(c.rarity)}</td>
       <td>${ev != null ? ev : '<span class="id">—</span>'}</td><td>${axes}</td></tr>`;
@@ -303,7 +314,7 @@ function renderRelics() {
     const desc = renderMarkup(smartFormat(descRaw, cvars[k] || {}, strvForLocale(svAll[k])));
     const ov = overrides[k];
     const axes = ov ? ov.card_axes.map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') : '';
-    html += `<div class="card"><h3>${gradeBadge('relics', k)} ${esc(nm)}</h3><div class="en">${esc(en)} · <span class="id">${esc(k)}</span></div>
+    html += `<div class="card ${gradeCls('relics', k)}"><h3>${gradeBadge('relics', k)} ${esc(nm)}</h3><div class="en">${esc(en)} · <span class="id">${esc(k)}</span></div>
       <div class="desc">${desc}</div>${axes ? `<div class="axes">카드 시너지 축: ${axes}</div>` : ''}${whyBlock('relics', k)}</div>`;
   }
   $('#relic-count').textContent = `${n}종`;
@@ -346,7 +357,7 @@ function renderPotions() {
       const desc = renderMarkup(smartFormat(p.desc[LANG] || p.desc.ko || '', p.vars || {}, strvForLocale(p.string_vars)));
       const meta = [POTION_RARITY_KO[p.rarity] || p.rarity, POTION_USAGE_KO[p.usage] || p.usage, POTION_TARGET_KO[p.target] || p.target].filter(Boolean);
       const note = p.note ? `<div class="axes"><span class="chip">${esc(p.kind || '')}</span> ${esc(p.note)}</div>` : '';
-      html += `<div class="card"><h3>${gradeBadge('potions', tn)} ${esc(nm)}</h3><div class="en">${esc(p.name.en || '')} · <span class="id">${esc(tn)}</span></div>
+      html += `<div class="card ${gradeCls('potions', tn)}"><h3>${gradeBadge('potions', tn)} ${esc(nm)}</h3><div class="en">${esc(p.name.en || '')} · <span class="id">${esc(tn)}</span></div>
         <div style="margin:2px 0 7px">${meta.map(m => `<span class="chip">${esc(m)}</span>`).join('')}</div>
         <div class="desc">${desc}</div>${note}${whyBlock('potions', tn)}</div>`;
     }
