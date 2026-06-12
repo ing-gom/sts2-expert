@@ -45,14 +45,23 @@ tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; 
 .g-B { background: #1a2a3d; color: #6db3f2; } .g-C { background: #2a2d36; color: #9aa1b1; }
 .g-D { background: #3a2020; color: #e07a7a; } .g-none { background: #22252e; color: #555c6b; }
 .g-N\/A { background: #22252e; color: #555c6b; font-size: 10px; }
-.cprofile { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; line-height: 1.6; font-size: 13px; }
-.cprofile summary { cursor: pointer; color: var(--gold); font-weight: 600; font-size: 14px; }
-.cprofile h4 { margin: 12px 0 4px; color: var(--blue); font-size: 13px; }
-.cprofile .arch { border-top: 1px solid #232733; padding: 7px 0; }
-.cprofile .arch b { color: var(--gold); }
-.cprofile .tag { color: var(--dim); }
-.cprofile ul { margin: 4px 0; padding-left: 18px; }
-.cprofile li { margin: 2px 0; }
+/* 캐릭터 심화 프로필: 우측 플로팅 패널 (기본 닫힘) */
+#profile-toggle { background: var(--panel2); border: 1px solid var(--gold); color: var(--gold); border-radius: 16px; padding: 5px 14px; font-size: 13px; cursor: pointer; }
+#profile-toggle:hover { background: #3a3526; }
+.cprofile-float { position: fixed; top: 0; right: 0; width: 380px; max-width: 90vw; height: 100vh; overflow-y: auto; background: var(--panel); border-left: 2px solid var(--gold); box-shadow: -4px 0 18px rgba(0,0,0,0.45); padding: 16px 20px 40px; line-height: 1.6; font-size: 13px; z-index: 50; transform: translateX(100%); transition: transform 0.18s ease; }
+.cprofile-float.open { transform: translateX(0); }
+.cprofile-float .phead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; position: sticky; top: 0; background: var(--panel); padding-bottom: 6px; }
+.cprofile-float .phead h3 { margin: 0; color: var(--gold); font-size: 16px; flex: 1; }
+.cprofile-float .pclose { background: none; border: 1px solid var(--border); color: var(--dim); border-radius: 6px; padding: 2px 9px; cursor: pointer; font-size: 14px; }
+.cprofile-float .pclose:hover { color: var(--fg); }
+.cprofile-float h4 { margin: 12px 0 4px; color: var(--blue); font-size: 13px; }
+.cprofile-float .arch { border-top: 1px solid #232733; padding: 7px 0; }
+.cprofile-float .arch b { color: var(--gold); }
+.cprofile-float .tag { color: var(--dim); }
+.cprofile-float ul { margin: 4px 0; padding-left: 18px; }
+.cprofile-float li { margin: 2px 0; }
+.profile-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 49; display: none; }
+.profile-backdrop.open { display: block; }
 .why { color: var(--dim); font-size: 12.5px; margin-top: 7px; line-height: 1.5; }
 .why b { font-weight: 700; }
 /* 등급색 그라데이션 배경 (행/카드 공용) — background-image라 hover의 background-color와 합성됨 */
@@ -102,7 +111,8 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
 
   <section id="tab-cards" class="hidden">
     <div class="subnav" id="card-subnav"></div>
-    <div id="card-profile"></div>
+    <div class="profile-backdrop" id="profile-backdrop"></div>
+    <aside class="cprofile-float" id="card-profile"></aside>
     <div class="toolbar">
       <input type="text" id="card-q" placeholder="이름 / ID / 축 검색">
       <select id="card-axis"><option value="">축(메커니즘) 전체</option></select>
@@ -112,6 +122,7 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
         <option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
       <select id="card-sort"><option value="grade">정렬: 등급순</option><option value="ecs">정렬: 엔진순</option></select>
       <label class="chk"><input type="checkbox" id="card-upg"> 강화판 포함</label>
+      <button id="profile-toggle" class="hidden" type="button">캐릭터 심화 ▸</button>
       <span class="count" id="card-count"></span>
     </div>
     <table>
@@ -314,13 +325,28 @@ function initCards() {
   ordered.forEach(c => mkBtn(c, charKo(c)));
   ['#card-q','#card-axis','#card-type','#card-rarity','#card-grade','#card-sort','#card-upg']
     .forEach(s => $(s).addEventListener('input', renderCards));
+  $('#profile-toggle').onclick = () => $('#card-profile').classList.contains('open') ? closeProfile() : openProfile();
+  $('#profile-backdrop').onclick = closeProfile;
   renderCharProfile();
   renderCards();
 }
+function closeProfile() {
+  $('#card-profile').classList.remove('open');
+  $('#profile-backdrop').classList.remove('open');
+  const t = $('#profile-toggle'); if (t) t.textContent = '캐릭터 심화 ▸';
+}
+function openProfile() {
+  $('#card-profile').classList.add('open');
+  $('#profile-backdrop').classList.add('open');
+  $('#profile-toggle').textContent = '캐릭터 심화 ◂';
+}
 function renderCharProfile() {
-  const box = $('#card-profile');
+  const box = $('#card-profile'), toggle = $('#profile-toggle');
   const m = ((DATA.charmeta && DATA.charmeta.characters) || {})[cardChar];
-  if (!cardChar || !m) { box.innerHTML = ''; return; }
+  // 캐릭터 바뀌면 항상 닫힌 상태로 시작
+  closeProfile();
+  if (!cardChar || !m) { box.innerHTML = ''; toggle.classList.add('hidden'); return; }
+  toggle.classList.remove('hidden');
   const list = a => (a && a.length) ? '<ul>' + a.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>' : '';
   const archs = (m.archetypes || []).map(a =>
     `<div class="arch"><b>${esc(a.name)}</b>` +
@@ -329,14 +355,14 @@ function renderCharProfile() {
     (a.power_curve ? `<br><span class="tag">파워곡선: ${esc(a.power_curve)}</span>` : '') +
     (a.pick_priority ? `<br><span class="tag">픽 우선순위: ${esc(a.pick_priority)}</span>` : '') +
     `</div>`).join('');
-  box.innerHTML = `<details class="cprofile" open><summary>${esc(charKo(cardChar))} 심화 프로필</summary>
+  box.innerHTML = `<div class="phead"><h3>${esc(charKo(cardChar))} 심화 프로필</h3><button class="pclose" type="button" title="닫기">✕</button></div>
     <p>${esc(m.overview || '')}</p>
     ${(m.strengths && m.strengths.length) ? `<h4>강점</h4>${list(m.strengths)}` : ''}
     ${(m.weaknesses && m.weaknesses.length) ? `<h4>약점</h4>${list(m.weaknesses)}` : ''}
     ${archs ? `<h4>아키타입</h4>${archs}` : ''}
     ${(m.eval_nuances && m.eval_nuances.length) ? `<h4>평가 포인트</h4>${list(m.eval_nuances)}` : ''}
-    ${m.boss_notes ? `<h4>보스 대응</h4><p>${esc(m.boss_notes)}</p>` : ''}
-  </details>`;
+    ${m.boss_notes ? `<h4>보스 대응</h4><p>${esc(m.boss_notes)}</p>` : ''}`;
+  box.querySelector('.pclose').onclick = closeProfile;
 }
 function evOf(card) {
   const e = (DATA.card_expected_value.cards || {})[card.id.replace(/^CARD\./, '')];
