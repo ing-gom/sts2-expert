@@ -195,7 +195,7 @@ function sfToken(inner, vars, strv) {
 // 유물/포션의 string_vars({Var:{ko,en,zh}})를 현재 언어의 평면 맵으로
 function strvForLocale(svObj) { const out = {}; if (!svObj) return out; for (const k in svObj) { const d = svObj[k]; out[k] = (d && (d[LANG] || d.ko || d.en)) || ''; } return out; }
 const CHAR_KO = { IRONCLAD:'아이언클래드', SILENT:'사일런트', DEFECT:'디펙트', REGENT:'리젠트',
-  NECROBINDER:'네크로바인더', WATCHER:'와처', SHARED:'무색·공용', COLORLESS:'무색', CURSE:'저주', STATUS:'상태', NEUTRAL:'공용' };
+  NECROBINDER:'네크로바인더', WATCHER:'와처', SHARED:'무색', COLORLESS:'무색', CURSE:'저주', STATUS:'상태', NEUTRAL:'공용' };
 const charKo = c => CHAR_KO[c] || c || '—';
 // ---- 등급 배지/근거 ----
 function gradeOf(cat, id) { return (DATA.grades && DATA.grades[cat] || {})[id]; }
