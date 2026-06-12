@@ -18,6 +18,10 @@ header a { color: var(--blue); text-decoration: none; margin-left: auto; font-si
 nav { display: flex; gap: 4px; padding: 10px 24px 0; border-bottom: 1px solid var(--border); }
 nav button { background: none; border: none; border-bottom: 2px solid transparent; color: var(--dim); padding: 8px 16px; font-size: 15px; cursor: pointer; }
 nav button.active { color: var(--gold); border-bottom-color: var(--gold); }
+.subnav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.subnav button { background: var(--panel2); border: 1px solid var(--border); border-radius: 16px; color: var(--dim); padding: 5px 14px; font-size: 13px; cursor: pointer; }
+.subnav button:hover { color: var(--fg); }
+.subnav button.active { background: #3a3526; border-color: var(--gold); color: var(--gold); font-weight: 600; }
 main { padding: 16px 24px 60px; max-width: 1280px; margin: 0 auto; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
 .toolbar input[type=text], .toolbar select { background: var(--panel2); color: var(--fg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 14px; }
@@ -88,9 +92,9 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
   <div id="loading">데이터 로딩 중…</div>
 
   <section id="tab-cards" class="hidden">
+    <div class="subnav" id="card-subnav"></div>
     <div class="toolbar">
       <input type="text" id="card-q" placeholder="이름 / ID / 축 검색">
-      <select id="card-char"><option value="">캐릭터 전체</option></select>
       <select id="card-type"><option value="">타입 전체</option></select>
       <select id="card-rarity"><option value="">희귀도 전체</option></select>
       <select id="card-grade"><option value="">등급 전체</option>
@@ -191,7 +195,7 @@ function sfToken(inner, vars, strv) {
 // 유물/포션의 string_vars({Var:{ko,en,zh}})를 현재 언어의 평면 맵으로
 function strvForLocale(svObj) { const out = {}; if (!svObj) return out; for (const k in svObj) { const d = svObj[k]; out[k] = (d && (d[LANG] || d.ko || d.en)) || ''; } return out; }
 const CHAR_KO = { IRONCLAD:'아이언클래드', SILENT:'사일런트', DEFECT:'디펙트', REGENT:'리젠트',
-  NECROBINDER:'네크로바인더', WATCHER:'와처', COLORLESS:'무색', CURSE:'저주', STATUS:'상태', NEUTRAL:'공용' };
+  NECROBINDER:'네크로바인더', WATCHER:'와처', SHARED:'무색·공용', COLORLESS:'무색', CURSE:'저주', STATUS:'상태', NEUTRAL:'공용' };
 const charKo = c => CHAR_KO[c] || c || '—';
 // ---- 등급 배지/근거 ----
 function gradeOf(cat, id) { return (DATA.grades && DATA.grades[cat] || {})[id]; }
@@ -235,16 +239,36 @@ document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
 });
 
 // ---- cards ----
+const CHAR_ORDER = ['IRONCLAD','SILENT','DEFECT','REGENT','NECROBINDER','SHARED','COLORLESS','NEUTRAL','STATUS','CURSE'];
+let cardChar = '';   // 현재 선택된 캐릭터 서브탭 ('' = 전체)
 function initCards() {
   const cards = DATA.cards_catalog.cards;
   const fill = (sel, vals) => vals.forEach(v => {
     const o = document.createElement('option'); o.value = v;
-    o.textContent = sel === '#card-char' ? charKo(v) : v; $(sel).appendChild(o);
+    o.textContent = v; $(sel).appendChild(o);
   });
-  fill('#card-char', [...new Set(cards.map(c => c.character))].sort());
   fill('#card-type', [...new Set(cards.map(c => c.type))].sort());
   fill('#card-rarity', [...new Set(cards.map(c => c.rarity))].sort());
-  ['#card-q','#card-char','#card-type','#card-rarity','#card-grade','#card-upg']
+  // 캐릭터 서브탭 (전체 + 캐릭터별 + 무색)
+  const present = [...new Set(cards.map(c => c.character))];
+  const ordered = present.slice().sort((a, b) => {
+    const ia = CHAR_ORDER.indexOf(a), ib = CHAR_ORDER.indexOf(b);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b);
+  });
+  const nav = $('#card-subnav');
+  const mkBtn = (val, label) => {
+    const b = document.createElement('button'); b.textContent = label; b.dataset.char = val;
+    b.classList.toggle('active', val === cardChar);
+    b.onclick = () => {
+      cardChar = val;
+      nav.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+      renderCards();
+    };
+    nav.appendChild(b);
+  };
+  mkBtn('', '전체');
+  ordered.forEach(c => mkBtn(c, charKo(c)));
+  ['#card-q','#card-type','#card-rarity','#card-grade','#card-upg']
     .forEach(s => $(s).addEventListener('input', renderCards));
   renderCards();
 }
@@ -254,7 +278,8 @@ function evOf(card) {
 }
 function renderCards() {
   const q = $('#card-q').value.trim().toLowerCase();
-  const [ch, ty, ra, gr] = ['#card-char','#card-type','#card-rarity','#card-grade'].map(s => $(s).value);
+  const ch = cardChar;
+  const [ty, ra, gr] = ['#card-type','#card-rarity','#card-grade'].map(s => $(s).value);
   const upg = $('#card-upg').checked;
   const labels = DATA.axis_labels_ko;
   const rows = DATA.cards_catalog.cards.filter(c =>
