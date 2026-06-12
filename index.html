@@ -245,6 +245,8 @@ function whyBlockCard(c) {
   let h = `<div class="why"><b class="g-${eg.grade}" style="background:none;padding:0">${eg.grade}</b> ${esc(eg.why || '')}${ctx}</div>`;
   if (!c.is_upgraded && g0 && g0.upg_grade && g0.upg_grade !== g0.grade)
     h += `<div class="why"><b class="g-${g0.upg_grade}" style="background:none;padding:0">+${g0.upg_grade}</b> 강화판: ${esc(g0.upg_why || '')}</div>`;
+  if (g0 && g0.plan)
+    h += `<div class="why" style="border-top:1px solid #232733;margin-top:7px;padding-top:7px"><b style="color:var(--gold);background:none;padding:0">⚔ 전투 플랜</b> ${esc(g0.plan)}</div>`;
   return h;
 }
 function whyBlock(cat, id) {
