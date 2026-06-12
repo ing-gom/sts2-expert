@@ -100,11 +100,12 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
       <select id="card-rarity"><option value="">희귀도 전체</option></select>
       <select id="card-grade"><option value="">등급 전체</option>
         <option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      <select id="card-sort"><option value="grade">정렬: 등급순</option><option value="ecs">정렬: 엔진순</option></select>
       <label class="chk"><input type="checkbox" id="card-upg"> 강화판 포함</label>
       <span class="count" id="card-count"></span>
     </div>
     <table>
-      <thead><tr><th>등급</th><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>EV</th><th>축</th></tr></thead>
+      <thead><tr><th>등급</th><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>EV</th><th title="2차 엔진 기여 — 드로우/자원 순환·시너지 공급">엔진</th><th>축</th></tr></thead>
       <tbody id="card-body"></tbody>
     </table>
   </section>
@@ -209,6 +210,14 @@ function effCardGrade(c) { const g = gradeOf('cards', c.id); if (c && c.is_upgra
 const gBadge = gr => `<span class="g g-${gr || 'none'}">${gr || '—'}</span>`;
 const gCls = gr => gr ? 'gb-' + gr : '';
 const gRank = gr => (gr && gr in GRADE_RANK) ? GRADE_RANK[gr] : 9;
+// 엔진 기여(ECS) — 2차 엔진 기여, 정적 등급과 별개
+function ecsOf(id) { return ((DATA.ecs && DATA.ecs.cards) || {})[id]; }
+function ecsNum(id) { const e = ecsOf(id); return e ? e.ecs : null; }
+function ecsCell(id) {
+  const e = ecsOf(id); if (!e) return '<span class="id">—</span>';
+  const v = e.ecs, col = v >= 66 ? 'var(--gold)' : v >= 40 ? 'var(--blue)' : v >= 20 ? 'var(--dim)' : '#5d6475';
+  return `<span style="color:${col};font-weight:600" title="흐름 ${e.flow} · 순환 ${e.cycle} · 인에이블 ${e.enable}">${v}</span>`;
+}
 function whyBlockCard(c) {
   const g0 = gradeOf('cards', c.id), eg = effCardGrade(c); if (!eg) return '';
   const ctx = eg.ctx ? ` <span class="id">· ${esc(eg.ctx)}</span>` : '';
@@ -235,6 +244,8 @@ async function load() {
   // 등급 데이터(워크플로우 산출물) — 없으면 빈 객체로 graceful
   DATA.grades = await fetch('data/grades.json').then(r => r.ok ? r.json() : null).catch(() => null)
     || { cards: {}, relics: {}, potions: {} };
+  DATA.ecs = await fetch('data/card_engine_contribution.json').then(r => r.ok ? r.json() : null).catch(() => null)
+    || { cards: {} };
   $('#loading').classList.add('hidden');
   $('#verinfo').textContent = `카드 ${DATA.cards_catalog.card_count}장 (${DATA.cards_catalog.game_version}) · ` +
     `유물 ${Object.keys(DATA.relics_locale.relics).length}종 (${DATA.relics_locale.game_version}) · ` +
@@ -288,7 +299,7 @@ function initCards() {
   };
   mkBtn('', '전체');
   ordered.forEach(c => mkBtn(c, charKo(c)));
-  ['#card-q','#card-axis','#card-type','#card-rarity','#card-grade','#card-upg']
+  ['#card-q','#card-axis','#card-type','#card-rarity','#card-grade','#card-sort','#card-upg']
     .forEach(s => $(s).addEventListener('input', renderCards));
   renderCards();
 }
@@ -310,7 +321,10 @@ function renderCards() {
     (!gr || (effCardGrade(c) || {}).grade === gr) &&
     (!q || c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) ||
       (c.axes || []).some(a => a.toLowerCase().includes(q) || (labels[a] || '').includes(q))));
-  rows.sort((a, b) => gRank((effCardGrade(a) || {}).grade) - gRank((effCardGrade(b) || {}).grade) || a.title.localeCompare(b.title, 'ko'));
+  if ($('#card-sort').value === 'ecs')
+    rows.sort((a, b) => (ecsNum(b.id) || 0) - (ecsNum(a.id) || 0) || a.title.localeCompare(b.title, 'ko'));
+  else
+    rows.sort((a, b) => gRank((effCardGrade(a) || {}).grade) - gRank((effCardGrade(b) || {}).grade) || a.title.localeCompare(b.title, 'ko'));
   $('#card-count').textContent = `${rows.length}장`;
   const html = rows.map((c, i) => {
     const ev = evOf(c);
@@ -326,7 +340,7 @@ function renderCards() {
       <td><b>${esc(c.title)}</b><br><span class="id">${esc(c.id)}</span></td>
       <td>${esc(charKo(c.character))}</td><td>${cost}${star}</td>
       <td>${esc(c.type)}</td><td>${esc(c.rarity)}</td>
-      <td>${ev != null ? ev : '<span class="id">—</span>'}</td><td>${axes}</td></tr>`;
+      <td>${ev != null ? ev : '<span class="id">—</span>'}</td><td>${ecsCell(c.id)}</td><td>${axes}</td></tr>`;
   }).join('');
   $('#card-body').innerHTML = html;
   document.querySelectorAll('#card-body tr.cardrow').forEach(tr => tr.onclick = () => {
@@ -336,7 +350,9 @@ function renderCards() {
     const c = rows[+tr.dataset.i];
     const builds = (c.builds || []).map(b => `<span class="chip">${esc(b.tag)} (${esc(b.role)})</span>`).join(' ');
     const d = document.createElement('tr'); d.className = 'descrow';
-    d.innerHTML = `<td colspan="8">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}${whyBlockCard(c)}</td>`;
+    const eg = ecsOf(c.id);
+    const ecsLine = eg ? `<div class="why"><b style="color:var(--blue);background:none;padding:0">엔진 ${eg.ecs}</b> 흐름 ${eg.flow} · 순환 ${eg.cycle} · 인에이블 ${eg.enable} <span class="id">(2차 엔진 기여 — 정적 등급과 별개)</span></div>` : '';
+    d.innerHTML = `<td colspan="9">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}${whyBlockCard(c)}${ecsLine}</td>`;
     tr.after(d);
   });
 }
