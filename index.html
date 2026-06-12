@@ -95,6 +95,7 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
     <div class="subnav" id="card-subnav"></div>
     <div class="toolbar">
       <input type="text" id="card-q" placeholder="이름 / ID / 축 검색">
+      <select id="card-axis"><option value="">축(메커니즘) 전체</option></select>
       <select id="card-type"><option value="">타입 전체</option></select>
       <select id="card-rarity"><option value="">희귀도 전체</option></select>
       <select id="card-grade"><option value="">등급 전체</option>
@@ -262,6 +263,12 @@ function initCards() {
   });
   fill('#card-type', [...new Set(cards.map(c => c.type))].sort());
   fill('#card-rarity', [...new Set(cards.map(c => c.rarity))].sort());
+  // 축(메커니즘) 필터 — 카드에 실제 등장하는 축만, 한국어 레이블 정렬
+  const labels = DATA.axis_labels_ko;
+  const axisSet = new Set();
+  cards.forEach(c => (c.axes || []).forEach(a => axisSet.add(a)));
+  [...axisSet].map(a => [a, labels[a] || a]).sort((x, y) => x[1].localeCompare(y[1], 'ko'))
+    .forEach(([a, l]) => { const o = document.createElement('option'); o.value = a; o.textContent = l; $('#card-axis').appendChild(o); });
   // 캐릭터 서브탭 (전체 + 캐릭터별 + 무색)
   const present = [...new Set(cards.map(c => c.character))];
   const ordered = present.slice().sort((a, b) => {
@@ -281,7 +288,7 @@ function initCards() {
   };
   mkBtn('', '전체');
   ordered.forEach(c => mkBtn(c, charKo(c)));
-  ['#card-q','#card-type','#card-rarity','#card-grade','#card-upg']
+  ['#card-q','#card-axis','#card-type','#card-rarity','#card-grade','#card-upg']
     .forEach(s => $(s).addEventListener('input', renderCards));
   renderCards();
 }
@@ -292,13 +299,14 @@ function evOf(card) {
 function renderCards() {
   const q = $('#card-q').value.trim().toLowerCase();
   const ch = cardChar;
-  const [ty, ra, gr] = ['#card-type','#card-rarity','#card-grade'].map(s => $(s).value);
+  const [ax, ty, ra, gr] = ['#card-axis','#card-type','#card-rarity','#card-grade'].map(s => $(s).value);
   const upg = $('#card-upg').checked;
   const labels = DATA.axis_labels_ko;
   const rows = DATA.cards_catalog.cards.filter(c =>
     (upg || !c.is_upgraded) &&
     (!ch || c.character === ch) && (!ty || c.type === ty) &&
     (!ra || c.rarity === ra) &&
+    (!ax || (c.axes || []).includes(ax)) &&
     (!gr || (effCardGrade(c) || {}).grade === gr) &&
     (!q || c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) ||
       (c.axes || []).some(a => a.toLowerCase().includes(q) || (labels[a] || '').includes(q))));
