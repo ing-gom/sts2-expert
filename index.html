@@ -110,17 +110,6 @@ tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; 
 #loading { color: var(--phos-dim); padding: 40px; text-align: center; font-family: var(--mono); }
 .hidden { display: none; }
 footer { color: var(--ghost); font-size: 12px; text-align: center; padding: 24px; border-top: 1px solid var(--border); font-family: var(--mono); }
-/* ── 커뮤니티 평점 위젯 (apiBase 미설정 시 .comm-col 컬럼은 숨김) ── */
-body:not(.comm-on) .comm-col { display: none; }
-.comm-line { margin-top: 7px; }
-.vote { margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; }
-.vote .votelbl { color: var(--dim); font-family: var(--mono); }
-.votebtn { cursor: pointer; min-width: 26px; padding: 2px 9px; border: 1px solid var(--border); border-radius: 2px; font-weight: 700; }
-.votebtn:hover { border-color: var(--phos-dim); }
-.votebtn.voted { outline: 1px solid var(--phos); outline-offset: 1px; }
-.votebtn:disabled { opacity: 0.5; cursor: default; }
-.votemsg { color: var(--phos-dim); font-family: var(--mono); font-size: 11px; }
-.ts { flex-basis: 100%; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -155,7 +144,7 @@ body:not(.comm-on) .comm-col { display: none; }
       <span class="count" id="card-count"></span>
     </div>
     <table>
-      <thead><tr><th>등급</th><th class="comm-col" title="사용자 투표 평균">커뮤니티</th><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>EV</th><th title="2차 엔진 기여 — 드로우/자원 순환·시너지 공급">엔진</th><th>축</th></tr></thead>
+      <thead><tr><th>등급</th><th>이름</th><th>캐릭터</th><th>코스트</th><th>타입</th><th>희귀도</th><th>EV</th><th title="2차 엔진 기여 — 드로우/자원 순환·시너지 공급">엔진</th><th>축</th></tr></thead>
       <tbody id="card-body"></tbody>
     </table>
   </section>
@@ -199,110 +188,6 @@ function renderMarkup(text) {
   return h.replace(/\n/g, '<br>');
 }
 const LANG = 'ko';   // 대시보드 표시 언어 (데이터는 ko/en/zh 보유)
-
-// ════════ 커뮤니티 평점 (선택적 백엔드) — apiBase 비면 기능 전체 OFF, 사이트는 기존과 동일 ════════
-const COMMUNITY = {
-  apiBase: '',            // ← Cloudflare Worker URL (예: https://sts2-expert-api.xxx.workers.dev). 비면 OFF. (api/README.md)
-  turnstileSiteKey: '',   // ← Turnstile Site Key (공개값). 비면 캡차 생략.
-  on: false, data: {}, mine: {}, voterId: null,
-};
-const VGRADES = ['S', 'A', 'B', 'C', 'D'];
-const n2g = n => n >= 4.5 ? 'S' : n >= 3.5 ? 'A' : n >= 2.5 ? 'B' : n >= 1.5 ? 'C' : 'D';
-const ckey = (kind, id) => kind + ':' + id;
-async function initCommunity() {
-  if (!COMMUNITY.apiBase) return;                              // 비활성
-  try { COMMUNITY.mine = JSON.parse(localStorage.getItem('sts2x_votes') || '{}'); } catch (e) { COMMUNITY.mine = {}; }
-  COMMUNITY.voterId = localStorage.getItem('sts2x_voter');
-  if (!COMMUNITY.voterId) {
-    COMMUNITY.voterId = (crypto.randomUUID ? crypto.randomUUID() : 'v' + Math.random().toString(36).slice(2) + Date.now().toString(36));
-    localStorage.setItem('sts2x_voter', COMMUNITY.voterId);
-  }
-  try {
-    const a = await fetch(COMMUNITY.apiBase.replace(/\/$/, '') + '/aggregate').then(r => r.ok ? r.json() : null);
-    if (a && a.items) { COMMUNITY.data = a.items; COMMUNITY.on = true; document.body.classList.add('comm-on'); }
-  } catch (e) { /* 백엔드 미배포/오프라인 → OFF 유지 */ }
-  if (COMMUNITY.on && COMMUNITY.turnstileSiteKey) {
-    const s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    s.async = true; document.head.appendChild(s);
-  }
-  document.addEventListener('click', e => {
-    const b = e.target.closest('.votebtn'); if (!b || b.disabled) return;
-    submitVote(b.dataset.kind, b.dataset.id, b.dataset.grade, b);
-  });
-}
-// 표(카드) 셀: 전문가 등급 옆 커뮤니티 요약
-function commCell(kind, id) {
-  if (!COMMUNITY.on) return '<span class="id">—</span>';
-  const c = COMMUNITY.data[ckey(kind, id)];
-  if (!c || !c.n) return '<span class="id">—</span>';
-  const g = n2g(c.avg);
-  return `<span class="g g-${g}" title="평균 ${c.avg.toFixed(1)}/5 · ${c.n}표">${g}</span> <span class="id">n=${c.n}</span>`;
-}
-// 그리드(유물·포션) 카드: 커뮤니티 한 줄 요약
-function commLine(kind, id) {
-  if (!COMMUNITY.on) return '';
-  const c = COMMUNITY.data[ckey(kind, id)];
-  const body = (c && c.n)
-    ? `<b style="color:var(--data);background:none;padding:0">커뮤니티 ${n2g(c.avg)}</b> <span class="id">평균 ${c.avg.toFixed(1)}/5 · ${c.n}표</span>`
-    : '<span class="id">커뮤니티 평가 없음</span>';
-  return `<div class="why comm-line" data-comm="${ckey(kind, id)}">${body}</div>`;
-}
-// 투표 버튼 묶음
-function voteWidget(kind, id) {
-  if (!COMMUNITY.on) return '';
-  const mine = COMMUNITY.mine[ckey(kind, id)];
-  const btns = VGRADES.map(g =>
-    `<button type="button" class="votebtn g g-${g}${mine === g ? ' voted' : ''}" data-kind="${kind}" data-id="${esc(id)}" data-grade="${g}">${g}</button>`).join('');
-  return `<div class="vote"><span class="votelbl">내 평가</span>${btns}<span class="votemsg"></span></div>`;
-}
-function getTurnstileToken(wrap) {
-  return new Promise((resolve, reject) => {
-    if (!COMMUNITY.turnstileSiteKey) { resolve(''); return; }     // 캡차 미사용
-    if (!window.turnstile) { reject(new Error('captcha load')); return; }
-    let host = wrap.querySelector('.ts');
-    if (!host) { host = document.createElement('div'); host.className = 'ts'; wrap.appendChild(host); }
-    host.innerHTML = '';
-    let done = false;
-    const to = setTimeout(() => { if (!done) { done = true; reject(new Error('timeout')); } }, 30000);
-    try {
-      window.turnstile.render(host, {
-        sitekey: COMMUNITY.turnstileSiteKey, size: 'flexible',
-        callback: t => { if (!done) { done = true; clearTimeout(to); resolve(t); } },
-        'error-callback': () => { if (!done) { done = true; clearTimeout(to); reject(new Error('ts-error')); } },
-      });
-    } catch (e) { clearTimeout(to); reject(e); }
-  });
-}
-async function submitVote(kind, id, grade, btn) {
-  const wrap = btn.closest('.vote'), msg = wrap.querySelector('.votemsg');
-  wrap.querySelectorAll('.votebtn').forEach(b => b.disabled = true);
-  msg.textContent = '확인 중…';
-  let token = '';
-  try { token = await getTurnstileToken(wrap); }
-  catch (e) { msg.textContent = '인증 실패 — 다시 시도'; wrap.querySelectorAll('.votebtn').forEach(b => b.disabled = false); return; }
-  try {
-    const r = await fetch(COMMUNITY.apiBase.replace(/\/$/, '') + '/vote', {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ kind, id, grade, voter: COMMUNITY.voterId, token }),
-    });
-    const j = await r.json().catch(() => ({}));
-    if (!r.ok || !j.ok) { msg.textContent = '오류: ' + (j.error || r.status); wrap.querySelectorAll('.votebtn').forEach(b => b.disabled = false); return; }
-    COMMUNITY.data[ckey(kind, id)] = j.agg;
-    COMMUNITY.mine[ckey(kind, id)] = grade;
-    try { localStorage.setItem('sts2x_votes', JSON.stringify(COMMUNITY.mine)); } catch (e) {}
-    msg.textContent = '반영됨 ✓';
-    refreshComm(kind, id);
-  } catch (e) { msg.textContent = '네트워크 오류'; wrap.querySelectorAll('.votebtn').forEach(b => b.disabled = false); }
-}
-function refreshComm(kind, id) {
-  const key = ckey(kind, id), mine = COMMUNITY.mine[key];
-  document.querySelectorAll(`td.comm-col[data-comm="${key}"]`).forEach(td => { td.innerHTML = commCell(kind, id); });
-  document.querySelectorAll(`.comm-line[data-comm="${key}"]`).forEach(el => { el.outerHTML = commLine(kind, id); });
-  document.querySelectorAll('.votebtn').forEach(b => {
-    if (b.dataset.kind === kind && b.dataset.id === id) { b.disabled = false; b.classList.toggle('voted', b.dataset.grade === mine); }
-  });
-}
 
 // ---- SmartFormat-lite 렌더러: STS2 LocString 토큰 부분집합을 vars/string_vars로 치환 ----
 // 지원: {Var} {Var:diff()} {Var:energyIcons()} {Var:starIcons()} {singleStarIcon}
@@ -404,7 +289,6 @@ async function load() {
     || { cards: {} };
   DATA.charmeta = await fetch('data/character_meta.json').then(r => r.ok ? r.json() : null).catch(() => null)
     || { characters: {} };
-  await initCommunity();
   $('#loading').classList.add('hidden');
   $('#verinfo').textContent = `카드 ${DATA.cards_catalog.card_count}장 (${DATA.cards_catalog.game_version}) · ` +
     `유물 ${Object.keys(DATA.relics_locale.relics).length}종 (${DATA.relics_locale.game_version}) · ` +
@@ -534,7 +418,6 @@ function renderCards() {
       ? ` <span class="g g-${g0.upg_grade}" title="강화판 등급" style="font-size:10px;padding:0 4px;opacity:.85">+${g0.upg_grade}</span>` : '';
     return `<tr class="cardrow ${gCls(egr)}" data-i="${i}">
       <td>${gBadge(egr)}${upgHint}</td>
-      <td class="comm-col" data-comm="${ckey('cards', c.id)}">${commCell('cards', c.id)}</td>
       <td><b>${esc(c.title)}</b><br><span class="id">${esc(c.id)}</span></td>
       <td>${esc(charKo(c.character))}</td><td>${cost}${star}</td>
       <td>${esc(c.type)}</td><td>${esc(c.rarity)}</td>
@@ -550,7 +433,7 @@ function renderCards() {
     const d = document.createElement('tr'); d.className = 'descrow';
     const eg = ecsOf(c.id);
     const ecsLine = eg ? `<div class="why"><b style="color:var(--blue);background:none;padding:0">엔진 ${eg.ecs}</b> 흐름 ${eg.flow} · 순환 ${eg.cycle} · 인에이블 ${eg.enable} <span class="id">(2차 엔진 기여 — 정적 등급과 별개)</span></div>` : '';
-    d.innerHTML = `<td colspan="${COMMUNITY.on ? 10 : 9}">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}${whyBlockCard(c)}${ecsLine}${commLine('cards', c.id)}${voteWidget('cards', c.id)}</td>`;
+    d.innerHTML = `<td colspan="9">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}${whyBlockCard(c)}${ecsLine}</td>`;
     tr.after(d);
   });
 }
@@ -582,7 +465,7 @@ function renderRelics() {
     const ov = overrides[k];
     const axes = ov ? ov.card_axes.map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') : '';
     html += `<div class="card ${gradeCls('relics', k)}"><h3>${gradeBadge('relics', k)} ${esc(nm)}</h3><div class="en">${esc(en)} · <span class="id">${esc(k)}</span></div>
-      <div class="desc">${desc}</div>${axes ? `<div class="axes">카드 시너지 축: ${axes}</div>` : ''}${whyBlock('relics', k)}${commLine('relics', k)}${voteWidget('relics', k)}</div>`;
+      <div class="desc">${desc}</div>${axes ? `<div class="axes">카드 시너지 축: ${axes}</div>` : ''}${whyBlock('relics', k)}</div>`;
   }
   $('#relic-count').textContent = `${n}종`;
   $('#relic-grid').innerHTML = html || '<div style="color:var(--dim)">검색 결과 없음</div>';
@@ -627,7 +510,7 @@ function renderPotions() {
       const note = p.note ? `<div class="axes"><span class="chip">${esc(p.kind || '')}</span> ${esc(p.note)}</div>` : '';
       html += `<div class="card ${gradeCls('potions', tn)}"><h3>${gradeBadge('potions', tn)} ${esc(nm)}</h3><div class="en">${esc(p.name.en || '')} · <span class="id">${esc(tn)}</span></div>
         <div style="margin:2px 0 7px">${meta.map(m => `<span class="chip">${esc(m)}</span>`).join('')}</div>
-        <div class="desc">${desc}</div>${note}${whyBlock('potions', tn)}${commLine('potions', tn)}${voteWidget('potions', tn)}</div>`;
+        <div class="desc">${desc}</div>${note}${whyBlock('potions', tn)}</div>`;
     }
     html += '</div>';
   }
