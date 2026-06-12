@@ -44,6 +44,15 @@ tr.descrow td { background: var(--panel); color: var(--fg); padding: 12px 16px; 
 .g-S { background: #3d3415; color: #e8c266; } .g-A { background: #1d3320; color: #7ecf7e; }
 .g-B { background: #1a2a3d; color: #6db3f2; } .g-C { background: #2a2d36; color: #9aa1b1; }
 .g-D { background: #3a2020; color: #e07a7a; } .g-none { background: #22252e; color: #555c6b; }
+.g-N\/A { background: #22252e; color: #555c6b; font-size: 10px; }
+.cprofile { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; line-height: 1.6; font-size: 13px; }
+.cprofile summary { cursor: pointer; color: var(--gold); font-weight: 600; font-size: 14px; }
+.cprofile h4 { margin: 12px 0 4px; color: var(--blue); font-size: 13px; }
+.cprofile .arch { border-top: 1px solid #232733; padding: 7px 0; }
+.cprofile .arch b { color: var(--gold); }
+.cprofile .tag { color: var(--dim); }
+.cprofile ul { margin: 4px 0; padding-left: 18px; }
+.cprofile li { margin: 2px 0; }
 .why { color: var(--dim); font-size: 12.5px; margin-top: 7px; line-height: 1.5; }
 .why b { font-weight: 700; }
 /* 등급색 그라데이션 배경 (행/카드 공용) — background-image라 hover의 background-color와 합성됨 */
@@ -93,6 +102,7 @@ footer { color: #555c6b; font-size: 12px; text-align: center; padding: 24px; bor
 
   <section id="tab-cards" class="hidden">
     <div class="subnav" id="card-subnav"></div>
+    <div id="card-profile"></div>
     <div class="toolbar">
       <input type="text" id="card-q" placeholder="이름 / ID / 축 검색">
       <select id="card-axis"><option value="">축(메커니즘) 전체</option></select>
@@ -246,6 +256,8 @@ async function load() {
     || { cards: {}, relics: {}, potions: {} };
   DATA.ecs = await fetch('data/card_engine_contribution.json').then(r => r.ok ? r.json() : null).catch(() => null)
     || { cards: {} };
+  DATA.charmeta = await fetch('data/character_meta.json').then(r => r.ok ? r.json() : null).catch(() => null)
+    || { characters: {} };
   $('#loading').classList.add('hidden');
   $('#verinfo').textContent = `카드 ${DATA.cards_catalog.card_count}장 (${DATA.cards_catalog.game_version}) · ` +
     `유물 ${Object.keys(DATA.relics_locale.relics).length}종 (${DATA.relics_locale.game_version}) · ` +
@@ -293,6 +305,7 @@ function initCards() {
     b.onclick = () => {
       cardChar = val;
       nav.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+      renderCharProfile();
       renderCards();
     };
     nav.appendChild(b);
@@ -301,7 +314,29 @@ function initCards() {
   ordered.forEach(c => mkBtn(c, charKo(c)));
   ['#card-q','#card-axis','#card-type','#card-rarity','#card-grade','#card-sort','#card-upg']
     .forEach(s => $(s).addEventListener('input', renderCards));
+  renderCharProfile();
   renderCards();
+}
+function renderCharProfile() {
+  const box = $('#card-profile');
+  const m = ((DATA.charmeta && DATA.charmeta.characters) || {})[cardChar];
+  if (!cardChar || !m) { box.innerHTML = ''; return; }
+  const list = a => (a && a.length) ? '<ul>' + a.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>' : '';
+  const archs = (m.archetypes || []).map(a =>
+    `<div class="arch"><b>${esc(a.name)}</b>` +
+    (a.keystones ? ` <span class="tag">키스톤: ${esc(a.keystones)}</span>` : '') +
+    (a.playstyle ? `<br>${esc(a.playstyle)}` : '') +
+    (a.power_curve ? `<br><span class="tag">파워곡선: ${esc(a.power_curve)}</span>` : '') +
+    (a.pick_priority ? `<br><span class="tag">픽 우선순위: ${esc(a.pick_priority)}</span>` : '') +
+    `</div>`).join('');
+  box.innerHTML = `<details class="cprofile" open><summary>${esc(charKo(cardChar))} 심화 프로필</summary>
+    <p>${esc(m.overview || '')}</p>
+    ${(m.strengths && m.strengths.length) ? `<h4>강점</h4>${list(m.strengths)}` : ''}
+    ${(m.weaknesses && m.weaknesses.length) ? `<h4>약점</h4>${list(m.weaknesses)}` : ''}
+    ${archs ? `<h4>아키타입</h4>${archs}` : ''}
+    ${(m.eval_nuances && m.eval_nuances.length) ? `<h4>평가 포인트</h4>${list(m.eval_nuances)}` : ''}
+    ${m.boss_notes ? `<h4>보스 대응</h4><p>${esc(m.boss_notes)}</p>` : ''}
+  </details>`;
 }
 function evOf(card) {
   const e = (DATA.card_expected_value.cards || {})[card.id.replace(/^CARD\./, '')];
