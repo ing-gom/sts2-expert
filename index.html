@@ -203,6 +203,19 @@ function gradeBadge(cat, id) { const g = gradeOf(cat, id); const gr = g && g.gra
 function gradeCls(cat, id) { const g = gradeOf(cat, id); return g && g.grade ? 'gb-' + g.grade : ''; }
 const GRADE_RANK = { S: 0, A: 1, B: 2, C: 3, D: 4 };
 function gradeRank(cat, id) { const g = gradeOf(cat, id); return (g && g.grade in GRADE_RANK) ? GRADE_RANK[g.grade] : 9; }
+// 카드 전용: 강화판(is_upgraded)이면 upg_grade가 있을 때 그 등급을 우선 사용
+function effCardGrade(c) { const g = gradeOf('cards', c.id); if (c && c.is_upgraded && g && g.upg_grade) return { grade: g.upg_grade, why: g.upg_why || g.why, ctx: g.ctx }; return g; }
+const gBadge = gr => `<span class="g g-${gr || 'none'}">${gr || '—'}</span>`;
+const gCls = gr => gr ? 'gb-' + gr : '';
+const gRank = gr => (gr && gr in GRADE_RANK) ? GRADE_RANK[gr] : 9;
+function whyBlockCard(c) {
+  const g0 = gradeOf('cards', c.id), eg = effCardGrade(c); if (!eg) return '';
+  const ctx = eg.ctx ? ` <span class="id">· ${esc(eg.ctx)}</span>` : '';
+  let h = `<div class="why"><b class="g-${eg.grade}" style="background:none;padding:0">${eg.grade}</b> ${esc(eg.why || '')}${ctx}</div>`;
+  if (!c.is_upgraded && g0 && g0.upg_grade && g0.upg_grade !== g0.grade)
+    h += `<div class="why"><b class="g-${g0.upg_grade}" style="background:none;padding:0">+${g0.upg_grade}</b> 강화판: ${esc(g0.upg_why || '')}</div>`;
+  return h;
+}
 function whyBlock(cat, id) {
   const g = gradeOf(cat, id); if (!g) return '';
   const ctx = g.ctx ? ` <span class="id">· ${esc(g.ctx)}</span>` : '';
@@ -286,10 +299,10 @@ function renderCards() {
     (upg || !c.is_upgraded) &&
     (!ch || c.character === ch) && (!ty || c.type === ty) &&
     (!ra || c.rarity === ra) &&
-    (!gr || (gradeOf('cards', c.id) || {}).grade === gr) &&
+    (!gr || (effCardGrade(c) || {}).grade === gr) &&
     (!q || c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) ||
       (c.axes || []).some(a => a.toLowerCase().includes(q) || (labels[a] || '').includes(q))));
-  rows.sort((a, b) => gradeRank('cards', a.id) - gradeRank('cards', b.id) || a.title.localeCompare(b.title, 'ko'));
+  rows.sort((a, b) => gRank((effCardGrade(a) || {}).grade) - gRank((effCardGrade(b) || {}).grade) || a.title.localeCompare(b.title, 'ko'));
   $('#card-count').textContent = `${rows.length}장`;
   const html = rows.map((c, i) => {
     const ev = evOf(c);
@@ -297,8 +310,11 @@ function renderCards() {
     const star = c.star_cost > 0 ? ` ★${c.star_cost}` : '';
     const axes = (c.axes || []).slice(0, 5).map(a => `<span class="chip">${esc(labels[a] || a)}</span>`).join('') +
       ((c.axes || []).length > 5 ? `<span class="chip">+${c.axes.length - 5}</span>` : '');
-    return `<tr class="cardrow ${gradeCls('cards', c.id)}" data-i="${i}">
-      <td>${gradeBadge('cards', c.id)}</td>
+    const g0 = gradeOf('cards', c.id), egr = (effCardGrade(c) || {}).grade;
+    const upgHint = (!c.is_upgraded && g0 && g0.upg_grade && g0.upg_grade !== g0.grade)
+      ? ` <span class="g g-${g0.upg_grade}" title="강화판 등급" style="font-size:10px;padding:0 4px;opacity:.85">+${g0.upg_grade}</span>` : '';
+    return `<tr class="cardrow ${gCls(egr)}" data-i="${i}">
+      <td>${gBadge(egr)}${upgHint}</td>
       <td><b>${esc(c.title)}</b><br><span class="id">${esc(c.id)}</span></td>
       <td>${esc(charKo(c.character))}</td><td>${cost}${star}</td>
       <td>${esc(c.type)}</td><td>${esc(c.rarity)}</td>
@@ -312,7 +328,7 @@ function renderCards() {
     const c = rows[+tr.dataset.i];
     const builds = (c.builds || []).map(b => `<span class="chip">${esc(b.tag)} (${esc(b.role)})</span>`).join(' ');
     const d = document.createElement('tr'); d.className = 'descrow';
-    d.innerHTML = `<td colspan="8">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}${whyBlock('cards', c.id)}</td>`;
+    d.innerHTML = `<td colspan="8">${renderMarkup(c.description)}${builds ? '<div style="margin-top:8px">' + builds + '</div>' : ''}${whyBlockCard(c)}</td>`;
     tr.after(d);
   });
 }
